@@ -303,90 +303,123 @@ export default function ReadingView({
                 <span className="text-xs text-slate-500 font-mono font-medium">Cuộn để đọc</span>
               </div>
 
-              {/* Case 1: Part has a single reading passage (Part 3, 4, 5) */}
-              {currentPart.passage ? (
-                <div className="space-y-4">
-                  {currentPart.passage.title && (
-                    <h3 className="text-lg font-bold text-brand-900 border-b border-slate-100 pb-2">
-                      {currentPart.passage.title}
-                    </h3>
-                  )}
-                  <div className="text-base text-slate-800 leading-relaxed whitespace-pre-line font-vietnam selection:bg-brand-100">
-                    {currentPart.passage.text}
-                  </div>
-                  {bilingualMode && currentPart.passage.title && (
-                    <div className="text-xs text-slate-600 italic bg-slate-50 p-3 rounded-xl border border-slate-200 font-medium">
-                      <strong>Bản dịch gợi ý:</strong> Đọc kỹ các chi tiết ngày tháng, địa điểm và sở thích của nhân vật để đối chiếu câu trả lời.
+              {/* Resolve reading material (single passage, notice stimuli, or empty) */}
+              {(() => {
+                const passageObj = currentPart.passage 
+                  ? (typeof currentPart.passage === 'object' ? currentPart.passage : { title: currentPart.passage_title || '', text: currentPart.passage })
+                  : (currentPart.passage_text ? { title: currentPart.passage_title || '', text: currentPart.passage_text, author: currentPart.passage_author, email_header: currentPart.email_header, example: currentPart.example } : null)
+
+                if (passageObj && passageObj.text) {
+                  return (
+                    <div className="space-y-4">
+                      {passageObj.title && (
+                        <h3 className="text-lg font-bold text-brand-900 border-b border-slate-100 pb-2">
+                          {passageObj.title}
+                        </h3>
+                      )}
+                      {passageObj.author && (
+                        <p className="text-xs font-semibold text-slate-500 italic -mt-2">
+                          {passageObj.author}
+                        </p>
+                      )}
+                      {passageObj.email_header && (
+                        <div className="bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs font-mono space-y-1">
+                          {Object.entries(passageObj.email_header).map(([k, v]) => (
+                            <div key={k} className="flex gap-2">
+                              <span className="font-bold text-slate-600 min-w-14">{k}:</span>
+                              <span className="text-slate-900 font-medium">{v}</span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                      {passageObj.example && (
+                        <div className="bg-amber-50 border border-amber-200 rounded-xl p-2.5 text-xs text-amber-900 font-medium flex items-center gap-2">
+                          <span className="font-bold px-1.5 py-0.5 bg-amber-200/80 rounded text-amber-900">Ví dụ (0):</span>
+                          <span>{typeof passageObj.example === 'object' ? Object.entries(passageObj.example).map(([k, v]) => `(${k}) ${v}`).join(', ') : passageObj.example}</span>
+                        </div>
+                      )}
+                      <div className="text-base text-slate-800 leading-relaxed whitespace-pre-line font-vietnam selection:bg-brand-100">
+                        {passageObj.text}
+                      </div>
+                      {bilingualMode && passageObj.title && (
+                        <div className="text-xs text-slate-600 italic bg-slate-50 p-3 rounded-xl border border-slate-200 font-medium">
+                          <strong>Bản dịch gợi ý:</strong> Đọc kỹ các chi tiết ngày tháng, địa điểm và sở thích của nhân vật để đối chiếu câu trả lời.
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
-              ) : currentPart.part === 1 ? (
-                /* Case 2: Part 1 - Short Texts / Signs (Stimuli display) */
-                <div className="space-y-4">
-                  <p className="text-xs text-slate-600 font-medium">
-                    Mỗi câu hỏi tương ứng với một biển báo hoặc đoạn tin nhắn ngắn riêng biệt bên dưới. Bấm vào ảnh để phóng to.
-                  </p>
-                  <div className="space-y-4">
-                    {(currentPart.questions || []).map((q) => {
-                      const qNum = q.question_number || q.number
-                      const stimImg = q.images?.stimulus ? getImageUrl(q.images.stimulus) : null
+                  )
+                }
 
-                      return (
-                        <div key={qNum} className="border border-slate-200 rounded-xl p-4 bg-slate-50/70 space-y-2">
-                          <div className="flex items-center justify-between">
-                            <span className="text-xs font-bold text-brand-700 bg-brand-50 px-2 py-0.5 rounded">
-                              Câu {qNum} - Biển báo / Tin nhắn
-                            </span>
-                          </div>
+                if (currentPart.part === 1) {
+                  return (
+                    <div className="space-y-4">
+                      <p className="text-xs text-slate-600 font-medium">
+                        Mỗi câu hỏi tương ứng với một biển báo hoặc đoạn tin nhắn ngắn riêng biệt bên dưới. Bấm vào ảnh để phóng to.
+                      </p>
+                      <div className="space-y-4">
+                        {(currentPart.questions || []).map((q) => {
+                          const qNum = q.question_number || q.number
+                          const stimImg = q.images?.stimulus ? getImageUrl(q.images.stimulus) : null
 
-                          {/* If has stimulus cropped image */}
-                          {stimImg ? (
-                            <div 
-                              onClick={() => setModalImage({ src: stimImg, alt: `Biển báo câu ${qNum}` })}
-                              className="group relative flex justify-center bg-white p-2 rounded-lg border border-slate-200 cursor-pointer hover:border-brand-400 transition-colors"
-                              role="button"
-                              tabIndex={0}
-                              onKeyDown={(e) => {
-                                if (e.key === 'Enter' || e.key === ' ') {
-                                  setModalImage({ src: stimImg, alt: `Biển báo câu ${qNum}` })
-                                }
-                              }}
-                              aria-label={`Phóng to hình biển báo câu ${qNum}`}
-                            >
-                              <img
-                                src={stimImg}
-                                alt={`Biển báo câu ${qNum}`}
-                                loading="lazy"
-                                decoding="async"
-                                className="max-h-48 object-contain rounded"
-                              />
-                              <div className="absolute inset-0 bg-slate-900/10 opacity-0 group-hover:opacity-100 rounded-lg flex items-center justify-center transition-opacity">
-                                <span className="bg-white/90 text-slate-800 text-xs font-bold px-2.5 py-1 rounded-full shadow flex items-center gap-1">
-                                  <ZoomIn className="w-3.5 h-3.5" /> Phóng to
+                          return (
+                            <div key={qNum} className="border border-slate-200 rounded-xl p-4 bg-slate-50/70 space-y-2">
+                              <div className="flex items-center justify-between">
+                                <span className="text-xs font-bold text-brand-700 bg-brand-50 px-2 py-0.5 rounded">
+                                  Câu {qNum} - Biển báo / Tin nhắn
                                 </span>
                               </div>
-                            </div>
-                          ) : (
-                            <div className="bg-white p-4 rounded-lg border-2 border-slate-300 font-mono text-sm font-bold text-center tracking-wide text-slate-800 uppercase shadow-xs">
-                              {q.stimulus_text || q.text || q.prompt}
-                            </div>
-                          )}
 
-                          {bilingualMode && (
-                            <div className="text-xs text-slate-600 italic font-medium">
-                              💡 Chú ý từ khóa điều kiện (chỉ dành cho ai, khi nào, ở đâu).
+                              {stimImg ? (
+                                <div 
+                                  onClick={() => setModalImage({ src: stimImg, alt: `Biển báo câu ${qNum}` })}
+                                  className="group relative flex justify-center bg-white p-2 rounded-lg border border-slate-200 cursor-pointer hover:border-brand-400 transition-colors"
+                                  role="button"
+                                  tabIndex={0}
+                                  onKeyDown={(e) => {
+                                    if (e.key === 'Enter' || e.key === ' ') {
+                                      setModalImage({ src: stimImg, alt: `Biển báo câu ${qNum}` })
+                                    }
+                                  }}
+                                  aria-label={`Phóng to hình biển báo câu ${qNum}`}
+                                >
+                                  <img
+                                    src={stimImg}
+                                    alt={`Biển báo câu ${qNum}`}
+                                    loading="lazy"
+                                    decoding="async"
+                                    className="max-h-48 object-contain rounded"
+                                  />
+                                  <div className="absolute inset-0 bg-slate-900/10 opacity-0 group-hover:opacity-100 rounded-lg flex items-center justify-center transition-opacity">
+                                    <span className="bg-white/90 text-slate-800 text-xs font-bold px-2.5 py-1 rounded-full shadow flex items-center gap-1">
+                                      <ZoomIn className="w-3.5 h-3.5" /> Phóng to
+                                    </span>
+                                  </div>
+                                </div>
+                              ) : (
+                                <div className="bg-white p-4 rounded-lg border-2 border-slate-300 font-mono text-sm font-bold text-center tracking-wide text-slate-800 uppercase shadow-xs">
+                                  {q.stimulus_text || q.text || q.prompt}
+                                </div>
+                              )}
+
+                              {bilingualMode && (
+                                <div className="text-xs text-slate-600 italic font-medium">
+                                  💡 Chú ý từ khóa điều kiện (chỉ dành cho ai, khi nào, ở đâu).
+                                </div>
+                              )}
                             </div>
-                          )}
-                        </div>
-                      )
-                    })}
+                          )
+                        })}
+                      </div>
+                    </div>
+                  )
+                }
+
+                return (
+                  <div className="text-sm text-slate-600 italic p-4 text-center font-medium">
+                    Vui lòng đọc các câu hỏi bên phải để làm bài.
                   </div>
-                </div>
-              ) : (
-                <div className="text-sm text-slate-600 italic p-4 text-center font-medium">
-                  Vui lòng đọc các câu hỏi bên phải để làm bài.
-                </div>
-              )}
+                )
+              })()}
             </div>
 
             {/* RIGHT COLUMN: Questions & Options (6 Cols) */}
@@ -441,7 +474,7 @@ export default function ReadingView({
 
                     {/* Question Text Prompt */}
                     <div className="text-base font-semibold text-slate-900 mb-4 leading-snug">
-                      {q.question || q.prompt || (currentPart.part === 5 ? `Chỗ trống (${qNum}) — Hãy điền MỘT từ thích hợp:` : 'Chọn đáp án đúng nhất:')}
+                      {q.question || q.prompt || (currentPart.part === 5 ? `Chỗ trống (${qNum}) — Hãy điền MỘT từ thích hợp:` : currentPart.part === 4 ? `Chỗ trống (${qNum}) — Chọn từ thích hợp điền vào đoạn văn:` : 'Chọn đáp án đúng nhất:')}
                     </div>
 
                     {/* Multiple Choice Options (A, B, C) */}

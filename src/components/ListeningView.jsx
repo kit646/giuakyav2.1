@@ -193,13 +193,78 @@ export default function ListeningView({
               )}
             </div>
 
+            {/* Matching Options Table / Reference Card (For Part 2 or Part 5 Matching) */}
+            {(() => {
+              const matchingOptions = currentPart.matching_options || currentPart.options
+              if (!matchingOptions || Object.keys(matchingOptions).length === 0) return null
+              return (
+                <div className="bg-white rounded-2xl border border-audio-200 p-5 shadow-card space-y-3">
+                  <div className="text-sm font-bold text-audio-900 flex items-center justify-between">
+                    <span>📋 Bảng thông tin: {currentPart.right_column_title || 'Lựa chọn ghép đôi (Options A - H)'}</span>
+                    {currentPart.example && (
+                      <span className="text-xs bg-audio-50 text-audio-800 border border-audio-200 px-2.5 py-1 rounded-lg font-medium">
+                        Ví dụ: {typeof currentPart.example === 'object' ? `${currentPart.example.item || currentPart.example.person || 0} → [ ${currentPart.example.answer || currentPart.example.value} ]` : currentPart.example}
+                      </span>
+                    )}
+                  </div>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                    {Object.entries(matchingOptions).map(([letter, textVal]) => (
+                      <div key={letter} className="flex items-center gap-2 p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs sm:text-sm">
+                        <span className="w-6 h-6 rounded-lg bg-audio-600 text-white font-bold flex items-center justify-center shrink-0 text-xs">
+                          {letter}
+                        </span>
+                        <span className="text-slate-800 font-semibold truncate" title={textVal}>
+                          {textVal}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )
+            })()}
+
+            {/* Gap Fill / Notes Form Header Box */}
+            {(currentPart.form_title || (currentPart.context && (currentPart.part === 2 || currentPart.type === 'gap_fill_notes'))) && (
+              <div className="bg-amber-50/80 border border-amber-200 rounded-2xl p-4 sm:p-5 shadow-xs space-y-2.5">
+                <div className="flex flex-wrap items-center justify-between gap-2 border-b border-amber-200/60 pb-2">
+                  <div className="flex items-center gap-2">
+                    <span className="w-7 h-7 rounded-lg bg-amber-600 text-white flex items-center justify-center text-xs font-bold shadow-xs">
+                      📝
+                    </span>
+                    <h3 className="text-base font-extrabold text-amber-950 uppercase tracking-wide">
+                      {currentPart.form_title || 'THÔNG TIN CẦN ĐIỀN (NOTES)'}
+                    </h3>
+                  </div>
+                  {currentPart.example && (
+                    <div className="text-xs bg-white border border-amber-200 px-3 py-1 rounded-xl font-medium text-amber-900 shadow-2xs">
+                      <span className="font-bold">Ví dụ: </span>
+                      {typeof currentPart.example === 'object'
+                        ? `${currentPart.example.label || 'Mẫu'}: ${currentPart.example.value || currentPart.example.answer}`
+                        : currentPart.example}
+                    </div>
+                  )}
+                </div>
+                {currentPart.context && (
+                  <p className="text-xs text-amber-900/80 italic font-medium">
+                    {currentPart.context}
+                  </p>
+                )}
+              </div>
+            )}
+
             {/* Questions Container */}
             <div className="space-y-6">
               {(currentPart.questions || []).map((q) => {
                 const qNum = q.question_number || q.number
                 const userAns = answers[qNum]
                 const isFlagged = flagged[qNum]
-                const isPictureQuestion = currentPart.part === 1 || q.images?.option_A
+
+                // Dynamic type determination
+                const matchingOptions = currentPart.matching_options || currentPart.options
+                const isMatching = currentPart.type === 'matching' || q.type === 'matching' || Boolean(matchingOptions && Object.keys(matchingOptions).length > 0)
+                const isPictureQuestion = Boolean(q.images?.option_A || q.images?.question_and_options || currentPart.type === 'multiple_choice_pictures' || (currentPart.part === 1 && q.images))
+                const isMultipleChoice = !isMatching && !isPictureQuestion && Boolean(q.options && typeof q.options === 'object' && Object.keys(q.options).length > 0)
+                const isGapFill = !isMatching && !isPictureQuestion && !isMultipleChoice
 
                 return (
                   <div
@@ -244,10 +309,16 @@ export default function ListeningView({
 
                     {/* Question Prompt */}
                     <div className="text-base sm:text-lg font-bold text-slate-900 mb-4 leading-snug">
-                      {q.question || q.prompt || (q.person ? `Nhân vật: ${q.person}` : `Câu hỏi số ${qNum}`)}
+                      {q.label
+                        ? `${q.label}:`
+                        : (q.item || q.person
+                          ? `${currentPart.left_column_title || 'Mục cần ghép'}: ${q.item || q.person}`
+                          : (q.question || q.prompt || `Câu hỏi số ${qNum}`)
+                        )
+                      }
                     </div>
 
-                    {/* CASE 1: PART 1 - PICTURE MULTIPLE CHOICE (A, B, C WITH IMAGES) */}
+                    {/* CASE 1: PICTURE MULTIPLE CHOICE (A, B, C WITH IMAGES) */}
                     {isPictureQuestion && (
                       <div className="space-y-4">
                         {q.images?.option_A && q.images?.option_B && q.images?.option_C ? (
@@ -353,24 +424,46 @@ export default function ListeningView({
                       </div>
                     )}
 
-                    {/* CASE 2: PART 2 - GAP FILL NOTES */}
-                    {currentPart.part === 2 && (
-                      <div className="pt-2">
-                        <label className="block text-xs font-semibold text-slate-700 mb-1.5">
-                          Nhập thông tin điền vào chỗ trống ({qNum}):
+                    {/* CASE 2: MATCHING (A - H, 44x44px touch targets) */}
+                    {isMatching && (
+                      <div className="pt-2 space-y-3">
+                        <label className="block text-xs font-semibold text-slate-700">
+                          Chọn đáp án ghép đôi cho <span className="font-bold text-audio-700">{q.item || q.person || `Câu ${qNum}`}</span>:
                         </label>
-                        <DebouncedInput
-                          value={userAns}
-                          onChange={(val) => onAnswer(qNum, val)}
-                          placeholder="Nhập tên, số giờ, giá tiền, ngày tháng..."
-                          ariaLabel={`Đáp án điền từ cho câu ${qNum}`}
-                          className="w-full sm:w-80 px-4 py-3 rounded-xl border border-slate-300 focus:border-audio-500 focus:ring-2 focus:ring-audio-500/20 text-slate-900 font-semibold text-sm outline-none transition-all shadow-xs"
-                        />
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5" role="radiogroup" aria-label={`Đáp án ghép đôi cho câu ${qNum}`}>
+                          {Object.entries(matchingOptions || { A: 'A', B: 'B', C: 'C', D: 'D', E: 'E', F: 'F', G: 'G', H: 'H' }).map(([letter, labelText]) => {
+                            const isSelected = userAns === letter
+                            return (
+                              <button
+                                key={letter}
+                                type="button"
+                                role="radio"
+                                aria-checked={isSelected}
+                                aria-label={`Ghép với ${letter}${labelText ? `: ${labelText}` : ''}`}
+                                onClick={() => onAnswer(qNum, letter)}
+                                className={`min-h-11 px-3 py-2 rounded-xl font-bold font-lexend text-xs sm:text-sm transition-all cursor-pointer flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-audio-500 ${
+                                  isSelected
+                                    ? 'bg-audio-600 text-white shadow-md shadow-audio-600/30'
+                                    : 'bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200'
+                                }`}
+                              >
+                                <span className={`w-6 h-6 rounded-md flex items-center justify-center shrink-0 ${isSelected ? 'bg-white/20 text-white' : 'bg-slate-200 text-slate-800'}`}>
+                                  {letter}
+                                </span>
+                                {labelText && typeof labelText === 'string' && (
+                                  <span className="font-medium text-xs truncate text-left" title={labelText}>
+                                    {labelText}
+                                  </span>
+                                )}
+                              </button>
+                            )
+                          })}
+                        </div>
                       </div>
                     )}
 
-                    {/* CASE 3: PART 3 & 4 - TEXT MULTIPLE CHOICE (A, B, C) */}
-                    {(currentPart.part === 3 || currentPart.part === 4) && q.options && (
+                    {/* CASE 3: TEXT MULTIPLE CHOICE (A, B, C) */}
+                    {isMultipleChoice && (
                       <div className="space-y-2.5" role="radiogroup" aria-label={`Các phương án câu ${qNum}`}>
                         {Object.entries(q.options).map(([optKey, optText]) => {
                           const isSelected = userAns === optKey
@@ -403,33 +496,30 @@ export default function ListeningView({
                       </div>
                     )}
 
-                    {/* CASE 4: PART 5 - MATCHING (A - H, 44x44px touch targets) */}
-                    {currentPart.part === 5 && (
-                      <div className="pt-2 space-y-3">
+                    {/* CASE 4: GAP FILL NOTES */}
+                    {isGapFill && (
+                      <div className="pt-2 space-y-2">
                         <label className="block text-xs font-semibold text-slate-700">
-                          Chọn đáp án ghép đôi phù hợp:
+                          {q.label ? `Điền thông tin cho "${q.label}":` : `Nhập thông tin điền vào chỗ trống (${qNum}):`}
                         </label>
-                        <div className="flex flex-wrap gap-2.5" role="radiogroup" aria-label={`Đáp án ghép đôi cho câu ${qNum}`}>
-                          {['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'].map((letter) => {
-                            const isSelected = userAns === letter
-                            return (
-                              <button
-                                key={letter}
-                                type="button"
-                                role="radio"
-                                aria-checked={isSelected}
-                                aria-label={`Ghép với lựa chọn ${letter}`}
-                                onClick={() => onAnswer(qNum, letter)}
-                                className={`w-11 h-11 rounded-xl font-bold font-lexend text-sm transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-audio-500 ${
-                                  isSelected
-                                    ? 'bg-audio-600 text-white shadow-md shadow-audio-600/30'
-                                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200'
-                                }`}
-                              >
-                                {letter}
-                              </button>
-                            )
-                          })}
+                        <div className="flex items-center gap-2 max-w-md">
+                          {q.prefix && (
+                            <span className="font-bold text-slate-800 text-sm bg-slate-100 px-3 py-3 rounded-xl border border-slate-200 shrink-0">
+                              {q.prefix}
+                            </span>
+                          )}
+                          <DebouncedInput
+                            value={userAns}
+                            onChange={(val) => onAnswer(qNum, val)}
+                            placeholder="Nhập câu trả lời..."
+                            ariaLabel={`Đáp án điền từ cho câu ${qNum}`}
+                            className="flex-1 px-4 py-3 rounded-xl border border-slate-300 focus:border-audio-500 focus:ring-2 focus:ring-audio-500/20 text-slate-900 font-semibold text-sm outline-none transition-all shadow-xs"
+                          />
+                          {q.suffix && (
+                            <span className="font-bold text-slate-700 text-sm bg-slate-100 px-3 py-3 rounded-xl border border-slate-200 shrink-0">
+                              {q.suffix}
+                            </span>
+                          )}
                         </div>
                       </div>
                     )}
@@ -437,9 +527,10 @@ export default function ListeningView({
                     {/* Bilingual Hint */}
                     {bilingualMode && (
                       <div className="mt-3 text-xs text-slate-600 italic bg-slate-50 p-2.5 rounded-lg border border-slate-100">
-                        {currentPart.part === 1 && `(Dịch câu hỏi ${qNum}: Lắng nghe chi tiết về người, đồ vật hoặc thời gian trong audio)`}
-                        {currentPart.part === 2 && `(Dịch câu hỏi ${qNum}: Chú ý cách đánh vần tên riêng hoặc số liệu giờ giấc/tiền tệ)`}
-                        {currentPart.part === 5 && `(Gợi ý nối: Đối chiếu sở thích của ${q.person || 'nhân vật'} với các lựa chọn từ A đến H)`}
+                        {isPictureQuestion && `(Dịch câu hỏi ${qNum}: Lắng nghe chi tiết về người, đồ vật hoặc thời gian trong audio)`}
+                        {isGapFill && `(Dịch câu hỏi ${qNum}: Chú ý cách đánh vần tên riêng hoặc số liệu giờ giấc/tiền tệ)`}
+                        {isMatching && `(Gợi ý nối: Đối chiếu thông tin của ${q.person || 'nhân vật'} với các lựa chọn từ A đến H)`}
+                        {isMultipleChoice && `(Dịch câu hỏi ${qNum}: Nghe kỹ lý do hoặc quan điểm của người nói)`}
                       </div>
                     )}
 

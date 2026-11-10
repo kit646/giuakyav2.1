@@ -283,7 +283,7 @@ export default function App() {
       <main className="flex-1">
         {currentView === 'dashboard' && (
           <Dashboard
-            tests={masterData.tests || []}
+            tests={[...(masterData.tests || []), ...(masterData.online_tests || [])]}
             sampleTest={masterData.sample_test}
             progress={progress}
             stats={stats}

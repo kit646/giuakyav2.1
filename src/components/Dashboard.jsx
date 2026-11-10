@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { BookOpen, Headphones, Award, Clock, ArrowRight, Play, CheckCircle2, RotateCcw, Sparkles, Flame, Check, Globe } from 'lucide-react'
+import { BookOpen, Headphones, Award, Clock, ArrowRight, Play, CheckCircle2, RotateCcw, Sparkles, Flame, Check, Globe, Smartphone, QrCode } from 'lucide-react'
+import MobileAccessModal from './MobileAccessModal'
 
 export default function Dashboard({
   tests = [],
@@ -9,6 +10,7 @@ export default function Dashboard({
   onStartTest
 }) {
   const [filter, setFilter] = useState('all') // 'all' | 'official' | 'online' | 'reading' | 'listening'
+  const [showMobileModal, setShowMobileModal] = useState(false)
 
   // Separate official tests and online practice tests
   const officialTests = [
@@ -87,6 +89,25 @@ export default function Dashboard({
                 <div className="text-sm font-bold">{tests.length + (sampleTest ? 1 : 0)} bộ đề sẵn sàng</div>
               </div>
             </div>
+
+            {/* Mobile / Tablet QR Access Trigger Button */}
+            <button
+              type="button"
+              onClick={() => setShowMobileModal(true)}
+              className="flex items-center gap-2.5 bg-white/15 hover:bg-white/25 active:scale-95 px-4 py-2 rounded-2xl backdrop-blur-sm border border-white/25 transition-all cursor-pointer text-left shadow-sm focus:outline-none focus:ring-2 focus:ring-white/50"
+              title="Quét mã QR để mở làm bài trên điện thoại hoặc máy tính bảng"
+            >
+              <div className="w-8 h-8 rounded-xl bg-white/20 flex items-center justify-center shrink-0">
+                <Smartphone className="w-4 h-4 text-white" />
+              </div>
+              <div>
+                <div className="text-xs text-slate-200">Làm trên điện thoại</div>
+                <div className="text-sm font-bold flex items-center gap-1.5 text-white">
+                  <span>Quét mã QR</span>
+                  <QrCode className="w-3.5 h-3.5 text-sunny-300" />
+                </div>
+              </div>
+            </button>
           </div>
         </div>
 
@@ -316,6 +337,12 @@ export default function Dashboard({
           )
         })}
       </div>
+
+      {/* Mobile Access Modal */}
+      <MobileAccessModal
+        isOpen={showMobileModal}
+        onClose={() => setShowMobileModal(false)}
+      />
 
     </div>
   )
