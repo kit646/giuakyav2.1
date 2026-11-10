@@ -5,26 +5,30 @@ let cachedMasterData = null
 export const loadMasterData = async () => {
   if (cachedMasterData) return cachedMasterData
   try {
-    const res = await fetch('/extracted_data/all_tests.json')
+    const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`
+    const res = await fetch(`${base}extracted_data/all_tests.json`)
     if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`)
     const data = await res.json()
     cachedMasterData = data
     return data
   } catch (err) {
-    console.error('Failed to load tests data from /extracted_data/all_tests.json', err)
+    console.error('Failed to load tests data from extracted_data/all_tests.json', err)
     throw err
   }
 }
 
 export const getAudioUrl = (relativePath) => {
   if (!relativePath) return ''
-  // If already starts with /, return as is, else prepend /
-  return relativePath.startsWith('/') ? relativePath : `/${relativePath}`
+  const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`
+  const clean = relativePath.startsWith('/') ? relativePath.slice(1) : relativePath
+  return `${base}${clean}`
 }
 
 export const getImageUrl = (imagePath) => {
   if (!imagePath) return ''
-  return imagePath.startsWith('/') ? imagePath : `/${imagePath}`
+  const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`
+  const clean = imagePath.startsWith('/') ? imagePath.slice(1) : imagePath
+  return `${base}${clean}`
 }
 
 // Convert raw score to Cambridge Scale Score (100 - 150)

@@ -11,11 +11,10 @@ export default function AudioPlayer({ audioTrack, partTitle, testTitle }) {
   const [isMuted, setIsMuted] = useState(false)
 
   // Construct audio source path
-  const audioSrc = audioTrack?.relative_path 
-    ? (audioTrack.relative_path.startsWith('/') ? audioTrack.relative_path : `/${audioTrack.relative_path}`)
-    : audioTrack?.file_name
-    ? `/audio/${audioTrack.file_name}`
-    : ''
+  const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`
+  const rawPath = audioTrack?.relative_path || (audioTrack?.file_name ? `audio/${audioTrack.file_name}` : '')
+  const clean = rawPath.startsWith('/') ? rawPath.slice(1) : rawPath
+  const audioSrc = clean ? `${base}${clean}` : ''
 
   // When track changes, reset and load
   useEffect(() => {
