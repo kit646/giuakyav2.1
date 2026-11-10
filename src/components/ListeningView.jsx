@@ -49,7 +49,8 @@ export default function ListeningView({
   onSubmit,
   bilingualMode,
   examMode,
-  timeLeft
+  timeLeft,
+  isMobileMode = false
 }) {
   const paper = test.papers ? test.papers.listening : null
   const parts = paper?.parts || []
@@ -92,8 +93,9 @@ export default function ListeningView({
       {currentPart && (
         <AudioPlayer
           audioTrack={currentPart.audio}
-          partTitle={`Listening Part ${currentPart.part}: ${currentPart.title || ''}`}
+          partTitle={`Part ${currentPart.part}: ${currentPart.title || ''}`}
           testTitle={test.title}
+          isMobileMode={isMobileMode}
         />
       )}
 
@@ -322,7 +324,7 @@ export default function ListeningView({
                     {isPictureQuestion && (
                       <div className="space-y-4">
                         {q.images?.option_A && q.images?.option_B && q.images?.option_C ? (
-                          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4" role="radiogroup" aria-label={`Lựa chọn cho câu ${qNum}`}>
+                          <div className={`grid ${isMobileMode ? 'grid-cols-3 gap-2' : 'grid-cols-1 sm:grid-cols-3 gap-4'}`} role="radiogroup" aria-label={`Lựa chọn cho câu ${qNum}`}>
                             {['A', 'B', 'C'].map((optKey) => {
                               const isSelected = userAns === optKey
                               const optImg = getImageUrl(q.images[`option_${optKey}`])
@@ -336,14 +338,14 @@ export default function ListeningView({
                                   aria-checked={isSelected}
                                   aria-label={`Lựa chọn ${optKey}${optDesc ? `: ${optDesc}` : ''}`}
                                   onClick={() => onAnswer(qNum, optKey)}
-                                  className={`rounded-2xl border p-3 flex flex-col items-center justify-between gap-3 transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-audio-500 ${
+                                  className={`rounded-2xl border p-2 sm:p-3 flex flex-col items-center justify-between gap-2 transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-audio-500 ${
                                     isSelected
                                       ? 'bg-audio-50 border-audio-600 ring-2 ring-audio-600/30 shadow-md'
                                       : 'bg-white border-slate-200 hover:bg-slate-50 hover:border-slate-300 shadow-xs'
                                   }`}
                                 >
                                   {/* Picture container */}
-                                  <div className="w-full h-36 sm:h-40 bg-slate-50 rounded-xl flex items-center justify-center p-2 border border-slate-100">
+                                  <div className={`w-full ${isMobileMode ? 'h-24 sm:h-32' : 'h-36 sm:h-40'} bg-slate-50 rounded-xl flex items-center justify-center p-1.5 border border-slate-100`}>
                                     <img
                                       src={optImg}
                                       alt={`Hình minh họa lựa chọn ${optKey}`}
@@ -354,14 +356,14 @@ export default function ListeningView({
                                   </div>
 
                                   {/* Option Key Badge & Description */}
-                                  <div className="w-full flex items-center justify-between px-1">
-                                    <span className={`w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold font-lexend ${
+                                  <div className="w-full flex items-center justify-center sm:justify-between px-1">
+                                    <span className={`w-6 sm:w-7 h-6 sm:h-7 rounded-lg flex items-center justify-center text-xs font-bold font-lexend ${
                                       isSelected ? 'bg-audio-600 text-white' : 'bg-slate-100 text-slate-700'
                                     }`}>
                                       {optKey}
                                     </span>
-                                    {optDesc && (
-                                      <span className="text-xs text-slate-600 truncate max-w-[140px] text-right font-medium">
+                                    {optDesc && !isMobileMode && (
+                                      <span className="hidden sm:inline text-xs text-slate-600 truncate max-w-[140px] text-right font-medium">
                                         {optDesc}
                                       </span>
                                     )}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { BookOpen, Flag, CheckCircle2, LayoutGrid, AlertCircle, ZoomIn, Check, ChevronDown, ChevronUp } from 'lucide-react'
+import { BookOpen, Flag, CheckCircle2, LayoutGrid, AlertCircle, ZoomIn, Check, ChevronDown, ChevronUp, CheckSquare } from 'lucide-react'
 import { getImageUrl } from '../services/dataService'
 import ImageModal from './ImageModal'
 import QuestionMatrixModal from './QuestionMatrixModal'
@@ -51,7 +51,8 @@ export default function ReadingView({
   onSubmit,
   bilingualMode,
   examMode,
-  timeLeft
+  timeLeft,
+  isMobileMode = false
 }) {
   const paper = test.papers ? test.papers[paperKey] : null
   const parts = paper?.parts || []
@@ -59,6 +60,8 @@ export default function ReadingView({
   const [activePartIndex, setActivePartIndex] = useState(0)
   const [isMatrixOpen, setIsMatrixOpen] = useState(false)
   const [modalImage, setModalImage] = useState(null)
+  const [mobileReadingTab, setMobileReadingTab] = useState('questions')
+  const [mobilePassageExpanded, setMobilePassageExpanded] = useState(false)
 
   const currentPart = parts[activePartIndex] || parts[0]
 
@@ -287,13 +290,45 @@ export default function ReadingView({
             </div>
           )}
 
+          {/* Mobile Reading Mode Segmented Tab Selector */}
+          {isMobileMode && currentPart.part !== 1 && (
+            <div className="flex bg-slate-200/90 p-1 rounded-2xl sticky top-14 z-20 shadow-xs mb-4">
+              <button
+                type="button"
+                onClick={() => setMobileReadingTab('passage')}
+                className={`flex-1 py-2 text-xs font-bold rounded-xl transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+                  mobileReadingTab === 'passage'
+                    ? 'bg-white text-brand-700 shadow-sm'
+                    : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                <BookOpen className="w-3.5 h-3.5 text-brand-600" />
+                <span>1. Xem đoạn văn</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setMobileReadingTab('questions')}
+                className={`flex-1 py-2 text-xs font-bold rounded-xl transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+                  mobileReadingTab === 'questions'
+                    ? 'bg-brand-600 text-white shadow-sm'
+                    : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                <CheckSquare className="w-3.5 h-3.5" />
+                <span>2. Làm câu hỏi ({currentPart.questions?.length || 0} câu)</span>
+              </button>
+            </div>
+          )}
+
           {/* MAIN TWO-COLUMN SPLIT VIEW FOR READING */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
             
             {/* LEFT COLUMN: Passage or Stimulus Area (6 Cols) */}
             <div 
               id="reading-passage-column"
-              className="lg:col-span-6 bg-white rounded-2xl border border-slate-200 p-6 shadow-card space-y-4 max-h-[750px] overflow-y-auto lg:sticky lg:top-24"
+              className={`lg:col-span-6 bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-card space-y-4 max-h-[750px] overflow-y-auto lg:sticky lg:top-24 ${
+                isMobileMode && currentPart.part !== 1 && mobileReadingTab === 'questions' ? 'hidden lg:block' : 'block'
+              }`}
             >
               <div className="flex items-center justify-between border-b border-slate-100 pb-3">
                 <div className="flex items-center gap-2 text-sm font-bold text-slate-800">
@@ -420,10 +455,41 @@ export default function ReadingView({
                   </div>
                 )
               })()}
+
+              {/* Mobile Quick Action: Switch to questions */}
+              {isMobileMode && currentPart.part !== 1 && (
+                <button
+                  type="button"
+                  onClick={() => setMobileReadingTab('questions')}
+                  className="w-full py-3 px-4 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-2 shadow-sm cursor-pointer transition-colors"
+                >
+                  <span>Đã đọc xong, chuyển sang làm câu hỏi</span>
+                  <CheckSquare className="w-4 h-4" />
+                </button>
+              )}
             </div>
 
             {/* RIGHT COLUMN: Questions & Options (6 Cols) */}
-            <div id="reading-questions-column" className="lg:col-span-6 space-y-5">
+            <div 
+              id="reading-questions-column" 
+              className={`lg:col-span-6 space-y-5 ${
+                isMobileMode && currentPart.part !== 1 && mobileReadingTab === 'passage' ? 'hidden lg:block' : 'block'
+              }`}
+            >
+              {/* Mobile Shortcut to re-read passage */}
+              {isMobileMode && currentPart.part !== 1 && (
+                <button
+                  type="button"
+                  onClick={() => setMobileReadingTab('passage')}
+                  className="w-full p-2.5 bg-brand-50 hover:bg-brand-100 text-brand-800 border border-brand-200 rounded-xl text-xs font-bold flex items-center justify-between transition-colors cursor-pointer"
+                >
+                  <span className="flex items-center gap-1.5">
+                    <BookOpen className="w-4 h-4 text-brand-600" />
+                    <span>Bấm để xem lại đoạn văn đọc hiểu</span>
+                  </span>
+                  <span className="text-[11px] text-brand-700 font-semibold underline">Xem bài đọc</span>
+                </button>
+              )}
               {(currentPart.questions || []).map((q) => {
                 const qNum = q.question_number || q.number
                 const userAns = answers[qNum]

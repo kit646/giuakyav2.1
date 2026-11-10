@@ -19,7 +19,7 @@ import {
   getAllTestProgress,
   getGlobalStats
 } from './services/storage'
-import { Loader2, AlertCircle, HelpCircle } from 'lucide-react'
+import { Loader2, AlertCircle, HelpCircle, Smartphone, Monitor } from 'lucide-react'
 
 export default function App() {
   const [loading, setLoading] = useState(true)
@@ -47,6 +47,22 @@ export default function App() {
   const [bilingualMode, setBilingualMode] = useState(true)
   const [stats, setStats] = useState(getGlobalStats())
   const [progress, setProgress] = useState({})
+
+  // View Mode: 'desktop' | 'mobile' (Auto-detected or user toggled)
+  const [viewMode, setViewMode] = useState(() => {
+    const saved = localStorage.getItem('a2_view_mode')
+    if (saved === 'mobile' || saved === 'desktop') return saved
+    return typeof window !== 'undefined' && window.innerWidth < 768 ? 'mobile' : 'desktop'
+  })
+  const isMobileMode = viewMode === 'mobile'
+
+  const handleToggleViewMode = () => {
+    setViewMode((prev) => {
+      const next = prev === 'mobile' ? 'desktop' : 'mobile'
+      localStorage.setItem('a2_view_mode', next)
+      return next
+    })
+  }
 
   // 1. Initial Load of tests data and localStorage settings
   useEffect(() => {
@@ -277,6 +293,8 @@ export default function App() {
         activeTestTitle={activeTest?.title}
         activePaperName={activePaperKey === 'listening' ? 'Listening' : 'Reading & Writing'}
         examMode={examMode}
+        isMobileMode={isMobileMode}
+        onToggleViewMode={handleToggleViewMode}
       />
 
       {/* Main Content Area */}
@@ -288,6 +306,8 @@ export default function App() {
             progress={progress}
             stats={stats}
             onStartTest={handleStartTest}
+            isMobileMode={isMobileMode}
+            onToggleViewMode={handleToggleViewMode}
           />
         )}
 
@@ -303,6 +323,8 @@ export default function App() {
             bilingualMode={bilingualMode}
             examMode={examMode}
             timeLeft={timeLeft}
+            isMobileMode={isMobileMode}
+            onToggleViewMode={handleToggleViewMode}
           />
         )}
 
@@ -317,6 +339,8 @@ export default function App() {
             bilingualMode={bilingualMode}
             examMode={examMode}
             timeLeft={timeLeft}
+            isMobileMode={isMobileMode}
+            onToggleViewMode={handleToggleViewMode}
           />
         )}
 
@@ -327,6 +351,7 @@ export default function App() {
             paperKey={activePaperKey}
             onRetakeTest={handleRetakeTest}
             onNavigateHome={handleNavigateHome}
+            isMobileMode={isMobileMode}
           />
         )}
       </main>
@@ -373,6 +398,31 @@ export default function App() {
           </div>
         }
       />
+
+      {/* Floating View Switcher Button (Desktop <-> Mobile) */}
+      <div className="fixed bottom-4 right-4 z-50 print:hidden">
+        <button
+          type="button"
+          onClick={handleToggleViewMode}
+          className="flex items-center gap-2 px-3.5 py-2 rounded-2xl bg-slate-900/90 hover:bg-slate-900 text-white shadow-xl shadow-slate-900/25 backdrop-blur-md border border-slate-700/50 text-xs font-bold transition-all cursor-pointer hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-brand-500"
+          title={isMobileMode ? "Bấm để đổi sang giao diện Máy tính" : "Bấm để đổi sang giao diện Điện thoại"}
+          aria-label="Chuyển đổi giao diện Điện thoại và Máy tính"
+        >
+          {isMobileMode ? (
+            <>
+              <Monitor className="w-4 h-4 text-sunny-400" />
+              <span className="hidden sm:inline">Giao diện:</span>
+              <span className="text-sunny-300">Máy tính 💻</span>
+            </>
+          ) : (
+            <>
+              <Smartphone className="w-4 h-4 text-emerald-400" />
+              <span className="hidden sm:inline">Giao diện:</span>
+              <span className="text-emerald-300">Điện thoại 📱</span>
+            </>
+          )}
+        </button>
+      </div>
 
       {/* Footer */}
       <footer className="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500 font-medium">
