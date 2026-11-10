@@ -1,0 +1,771 @@
+{
+  "test_id": "test_7",
+  "test_number": 7,
+  "title": "Ready for A2 Key for Schools - Test 7",
+  "source_pdf": "Test 7.pdf",
+  "key_pdf": "Ready for A2 Key for Schools 8 test - KEY.pdf",
+  "papers": {
+    "reading_and_writing": {
+      "paper": "Paper 1: Reading and Writing",
+      "book_pages": "128-137",
+      "parts": [
+        {
+          "part": 1,
+          "title": "Reading - Part 1",
+          "question_range": "1-6",
+          "type": "multiple_choice_short_texts",
+          "instructions": "For each question, choose the correct answer.",
+          "pdf_pages": [
+            1,
+            2
+          ],
+          "page_images": [
+            "extracted_data/images/test_7/page_1.png",
+            "extracted_data/images/test_7/page_2.png"
+          ],
+          "questions": [
+            {
+              "question_number": 1,
+              "stimulus_type": "text_message",
+              "stimulus_header": null,
+              "stimulus_text": "Hi Nilesh, theatre class is on Saturday morning at 11,30 in the Old Theatre, 26 King's Street.\nDo you know other students who like drama? We need more actors!",
+              "question": "What should Nilesh do?",
+              "options": {
+                "A": "learn how to act",
+                "B": "find more students for the theatre class",
+                "C": "find a place to do the theatre class"
+              },
+              "answer": "B",
+              "images": {
+                "stimulus": "extracted_data/images/test_7/reading_p1_q1_stimulus.png",
+                "full_question": "extracted_data/images/test_7/reading_p1_q1_full.png"
+              }
+            },
+            {
+              "question_number": 2,
+              "stimulus_type": "sign",
+              "stimulus_header": "ST JOHN'S LIBRARY OPENING TIMES",
+              "stimulus_text": "Mondays to Saturdays from 08.00 to 19.00.\nSunday all day and Tuesday afternoon closed.\nNo admissions after 18.30.",
+              "question": null,
+              "options": {
+                "A": "You can visit the library on Tuesday afternoon.",
+                "B": "You can't enter the library fifteen minutes before it closes.",
+                "C": "The library is open every afternoon."
+              },
+              "answer": "B",
+              "images": {
+                "stimulus": "extracted_data/images/test_7/reading_p1_q2_stimulus.png",
+                "full_question": "extracted_data/images/test_7/reading_p1_q2_full.png"
+              }
+            },
+            {
+              "question_number": 3,
+              "stimulus_type": "notice",
+              "stimulus_header": "ICE-SKATING COMPETITION",
+              "stimulus_text": "Friday 6th June at 9.30 a.m.\n(meet outside sports centre at 9 a.m.)\nOnline registration only!",
+              "question": "To take part in the competition",
+              "options": {
+                "A": "you should arrive at 9.30 a.m.",
+                "B": "you must meet in the sport's centre hall.",
+                "C": "you need to use the internet to register."
+              },
+              "answer": "C",
+              "images": {
+                "stimulus": "extracted_data/images/test_7/reading_p1_q3_stimulus.png",
+                "full_question": "extracted_data/images/test_7/reading_p1_q3_full.png"
+              }
+            },
+            {
+              "question_number": 4,
+              "stimulus_type": "email",
+              "stimulus_header": "From: Etienne | To: Paul",
+              "stimulus_text": "Hi Paul, thanks for the invitation to the cinema. It's a great idea, but I haven't got enough money for the 3D version.\nCan we watch it at home?\nEtienne",
+              "question": null,
+              "options": {
+                "A": "The 3D cinema is too expensive for Etienne.",
+                "B": "Etienne doesn't like going to the cinema.",
+                "C": "Etienne only watches films at home."
+              },
+              "answer": "A",
+              "images": {
+                "stimulus": "extracted_data/images/test_7/reading_p1_q4_stimulus.png",
+                "full_question": "extracted_data/images/test_7/reading_p1_q4_full.png"
+              }
+            },
+            {
+              "question_number": 5,
+              "stimulus_type": "sign",
+              "stimulus_header": null,
+              "stimulus_text": "Please clear the table after lunch.",
+              "question": null,
+              "options": {
+                "A": "You must leave your plate on the table.",
+                "B": "You must take your plate back to the kitchen.",
+                "C": "You must wash the dishes after lunch."
+              },
+              "answer": "B",
+              "images": {
+                "stimulus": "extracted_data/images/test_7/reading_p1_q5_stimulus.png",
+                "full_question": "extracted_data/images/test_7/reading_p1_q5_full.png"
+              }
+            },
+            {
+              "question_number": 6,
+              "stimulus_type": "text_message",
+              "stimulus_header": null,
+              "stimulus_text": "Pete, I left the keys under the doormat. Don't forget the sandwiches in the fridge for your lunch, and please feed the cat. Mum",
+              "question": "What must Pete do?",
+              "options": {
+                "A": "eat the sandwiches and give the cat its food",
+                "B": "give the sandwiches to the cat",
+                "C": "remember to give the keys to his mum"
+              },
+              "answer": "A",
+              "images": {
+                "stimulus": "extracted_data/images/test_7/reading_p1_q6_stimulus.png",
+                "full_question": "extracted_data/images/test_7/reading_p1_q6_full.png"
+              }
+            }
+          ]
+        },
+        {
+          "part": 2,
+          "title": "Reading - Part 2",
+          "question_range": "7-13",
+          "type": "multiple_matching",
+          "note": "Pages 130-131 (Reading Part 2) and Pages 136-137 (Writing Parts 6-7) are omitted in Test 7.pdf scan; answer key from KEY.pdf is included.",
+          "answers_only": {
+            "7": "C",
+            "8": "B",
+            "9": "C",
+            "10": "A",
+            "11": "B",
+            "12": "C",
+            "13": "B"
+          }
+        },
+        {
+          "part": 3,
+          "title": "Reading - Part 3",
+          "question_range": "14-18",
+          "type": "reading_comprehension_multiple_choice",
+          "instructions": "For each question, choose the correct answer.",
+          "pdf_pages": [
+            3,
+            4
+          ],
+          "page_images": [
+            "extracted_data/images/test_7/page_3.png",
+            "extracted_data/images/test_7/page_4.png"
+          ],
+          "passage_title": "A FORGOTTEN TALENT",
+          "passage_author": null,
+          "passage_text": "Sixto Diaz Rodriguez is an American folk singer from Detroit, Michigan, who only recently has become world famous. He is more than 70 years old now. He made some records 40 years ago but they did not sell in America. He tried to do some concerts around the world but was not very successful. He stopped dreaming and worked for years as a manual labourer.\n\nHe still liked music as a hobby and played in bars and wrote some songs for his friends. He remained poor. In all this time, he didn't know that he became very famous, particularly in South Africa. His fans thought he was dead so nobody contacted him. So, did he win America's Got Talent? No, he didn't.\n\nThe story is strange. In 2012 a documentary about him called Searching for Sugar Man – by a Swedish director – won an Oscar and now finally he has found fame in America too.\nHe is getting lots of money but what does he do?\nHe gives most of it to other people! Rodriguez still lives in the same small Detroit house. He hasn't got a car, a computer or even a television.\n\nHis daughter Regan forced him to get a mobile phone a few years ago because she could never find him. He remains a quiet, modest man.",
+          "questions": [
+            {
+              "question_number": 14,
+              "question": "Sixto Diaz Rodriguez",
+              "options": {
+                "A": "has always been famous.",
+                "B": "is famous in Detroit.",
+                "C": "is starting to become famous."
+              },
+              "answer": "C"
+            },
+            {
+              "question_number": 15,
+              "question": "His first records",
+              "options": {
+                "A": "were not very successful.",
+                "B": "sold a lot of copies.",
+                "C": "were an immediate success."
+              },
+              "answer": "A"
+            },
+            {
+              "question_number": 16,
+              "question": "Sixto Diaz Rodriguez",
+              "options": {
+                "A": "knew he had fans in South Africa.",
+                "B": "took part in a talent show.",
+                "C": "didn't know people were playing and listening to his music."
+              },
+              "answer": "C"
+            },
+            {
+              "question_number": 17,
+              "question": "When a Swedish director made a documentary about him, Sixto",
+              "options": {
+                "A": "went to live in Sweden.",
+                "B": "became rich.",
+                "C": "bought a new car."
+              },
+              "answer": "B"
+            },
+            {
+              "question_number": 18,
+              "question": "Sixto's daughter",
+              "options": {
+                "A": "bought him a car.",
+                "B": "bought him a television.",
+                "C": "insisted he bought a mobile phone."
+              },
+              "answer": "C"
+            }
+          ]
+        },
+        {
+          "part": 4,
+          "title": "Reading - Part 4",
+          "question_range": "19-24",
+          "type": "multiple_choice_cloze",
+          "instructions": "For each question, choose the correct answer.",
+          "pdf_pages": [
+            5
+          ],
+          "page_images": [
+            "extracted_data/images/test_7/page_5.png"
+          ],
+          "passage_title": "THE MOST FAMOUS SOCIAL NETWORK",
+          "passage_text": "Facebook is a social networking service and website. It has more than two billion active (19) ___.\nFacebook started in February 2004 when Mark Zuckerberg and his college friends (20) ___ it at Harvard University.\n\nThe name of the service (21) ___ the name for the book with names and photographs given to students at the start of the school year by some universities in the United States. These books help students get to (22) ___ each other.\n\nToday Facebook users can make a personal profile, add other users as friends, and send (23) ___.\nFacebook users must register before (24) ___ the site. They can join user groups. These groups can be for a work, school, university, hobbies or other interests.",
+          "questions": [
+            {
+              "question_number": 19,
+              "options": {
+                "A": "people",
+                "B": "workers",
+                "C": "users"
+              },
+              "answer": "C"
+            },
+            {
+              "question_number": 20,
+              "options": {
+                "A": "created",
+                "B": "made",
+                "C": "followed"
+              },
+              "answer": "A"
+            },
+            {
+              "question_number": 21,
+              "options": {
+                "A": "comes in",
+                "B": "comes from",
+                "C": "goes"
+              },
+              "answer": "B"
+            },
+            {
+              "question_number": 22,
+              "options": {
+                "A": "study",
+                "B": "meet",
+                "C": "know"
+              },
+              "answer": "C"
+            },
+            {
+              "question_number": 23,
+              "options": {
+                "A": "messages",
+                "B": "web pages",
+                "C": "websites"
+              },
+              "answer": "A"
+            },
+            {
+              "question_number": 24,
+              "options": {
+                "A": "starting",
+                "B": "using",
+                "C": "logging in"
+              },
+              "answer": "B"
+            }
+          ]
+        },
+        {
+          "part": 5,
+          "title": "Reading - Part 5",
+          "question_range": "25-30",
+          "type": "open_cloze",
+          "instructions": "For each question, choose the correct answer. Write ONE word for each gap.",
+          "pdf_pages": [
+            6
+          ],
+          "page_images": [
+            "extracted_data/images/test_7/page_6.png"
+          ],
+          "example": {
+            "0": "'ve"
+          },
+          "email_header": {
+            "From": "Carla",
+            "To": "Lucy"
+          },
+          "passage_text": "Hi Lucy,\nmy name is Carla. I'm 12 and I live in México. I (0) ['ve] got one brother and one sister. Both of (25) ___ are younger than me.\nMy brother Alfredo is the youngest in the family and it (26) ___ his birthday last week.\n\nI love playing tennis (27) ___ my friends at the weekend. We go to the tennis club by bus.\nI also enjoy playing the piano. I joined a band at school two years (28) ___.\nI go to band practice twice (29) ___ week. I have loads of fun and learn a (30) ___ of new songs.\n\nWhat about you? Write soon!\n\nCarla",
+          "questions": [
+            {
+              "question_number": 25,
+              "answer": "them",
+              "accepted_answers": [
+                "them"
+              ]
+            },
+            {
+              "question_number": 26,
+              "answer": "was",
+              "accepted_answers": [
+                "was"
+              ]
+            },
+            {
+              "question_number": 27,
+              "answer": "with",
+              "accepted_answers": [
+                "with"
+              ]
+            },
+            {
+              "question_number": 28,
+              "answer": "ago",
+              "accepted_answers": [
+                "ago"
+              ]
+            },
+            {
+              "question_number": 29,
+              "answer": "a / every",
+              "accepted_answers": [
+                "a",
+                "every"
+              ]
+            },
+            {
+              "question_number": 30,
+              "answer": "lot",
+              "accepted_answers": [
+                "lot"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "listening": {
+      "paper": "Paper 2: Listening",
+      "book_pages": "138-143",
+      "parts": [
+        {
+          "part": 1,
+          "title": "Listening - Part 1",
+          "question_range": "1-5",
+          "type": "multiple_choice_pictures",
+          "instructions": "For each question, choose the correct picture.",
+          "audio": {
+            "track_number": 31,
+            "file_name": "A2 Key TK_31.mp3",
+            "relative_path": "audio/A2 Key TK_31.mp3"
+          },
+          "pdf_pages": [
+            7,
+            8
+          ],
+          "page_images": [
+            "extracted_data/images/test_7/page_7.png",
+            "extracted_data/images/test_7/page_8.png"
+          ],
+          "questions": [
+            {
+              "question_number": 1,
+              "question": "How many children went to the zoo?",
+              "options_descriptions": {
+                "A": "12",
+                "B": "15",
+                "C": "10"
+              },
+              "answer": "B",
+              "transcript": "Boy: Did you like the school trip Lisa? Did everyone in the class go?\nLisa: No, 10 stayed at school so there were 15 of us. It was great.\nBoy: What did you all see?\nLisa: We saw lions and tigers and a group of 12 penguins.",
+              "images": {
+                "question_and_options": "extracted_data/images/test_7/listening_p1_q1.png",
+                "options_row": "extracted_data/images/test_7/listening_p1_q1_options.png",
+                "option_A": "extracted_data/images/test_7/listening_p1_q1_opt_A.png",
+                "option_B": "extracted_data/images/test_7/listening_p1_q1_opt_B.png",
+                "option_C": "extracted_data/images/test_7/listening_p1_q1_opt_C.png"
+              }
+            },
+            {
+              "question_number": 2,
+              "question": "Where is Martin's pen?",
+              "options_descriptions": {
+                "A": "On top of the desk",
+                "B": "On the shelf under the desk",
+                "C": "Under a book on the desk"
+              },
+              "answer": "C",
+              "transcript": "Martin: Oh no! I've lost my pen. It was just here a minute ago!\nGirl: Perhaps it's under the table?\nMartin: Hmm, no, I'm sure I left it on the table.\nGirl: What's that under your book?\nMartin: Oh, yes. There it is! Thanks.",
+              "images": {
+                "question_and_options": "extracted_data/images/test_7/listening_p1_q2.png",
+                "options_row": "extracted_data/images/test_7/listening_p1_q2_options.png",
+                "option_A": "extracted_data/images/test_7/listening_p1_q2_opt_A.png",
+                "option_B": "extracted_data/images/test_7/listening_p1_q2_opt_B.png",
+                "option_C": "extracted_data/images/test_7/listening_p1_q2_opt_C.png"
+              }
+            },
+            {
+              "question_number": 3,
+              "question": "How much is the video game?",
+              "options_descriptions": {
+                "A": "£10",
+                "B": "£29",
+                "C": "£39"
+              },
+              "answer": "B",
+              "transcript": "Boy: Dad, will you buy me this video game?\nDad: How much is it? I don't want to spend more than thirty pounds.\nBoy: Well, it's usually thirty-nine pounds but there's a special offer. It's twenty-nine pounds today.\nDad: Oh yes, it's ten pounds cheaper than usual. Lucky you!",
+              "images": {
+                "question_and_options": "extracted_data/images/test_7/listening_p1_q3.png",
+                "options_row": "extracted_data/images/test_7/listening_p1_q3_options.png",
+                "option_A": "extracted_data/images/test_7/listening_p1_q3_opt_A.png",
+                "option_B": "extracted_data/images/test_7/listening_p1_q3_opt_B.png",
+                "option_C": "extracted_data/images/test_7/listening_p1_q3_opt_C.png"
+              }
+            },
+            {
+              "question_number": 4,
+              "question": "What will the girl make?",
+              "options_descriptions": {
+                "A": "Biscuits / cookies",
+                "B": "A cake",
+                "C": "A bowl of soup"
+              },
+              "answer": "A",
+              "transcript": "Girl: Can we do some cooking together?\nMum: Yes, OK. Do you want to help with the chicken soup?\nGirl: No. I want to do something sweet. Can I make some biscuits?\nMum: Yes, OK, but we can have them for dinner. I made a cake for lunch.",
+              "images": {
+                "question_and_options": "extracted_data/images/test_7/listening_p1_q4.png",
+                "options_row": "extracted_data/images/test_7/listening_p1_q4_options.png",
+                "option_A": "extracted_data/images/test_7/listening_p1_q4_opt_A.png",
+                "option_B": "extracted_data/images/test_7/listening_p1_q4_opt_B.png",
+                "option_C": "extracted_data/images/test_7/listening_p1_q4_opt_C.png"
+              }
+            },
+            {
+              "question_number": 5,
+              "question": "What's the weather like?",
+              "options_descriptions": {
+                "A": "Raining and windy",
+                "B": "Snowing",
+                "C": "Cloudy"
+              },
+              "answer": "C",
+              "transcript": "Girl: Dave, it's stopped snowing. Let's go out to the shops.\nDave: I'm watching a film now. Anyway, it's still cold and very cloudy.\nGirl: Oh OK. Shall we go tomorrow then?\nDave: Yes, all right.",
+              "images": {
+                "question_and_options": "extracted_data/images/test_7/listening_p1_q5.png",
+                "options_row": "extracted_data/images/test_7/listening_p1_q5_options.png",
+                "option_A": "extracted_data/images/test_7/listening_p1_q5_opt_A.png",
+                "option_B": "extracted_data/images/test_7/listening_p1_q5_opt_B.png",
+                "option_C": "extracted_data/images/test_7/listening_p1_q5_opt_C.png"
+              }
+            }
+          ]
+        },
+        {
+          "part": 2,
+          "title": "Listening - Part 2",
+          "question_range": "6-10",
+          "type": "gap_fill_notes",
+          "instructions": "For each question, write the correct answer in the gap. Write one word or a number or a date or a time.",
+          "context": "You will hear a teacher telling his students about piano lessons for teenagers.",
+          "audio": {
+            "track_number": 32,
+            "file_name": "A2 Key TK_32.mp3",
+            "relative_path": "audio/A2 Key TK_32.mp3"
+          },
+          "pdf_pages": [
+            9
+          ],
+          "page_images": [
+            "extracted_data/images/test_7/page_9.png"
+          ],
+          "form_title": "PIANO LESSONS",
+          "example": {
+            "label": "Teacher's name",
+            "value": "Mr Shelley"
+          },
+          "questions": [
+            {
+              "question_number": 6,
+              "label": "Day",
+              "prefix": "",
+              "suffix": "",
+              "answer": "Tuesday",
+              "accepted_answers": [
+                "Tuesday",
+                "Tuesdays"
+              ]
+            },
+            {
+              "question_number": 7,
+              "label": "Price per hour",
+              "prefix": "£",
+              "suffix": "",
+              "answer": "25",
+              "accepted_answers": [
+                "25",
+                "twenty-five"
+              ]
+            },
+            {
+              "question_number": 8,
+              "label": "Place of lesson",
+              "prefix": "",
+              "suffix": "Main Street",
+              "answer": "105",
+              "accepted_answers": [
+                "105"
+              ]
+            },
+            {
+              "question_number": 9,
+              "label": "Teacher's phone number",
+              "prefix": "",
+              "suffix": "",
+              "answer": "0753 715380",
+              "accepted_answers": [
+                "0753 715380",
+                "0753715380"
+              ]
+            },
+            {
+              "question_number": 10,
+              "label": "Must call between",
+              "prefix": "",
+              "suffix": "and nine",
+              "answer": "six",
+              "accepted_answers": [
+                "six",
+                "6",
+                "6.00",
+                "6:00"
+              ]
+            }
+          ],
+          "transcript": "Morning everyone. As you know, you all have the possibility to join Mr Shelley's piano lessons, starting from next week. That's S H E L L E Y. You can join the lessons if you have a piano at home, but keyboards are OK too.\nLessons are on Tuesdays and Wednesdays, but on Wednesday you already have the French course with Mrs Dufour, so your day will definitely be Tuesday.\nNow, the price. A single lesson for two students is £25 pounds an hour or £15 for half an hour. I suggest you start with the one-hour lesson, then once you know the basics you can do half an hour.\nYou must go to Mr Shelley's house which is very close to Queen's Square. The exact address is 105 Main Street. Remember to call him first, his number is 0753 715380. Did you get it right? I'll say it again: 0753 715380. The best time to call him is between six and nine.\nIs that clear to everyone?"
+        },
+        {
+          "part": 3,
+          "title": "Listening - Part 3",
+          "question_range": "11-15",
+          "type": "multiple_choice_conversation",
+          "instructions": "For each question, choose the correct answer.",
+          "context": "You will hear Ravi talking to his friend Justin [Jed] about going to the cinema.",
+          "audio": {
+            "track_number": 33,
+            "file_name": "A2 Key TK_33.mp3",
+            "relative_path": "audio/A2 Key TK_33.mp3"
+          },
+          "pdf_pages": [
+            10
+          ],
+          "page_images": [
+            "extracted_data/images/test_7/page_10.png"
+          ],
+          "questions": [
+            {
+              "question_number": 11,
+              "question": "Which film will they see?",
+              "options": {
+                "A": "Future Shock II",
+                "B": "Horror Show",
+                "C": "Seven Soldiers"
+              },
+              "answer": "A"
+            },
+            {
+              "question_number": 12,
+              "question": "The cinema they are going to is",
+              "options": {
+                "A": "in the shopping centre.",
+                "B": "near the market.",
+                "C": "opposite the station."
+              },
+              "answer": "A"
+            },
+            {
+              "question_number": 13,
+              "question": "How will they get there?",
+              "options": {
+                "A": "on foot",
+                "B": "by bus",
+                "C": "by train"
+              },
+              "answer": "B"
+            },
+            {
+              "question_number": 14,
+              "question": "Jed should meet Ravi at",
+              "options": {
+                "A": "5.40 p.m.",
+                "B": "5.20 p.m.",
+                "C": "6.20 p.m."
+              },
+              "answer": "A"
+            },
+            {
+              "question_number": 15,
+              "question": "The cinema tickets will cost",
+              "options": {
+                "A": "£10.00.",
+                "B": "£5.50.",
+                "C": "£6.50."
+              },
+              "answer": "C"
+            }
+          ],
+          "transcript": "Ravi: Hey, Jed, how about going to the cinema on Sunday?\nJed: OK. What shall we see? How about that new comedy?\nRavi: Actually, I want to see the horror film.\nJed: Oh no, I hate scary films. The sci-fi one sounds good, though.\nRavi: Good idea. Let's see that.\nJed: Is it on at the cinema near the market?\nRavi: No, that cinema is shut at the moment. It's also not on at the cinema opposite the station.\nJed: So, let's go to the cinema in the shopping centre. How are you getting there?\nRavi: You can take the train, but there are lots of buses from outside my house.\nJed: OK. I can walk to your house and get the bus with you. What time shall I meet you?\nRavi: Let me think. The film starts at 6.15 p.m. It takes about 20 minutes to get there. So come to my house at twenty to six.\nJed: OK. How much money are you taking? Tickets cost five pounds fifty, right?\nRavi: No, they're six pounds fifty but I'll take ten pounds so I can get a drink and a snack too.\nJed: Right, see you Sunday, then."
+        },
+        {
+          "part": 4,
+          "title": "Listening - Part 4",
+          "question_range": "16-20",
+          "type": "multiple_choice_short_extracts",
+          "instructions": "For each question, choose the correct answer.",
+          "audio": {
+            "track_number": 34,
+            "file_name": "A2 Key TK_34.mp3",
+            "relative_path": "audio/A2 Key TK_34.mp3"
+          },
+          "pdf_pages": [
+            11
+          ],
+          "page_images": [
+            "extracted_data/images/test_7/page_11.png"
+          ],
+          "questions": [
+            {
+              "question_number": 16,
+              "question": "You will hear a mother talking to her son. Where are they going to eat on Sunday?",
+              "options": {
+                "A": "at home",
+                "B": "in a restaurant",
+                "C": "at the grandparents' home"
+              },
+              "answer": "B",
+              "transcript": "Mum: How about going to the new pizza restaurant near the station on Sunday?\nSon: But aren't grandma and granddad having lunch with us at home?\nMum: That's on Saturday: it's your father's birthday, don't you remember? We're having a surprise dinner party with them.\nSon: Oh, you're right. Then we can go. I can't wait: I love pizza!"
+            },
+            {
+              "question_number": 17,
+              "question": "You will hear two friends talking. When does the football match start?",
+              "options": {
+                "A": "at 6.15",
+                "B": "at 6.45",
+                "C": "at 7.00"
+              },
+              "answer": "C",
+              "transcript": "Sam: Hurry up, Amanda. It's already quarter past six and the match begins in 45 minutes.\nAmanda: Don't worry, Sam. Roger and his father are going there by car. I asked him if he can drive us there, too. So we'll be there by six forty-five.\nSam: Good. So we'll have time to buy some drinks as well before it starts at seven."
+            },
+            {
+              "question_number": 18,
+              "question": "You will hear a girl, Sue, talking to her friend. What is she doing in the afternoon?",
+              "options": {
+                "A": "working as a dog-sitter",
+                "B": "going to the cinema",
+                "C": "visiting her grandad"
+              },
+              "answer": "B",
+              "transcript": "Friend: Hi, Sue. Where have you been?\nSue: I was in the park with my aunt's dog. I always work as a dog-sitter on Saturday mornings.\nFriend: Cool! Shall we go to the cinema after lunch?\nSue: OK, but we'll have to go to the 2.30 show because I'm having dinner at my grandfather's this evening."
+            },
+            {
+              "question_number": 19,
+              "question": "You will hear a man and a woman talking about buying a TV. What size do they want to buy?",
+              "options": {
+                "A": "smaller than their TV at home",
+                "B": "bigger than their TV at home",
+                "C": "the same size as their TV at home"
+              },
+              "answer": "A",
+              "transcript": "Man: Cindy, how about this TV on the second shelf? It looks perfect for the kitchen.\nCindy: I don't know. It looks as large as the one we have in the living room... it might be too big for the cupboard near the fridge.\nMan: Maybe you're right. Let's get a smaller one. We need more space to cook in the kitchen."
+            },
+            {
+              "question_number": 20,
+              "question": "You will hear a boy talking to his friend. What is he going to buy to his grandmother?",
+              "options": {
+                "A": "shoes",
+                "B": "gloves",
+                "C": "earrings"
+              },
+              "answer": "C",
+              "transcript": "Boy: What shall I get my grandmother for her birthday?\nFriend: Well, she really loves shoes. Why don't you buy the pair near the gloves in that shop window?\nBoy: I'm not sure about her size…\nFriend: Then I'm sure she'll love these: she always wears jewellery, doesn't she? And she has a necklace that goes with them, too."
+            }
+          ]
+        },
+        {
+          "part": 5,
+          "title": "Listening - Part 5",
+          "question_range": "21-25",
+          "type": "matching",
+          "instructions": "For each question, choose the correct answer.",
+          "context": "You will hear Nick talking to a friend about his Christmas presents. What present did each person give him?",
+          "audio": {
+            "track_number": 35,
+            "file_name": "A2 Key TK_35.mp3",
+            "relative_path": "audio/A2 Key TK_35.mp3"
+          },
+          "pdf_pages": [
+            12
+          ],
+          "page_images": [
+            "extracted_data/images/test_7/page_12.png"
+          ],
+          "example": {
+            "0": {
+              "item": "Uncle",
+              "answer": "H",
+              "value": "computer game"
+            }
+          },
+          "left_column_title": "PEOPLE",
+          "right_column_title": "PRESENTS",
+          "options": {
+            "A": "T-shirt",
+            "B": "money",
+            "C": "book",
+            "D": "music CD",
+            "E": "mobile phone",
+            "F": "jacket",
+            "G": "skateboard",
+            "H": "computer game"
+          },
+          "questions": [
+            {
+              "question_number": 21,
+              "item": "Grandfather",
+              "answer": "G"
+            },
+            {
+              "question_number": 22,
+              "item": "Sister",
+              "answer": "F"
+            },
+            {
+              "question_number": 23,
+              "item": "Aunt",
+              "answer": "B"
+            },
+            {
+              "question_number": 24,
+              "item": "Mum",
+              "answer": "C"
+            },
+            {
+              "question_number": 25,
+              "item": "Brother",
+              "answer": "D"
+            }
+          ],
+          "transcript": "Tina: Hi Nick. What are you playing?\nNick: It's a new computer game that my uncle gave me for Christmas. It's great!\nTina: Cool. What did you get from your grandfather? Did he buy you a new mobile phone?\nNick: I asked for one, but my mum said it was too expensive, so he bought me a skateboard.\nTina: What did your sister get you this year? Another T-shirt?\nNick: No, actually she gave me this jacket I'm wearing. What do you think?\nTina: Nice! You usually get a book from your aunt, don't you?\nNick: Yes, you're right. She usually gives me a book, but she gave me some money this year. It was quite a surprise!\nTina: And what about your mum?\nNick: Well, she bought me a book. I haven't read it yet.\nTina: I bet your brother got you some music.\nNick: Yes, he got me this awesome new CD. In fact, let's listen to it now!"
+        }
+      ]
+    }
+  }
+}

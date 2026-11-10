@@ -1,0 +1,770 @@
+{
+  "test_id": "test_2",
+  "test_number": 2,
+  "title": "Ready for A2 Key for Schools - Test 2",
+  "source_pdf": "Test 2.pdf",
+  "key_pdf": "Ready for A2 Key for Schools 8 test - KEY.pdf",
+  "papers": {
+    "reading_and_writing": {
+      "paper": "Paper 1: Reading and Writing",
+      "book_pages": "28-37",
+      "parts": [
+        {
+          "part": 1,
+          "title": "Reading - Part 1",
+          "question_range": "1-6",
+          "type": "multiple_choice_short_texts",
+          "instructions": "For each question, choose the correct answer.",
+          "pdf_pages": [
+            1,
+            2
+          ],
+          "page_images": [
+            "extracted_data/images/test_2/page_1.png",
+            "extracted_data/images/test_2/page_2.png"
+          ],
+          "questions": [
+            {
+              "question_number": 1,
+              "stimulus_type": "email",
+              "stimulus_header": "From: Ewan | To: Andy",
+              "stimulus_text": "Andy, I need to borrow your laptop. Mine broke yesterday. Can I come and pick it up after dinner? Write soon!",
+              "question": "What does Ewan want Andy to do?",
+              "options": {
+                "A": "go and buy a laptop with him",
+                "B": "bring him his laptop after dinner",
+                "C": "lend him his laptop"
+              },
+              "answer": "C",
+              "images": {
+                "stimulus": "extracted_data/images/test_2/reading_p1_q1_stimulus.png",
+                "full_question": "extracted_data/images/test_2/reading_p1_q1_full.png"
+              }
+            },
+            {
+              "question_number": 2,
+              "stimulus_type": "sign",
+              "stimulus_header": "SCHOOL CANTEEN",
+              "stimulus_text": "MAKE SURE YOUR TABLE IS CLEAN BEFORE YOU LEAVE",
+              "question": null,
+              "options": {
+                "A": "The table may be clean before you eat.",
+                "B": "You must clean the table at the end of your meal.",
+                "C": "You should leave the table before you clean it."
+              },
+              "answer": "B",
+              "images": {
+                "stimulus": "extracted_data/images/test_2/reading_p1_q2_stimulus.png",
+                "full_question": "extracted_data/images/test_2/reading_p1_q2_full.png"
+              }
+            },
+            {
+              "question_number": 3,
+              "stimulus_type": "screen_notice",
+              "stimulus_header": null,
+              "stimulus_text": "Press any key to start the game",
+              "question": null,
+              "options": {
+                "A": "Do not press any key if you want to play.",
+                "B": "You can't play if you don't press a key.",
+                "C": "When the game starts press any key."
+              },
+              "answer": "B",
+              "images": {
+                "stimulus": "extracted_data/images/test_2/reading_p1_q3_stimulus.png",
+                "full_question": "extracted_data/images/test_2/reading_p1_q3_full.png"
+              }
+            },
+            {
+              "question_number": 4,
+              "stimulus_type": "sign",
+              "stimulus_header": null,
+              "stimulus_text": "Please return each book to the correct shelf",
+              "question": null,
+              "options": {
+                "A": "Put the books you use back on their shelves.",
+                "B": "Check that the right books are on each shelf.",
+                "C": "You mustn't take any books from the shelf."
+              },
+              "answer": "A",
+              "images": {
+                "stimulus": "extracted_data/images/test_2/reading_p1_q4_stimulus.png",
+                "full_question": "extracted_data/images/test_2/reading_p1_q4_full.png"
+              }
+            },
+            {
+              "question_number": 5,
+              "stimulus_type": "sign",
+              "stimulus_header": "Wildlife Park",
+              "stimulus_text": "30% off the ticket for groups of 10 or more\nAsk at ticket office",
+              "question": null,
+              "options": {
+                "A": "You'll get a discount if you buy 30 tickets.",
+                "B": "You will enjoy the park more if you are in a group.",
+                "C": "The ticket is more expensive if you are alone."
+              },
+              "answer": "C",
+              "images": {
+                "stimulus": "extracted_data/images/test_2/reading_p1_q5_stimulus.png",
+                "full_question": "extracted_data/images/test_2/reading_p1_q5_full.png"
+              }
+            },
+            {
+              "question_number": 6,
+              "stimulus_type": "text_message",
+              "stimulus_header": null,
+              "stimulus_text": "Hi Annie, can you ring the sports centre to book the tennis court for our match? I'll bring the money when we meet there tomorrow.",
+              "question": "Terry wants Annie to",
+              "options": {
+                "A": "pay for the tennis court.",
+                "B": "give him some money.",
+                "C": "make a phone call."
+              },
+              "answer": "C",
+              "images": {
+                "stimulus": "extracted_data/images/test_2/reading_p1_q6_stimulus.png",
+                "full_question": "extracted_data/images/test_2/reading_p1_q6_full.png"
+              }
+            }
+          ]
+        },
+        {
+          "part": 2,
+          "title": "Reading - Part 2",
+          "question_range": "7-13",
+          "type": "multiple_matching",
+          "note": "Pages 30-31 (Reading Part 2) and Pages 36-37 (Writing Parts 6-7) are omitted in Test 2.pdf scan; answer key from KEY.pdf is included.",
+          "answers_only": {
+            "7": "A",
+            "8": "B",
+            "9": "B",
+            "10": "C",
+            "11": "A",
+            "12": "C",
+            "13": "B"
+          }
+        },
+        {
+          "part": 3,
+          "title": "Reading - Part 3",
+          "question_range": "14-18",
+          "type": "reading_comprehension_multiple_choice",
+          "instructions": "For each question, choose the correct answer.",
+          "pdf_pages": [
+            3,
+            4
+          ],
+          "page_images": [
+            "extracted_data/images/test_2/page_3.png",
+            "extracted_data/images/test_2/page_4.png"
+          ],
+          "passage_title": "MY ORGANIC GARDEN",
+          "passage_author": "by Larry Davidson, age 13",
+          "passage_text": "Last year my family and I started to make our own fruit and vegetable garden. We wanted to do something for our planet so we decided to grow our own plants organically. This means that we only use natural ways to look after them. For example, we put our old fruit and vegetables on the ground where the plants grow, but other people just throw all their old food in the bin. Also, now we grow our own fruit and vegetables, so we don't need to buy them.\n\nHaving an organic garden is clearly a healthier option because the fruit and vegetables you grow will be safe for people and animals, too. We had to work very hard. At first, we were afraid because we might not have enough time to do everything, but then we realised that each of us could look after the garden on different days.\n\nTo make our garden we used a large wooden box which was about the size of our kitchen table. We cleaned it and made 20 holes at the bottom for the water to drain out. We covered the holes with some little stones and the soil where the plants could grow.\n\nThen we planted very tiny plants and watered them every day. On the left we planted tomatoes, onions, carrots and potatoes, while on the right there were a few melons and strawberries. In about a month we picked our first fruits and vegetables. We were so excited when he had them for dinner!",
+          "questions": [
+            {
+              "question_number": 14,
+              "question": "Why did Larry and his family build an organic garden?",
+              "options": {
+                "A": "to save money on vegetables and fruit",
+                "B": "to help the natural world",
+                "C": "to stop making so much rubbish"
+              },
+              "answer": "B"
+            },
+            {
+              "question_number": 15,
+              "question": "How did Larry feel in the beginning?",
+              "options": {
+                "A": "tired because he spent the whole day on the garden",
+                "B": "lucky because he could eat a lot of healthy food",
+                "C": "worried because it could be too much work"
+              },
+              "answer": "C"
+            },
+            {
+              "question_number": 16,
+              "question": "Who looked after the garden?",
+              "options": {
+                "A": "only Larry",
+                "B": "only Larry's family",
+                "C": "both Larry and his family"
+              },
+              "answer": "C"
+            },
+            {
+              "question_number": 17,
+              "question": "How big was the box Larry used for the garden?",
+              "options": {
+                "A": "smaller than a table",
+                "B": "as large as a table",
+                "C": "larger than a table"
+              },
+              "answer": "B"
+            },
+            {
+              "question_number": 18,
+              "question": "What does Larry say about the fruits and vegetables he planted?",
+              "options": {
+                "A": "The vegetables and fruit were in different parts.",
+                "B": "The plants were very small, but delicious.",
+                "C": "They first ate the fruit, then the vegetables."
+              },
+              "answer": "A"
+            }
+          ]
+        },
+        {
+          "part": 4,
+          "title": "Reading - Part 4",
+          "question_range": "19-24",
+          "type": "multiple_choice_cloze",
+          "instructions": "For each question, choose the correct answer.",
+          "pdf_pages": [
+            5
+          ],
+          "page_images": [
+            "extracted_data/images/test_2/page_5.png"
+          ],
+          "passage_title": "FUN FACTS ABOUT ELEPHANTS",
+          "passage_text": "The elephant belongs to the mammal family. It is (19) ___ world's largest land animal. African elephants can be three meters tall and they can be as (20) ___ as 7,500kg, while Asian Elephants are a bit smaller.\nThey are known for their large ears and trunks. They also have long teeth called 'tusks' that never stop growing, so (21) ___ the tusks are very large, the elephant is really old.\nThese magnificent mammals spend between twelve to eighteen hours eating grass, plants and fruit (22) ___ day!\nSadly, elephants are in danger. (23) ___ are killed by humans for their tusks, and in Asia tourists pay to (24) ___ on their backs or watch them paint pictures with their trunks.",
+          "questions": [
+            {
+              "question_number": 19,
+              "options": {
+                "A": "the",
+                "B": "one",
+                "C": "a"
+              },
+              "answer": "A"
+            },
+            {
+              "question_number": 20,
+              "options": {
+                "A": "heavy",
+                "B": "big",
+                "C": "large"
+              },
+              "answer": "A"
+            },
+            {
+              "question_number": 21,
+              "options": {
+                "A": "however",
+                "B": "if",
+                "C": "then"
+              },
+              "answer": "B"
+            },
+            {
+              "question_number": 22,
+              "options": {
+                "A": "some",
+                "B": "all",
+                "C": "every"
+              },
+              "answer": "C"
+            },
+            {
+              "question_number": 23,
+              "options": {
+                "A": "None",
+                "B": "Much",
+                "C": "Many"
+              },
+              "answer": "C"
+            },
+            {
+              "question_number": 24,
+              "options": {
+                "A": "ride",
+                "B": "drive",
+                "C": "seat"
+              },
+              "answer": "A"
+            }
+          ]
+        },
+        {
+          "part": 5,
+          "title": "Reading - Part 5",
+          "question_range": "25-30",
+          "type": "open_cloze",
+          "instructions": "For each question, choose the correct answer. Write ONE word for each gap.",
+          "pdf_pages": [
+            6
+          ],
+          "page_images": [
+            "extracted_data/images/test_2/page_6.png"
+          ],
+          "example": {
+            "0": "into"
+          },
+          "email_header": {
+            "From": "Elizabeth",
+            "To": "Daniel"
+          },
+          "passage_text": "Hi Daniel,\n\nI've just moved (0) [into] our new home. It's very (25) ___ to the sea so there's a wonderful view of the beach. It's also really big: (26) ___ it's three floors and a large garden.\n\nI (27) ___ to share a room with my brother, but I don't mind because this new room is (29) [larger] ___ my old bedroom. Also, I'm (28) ___ to have my own bathroom soon.\n\nDo you want to come to my house this afternoon? Bring (30) ___ DVDs so we can watch a film together!\n\nElizabeth",
+          "note": "In the printed book page 35, gap (26) is printed as '(26) ___ it's three floors' where 'it's' is 'it has' and KEY gives 'got' (i.e. it's got three floors), and gap (28)/(29) are swapped in numbering order in the paragraph ('is (29) ___ arger my old bedroom. Also, I'm (28) ___ to have').",
+          "questions": [
+            {
+              "question_number": 25,
+              "answer": "close",
+              "accepted_answers": [
+                "close",
+                "near"
+              ]
+            },
+            {
+              "question_number": 26,
+              "answer": "got",
+              "accepted_answers": [
+                "got"
+              ]
+            },
+            {
+              "question_number": 27,
+              "answer": "have",
+              "accepted_answers": [
+                "have",
+                "need"
+              ]
+            },
+            {
+              "question_number": 28,
+              "answer": "going",
+              "accepted_answers": [
+                "going"
+              ]
+            },
+            {
+              "question_number": 29,
+              "answer": "than",
+              "accepted_answers": [
+                "than"
+              ]
+            },
+            {
+              "question_number": 30,
+              "answer": "some",
+              "accepted_answers": [
+                "some"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "listening": {
+      "paper": "Paper 2: Listening",
+      "book_pages": "38-43",
+      "parts": [
+        {
+          "part": 1,
+          "title": "Listening - Part 1",
+          "question_range": "1-5",
+          "type": "multiple_choice_pictures",
+          "instructions": "For each question, choose the correct picture.",
+          "audio": {
+            "track_number": 6,
+            "file_name": "A2 Key TK_6.mp3",
+            "relative_path": "audio/A2 Key TK_6.mp3"
+          },
+          "pdf_pages": [
+            7,
+            8
+          ],
+          "page_images": [
+            "extracted_data/images/test_2/page_7.png",
+            "extracted_data/images/test_2/page_8.png"
+          ],
+          "questions": [
+            {
+              "question_number": 1,
+              "question": "How is James going to school tomorrow?",
+              "options_descriptions": {
+                "A": "By scooter",
+                "B": "By car",
+                "C": "By school bus"
+              },
+              "answer": "B",
+              "transcript": "James: Mum, can you drive me to school tomorrow? My scooter is broken.\nMum: Can't you get the school bus, as usual?\nJames: The school bus driver is sick, so I need to get to school another way.\nMum: All right, we'll leave tomorrow at 7.00. Don't be late!",
+              "images": {
+                "question_and_options": "extracted_data/images/test_2/listening_p1_q1.png",
+                "options_row": "extracted_data/images/test_2/listening_p1_q1_options.png",
+                "option_A": "extracted_data/images/test_2/listening_p1_q1_opt_A.png",
+                "option_B": "extracted_data/images/test_2/listening_p1_q1_opt_B.png",
+                "option_C": "extracted_data/images/test_2/listening_p1_q1_opt_C.png"
+              }
+            },
+            {
+              "question_number": 2,
+              "question": "Why is Trevor tired?",
+              "options_descriptions": {
+                "A": "Playing football",
+                "B": "At a party",
+                "C": "At a rock concert"
+              },
+              "answer": "C",
+              "transcript": "Girl: Hey Trevor, are you going to the football practice this evening.\nTrevor: I'm not sure, I'm really tired!\nGirl: Maybe it's because you went to Tina's party last night...\nTrevor: Actually I didn't. My brother had two tickets to see our favorite band so we went, but it finished after midnight.\nGirl: Oh, I see...",
+              "images": {
+                "question_and_options": "extracted_data/images/test_2/listening_p1_q2.png",
+                "options_row": "extracted_data/images/test_2/listening_p1_q2_options.png",
+                "option_A": "extracted_data/images/test_2/listening_p1_q2_opt_A.png",
+                "option_B": "extracted_data/images/test_2/listening_p1_q2_opt_B.png",
+                "option_C": "extracted_data/images/test_2/listening_p1_q2_opt_C.png"
+              }
+            },
+            {
+              "question_number": 3,
+              "question": "Which type of film does Angela enjoy?",
+              "options_descriptions": {
+                "A": "Horror film",
+                "B": "Action / superhero film",
+                "C": "Wildlife documentary (polar bear)"
+              },
+              "answer": "C",
+              "transcript": "Boy: Do you want to go and see that new horror film?\nAngela: I saw that yesterday. It was too scary, but it had some funny scenes as well. I laughed a bit. Let's go and see 'Wild Animals' instead.\nBoy: Really? You don't like documentaries on wild animals!\nAngela: Well, they're better than horrors!",
+              "images": {
+                "question_and_options": "extracted_data/images/test_2/listening_p1_q3.png",
+                "options_row": "extracted_data/images/test_2/listening_p1_q3_options.png",
+                "option_A": "extracted_data/images/test_2/listening_p1_q3_opt_A.png",
+                "option_B": "extracted_data/images/test_2/listening_p1_q3_opt_B.png",
+                "option_C": "extracted_data/images/test_2/listening_p1_q3_opt_C.png"
+              }
+            },
+            {
+              "question_number": 4,
+              "question": "Where will the boy and the girl meet tomorrow?",
+              "options_descriptions": {
+                "A": "At a house",
+                "B": "At the bus stop",
+                "C": "At the swimming pool"
+              },
+              "answer": "A",
+              "transcript": "Boy: Shall we go to the swimming pool together?\nGirl: Sure, let's take the bus at 5.\nBoy: Well, actually my father said he can drive us there today. He needs to go into town anyway. We can come and pick you up from home at around ten past five.\nGirl: Sounds great. See you later, then.",
+              "images": {
+                "question_and_options": "extracted_data/images/test_2/listening_p1_q4.png",
+                "options_row": "extracted_data/images/test_2/listening_p1_q4_options.png",
+                "option_A": "extracted_data/images/test_2/listening_p1_q4_opt_A.png",
+                "option_B": "extracted_data/images/test_2/listening_p1_q4_opt_B.png",
+                "option_C": "extracted_data/images/test_2/listening_p1_q4_opt_C.png"
+              }
+            },
+            {
+              "question_number": 5,
+              "question": "Which T-shirt is Paul going to buy?",
+              "options_descriptions": {
+                "A": "Striped T-shirt",
+                "B": "Plain yellow/orange T-shirt",
+                "C": "Plain white T-shirt"
+              },
+              "answer": "B",
+              "transcript": "Girl: So which of these three do you like best?\nPaul: Well, I really like the striped one but it's too big for me.\nGirl: That's a shame. They haven't got any white T-shirts. How about this yellow one here?\nPaul: OK, good idea. I'll get that one for a change.",
+              "images": {
+                "question_and_options": "extracted_data/images/test_2/listening_p1_q5.png",
+                "options_row": "extracted_data/images/test_2/listening_p1_q5_options.png",
+                "option_A": "extracted_data/images/test_2/listening_p1_q5_opt_A.png",
+                "option_B": "extracted_data/images/test_2/listening_p1_q5_opt_B.png",
+                "option_C": "extracted_data/images/test_2/listening_p1_q5_opt_C.png"
+              }
+            }
+          ]
+        },
+        {
+          "part": 2,
+          "title": "Listening - Part 2",
+          "question_range": "6-10",
+          "type": "gap_fill_notes",
+          "instructions": "For each question, write the correct answer in the gap. Write one word or a number or a date or a time.",
+          "context": "You will hear a teacher telling her students about a week at the Arts Centre they take part in.",
+          "audio": {
+            "track_number": 7,
+            "file_name": "A2 Key TK_7.mp3",
+            "relative_path": "audio/A2 Key TK_7.mp3"
+          },
+          "pdf_pages": [
+            9
+          ],
+          "page_images": [
+            "extracted_data/images/test_2/page_9.png"
+          ],
+          "form_title": "THE ARTS CENTRE",
+          "example": {
+            "label": "Centre open",
+            "value": "July to September"
+          },
+          "questions": [
+            {
+              "question_number": 6,
+              "label": "One week starting on",
+              "prefix": "",
+              "suffix": "July",
+              "answer": "17th",
+              "accepted_answers": [
+                "17th",
+                "17"
+              ]
+            },
+            {
+              "question_number": 7,
+              "label": "Afternoon activities",
+              "prefix": "",
+              "suffix": ", photography",
+              "answer": "dancing",
+              "accepted_answers": [
+                "dancing"
+              ]
+            },
+            {
+              "question_number": 8,
+              "label": "Students age",
+              "prefix": "11-",
+              "suffix": "",
+              "answer": "15",
+              "accepted_answers": [
+                "15",
+                "fifteen"
+              ]
+            },
+            {
+              "question_number": 9,
+              "label": "Weekend activities",
+              "prefix": "trips and",
+              "suffix": "",
+              "answer": "museums",
+              "accepted_answers": [
+                "museums",
+                "museum"
+              ]
+            },
+            {
+              "question_number": 10,
+              "label": "Cost",
+              "prefix": "£",
+              "suffix": "",
+              "answer": "139",
+              "accepted_answers": [
+                "139"
+              ]
+            }
+          ],
+          "transcript": "Right everyone. Just some information on The Arts Centre that is open from July to September. You will leave at half past nine on the 17th and get there in about half an hour. During the week you will spend there, you will have several activities to choose from: students can do painting or drawing from 8 a.m. to midday, while after lunch those who are interested can try dancing or photography.\nThe courses are available for students aged 11 to 15, but remember your parents have to fill in a form where they agree to let you do the courses.\nDuring the week at the Arts Centre you will also be able to take part in weekend activities: Unfortunately we won't be able to take you to the swimming pool as we did last year but we will go on a trip to London and visit museums as well. The cost of the week, which includes accommodation and meals, is 139 pounds, so please remember to bring the money by Thursday."
+        },
+        {
+          "part": 3,
+          "title": "Listening - Part 3",
+          "question_range": "11-15",
+          "type": "multiple_choice_conversation",
+          "instructions": "For each question, choose the correct answer.",
+          "context": "You will hear Adam talking about a cooking class he did.",
+          "audio": {
+            "track_number": 8,
+            "file_name": "A2 Key TK_8.mp3",
+            "relative_path": "audio/A2 Key TK_8.mp3"
+          },
+          "pdf_pages": [
+            10
+          ],
+          "page_images": [
+            "extracted_data/images/test_2/page_10.png"
+          ],
+          "questions": [
+            {
+              "question_number": 11,
+              "question": "Why did Adam enjoy doing the cooking course?",
+              "options": {
+                "A": "He enjoys eating.",
+                "B": "He wants to be a chef.",
+                "C": "His mother is a professional cook."
+              },
+              "answer": "A"
+            },
+            {
+              "question_number": 12,
+              "question": "How long did the class last?",
+              "options": {
+                "A": "3 hours",
+                "B": "1 day",
+                "C": "30 minutes"
+              },
+              "answer": "B"
+            },
+            {
+              "question_number": 13,
+              "question": "What did Adam learn at the course?",
+              "options": {
+                "A": "how to mix ingredients",
+                "B": "how to make dishes with simple foods",
+                "C": "how to choose fresh vegetables"
+              },
+              "answer": "B"
+            },
+            {
+              "question_number": 14,
+              "question": "How many students were there?",
+              "options": {
+                "A": "13",
+                "B": "30",
+                "C": "14"
+              },
+              "answer": "C"
+            },
+            {
+              "question_number": 15,
+              "question": "Next month Adam will probably",
+              "options": {
+                "A": "do a course on desserts.",
+                "B": "learn to make vegetarian dishes.",
+                "C": "try to invent a new dish."
+              },
+              "answer": "B"
+            }
+          ],
+          "transcript": "Girl: Hi Adam. Jessie told me you've decided to learn how to cook. How is the course you're doing?\nAdam: Well, it was my mother who told me to do it. At first I thought it wouldn't be so interesting as I don't want to be a chef like her. But half an hour after the class started, I realised it was a great opportunity: you know how I love good food, so making dishes can be great fun.\nGirl: I'm sure it was great way to spend the day.\nAdam: It was! And being in a kitchen from morning to evening was a very interesting experience. After the first half hour when the teacher told us what to use, it took me only three hours to make a very special meal with very simple foods such as cheese, vegetables and eggs. When I got back in the evening I was really happy about the results.\nGirl: Was the kitchen large?\nAdam: Very large. There were 14 of us, but we had enough space to work.\nGirl: So are you going to the course on desserts next month?\nAdam: I'd love to, but I don't think I'll have enough time because next month I have a lot of tests. Anyway I'd like to keep working in the kitchen by myself. I'd like to try to make a meal for my vegetarian grandmother. She really loves trying new dishes so I'll see what I can do: I have an interesting cookbook with a lot of wonderful vegetable dishes!\nGirl: Sounds great! I hope you'll invite me too."
+        },
+        {
+          "part": 4,
+          "title": "Listening - Part 4",
+          "question_range": "16-20",
+          "type": "multiple_choice_short_extracts",
+          "instructions": "For each question, choose the correct answer.",
+          "audio": {
+            "track_number": 9,
+            "file_name": "A2 Key TK_9.mp3",
+            "relative_path": "audio/A2 Key TK_9.mp3"
+          },
+          "pdf_pages": [
+            11
+          ],
+          "page_images": [
+            "extracted_data/images/test_2/page_11.png"
+          ],
+          "questions": [
+            {
+              "question_number": 16,
+              "question": "You will hear a boy and a girl talking about a concert. What do they agree about?",
+              "options": {
+                "A": "They both like the band very much.",
+                "B": "It costs too much.",
+                "C": "It's not as interesting as going to the cinema."
+              },
+              "answer": "A",
+              "transcript": "Boy: Are you going to the 'Shooting Stars' concert tomorrow? I love them!\nGirl: I'm not sure. I think the tickets are too expensive.\nBoy: I think the price is OK, actually. I went to the cinema last weekend and that cost nine pounds. And seeing a band live on stage is much more fun!\nGirl: Well, I'll think about it. After all they're my favourite band."
+            },
+            {
+              "question_number": 17,
+              "question": "You will hear a boy talking about his teacher. Where is the teacher from?",
+              "options": {
+                "A": "France",
+                "B": "Canada",
+                "C": "Africa"
+              },
+              "answer": "C",
+              "transcript": "Boy: This year we have a new French teacher. He's really cool. He told us he studied in France, but he was born in Djibouti, which is an African country on the Red Sea. His first job was as a tour guide for a Canadian travel company. But last year he decided to do something more useful for children, so he chose to become a teacher."
+            },
+            {
+              "question_number": 18,
+              "question": "You will hear a girl, Lisa, talking with her father. What does she want him to do?",
+              "options": {
+                "A": "help her with Maths",
+                "B": "take her to the park for a bike ride",
+                "C": "explain something to her"
+              },
+              "answer": "C",
+              "transcript": "Dad: Have you finished your Maths homework, Lisa?\nLisa: Yes, thanks for helping me, Dad. I still have to do my Science homework, but I don't think it will take too long.\nDad: So maybe we can go cycling in the park in half an hour?\nLisa: Mmm, I don't know, Dad. I've got a French test tomorrow but I don't understand some words. Can you tell me what they mean?\nDad: I can try. Let me see."
+            },
+            {
+              "question_number": 19,
+              "question": "You will hear two friends planning the weekend. What are they going to do?",
+              "options": {
+                "A": "go to the mountains",
+                "B": "go to the beach",
+                "C": "go to countryside"
+              },
+              "answer": "A",
+              "transcript": "A: I can't wait to get away from the city this weekend!\nB: I know. I need some fresh air. Now, don't forget to pack a scarf. It gets really cold when you're at the top.\nA: True, but you get a great view of the sea from high up there.\nB: Oh, and remember your sunglasses too. When it's sunny it's difficult to see with all the snow."
+            },
+            {
+              "question_number": 20,
+              "question": "You will hear two friends talking about a school play. What does Jack think about it?",
+              "options": {
+                "A": "His classmates were good at acting.",
+                "B": "Some actors were not ready for their parts.",
+                "C": "The play was a bit boring."
+              },
+              "answer": "B",
+              "transcript": "Girl: Hey Jack, did you like the play we saw this morning?\nJack: Well, I thought it would be more boring, but I actually enjoyed seeing our classmates take part.\nGirl: Oh, yes, that was fun, but maybe a few of them should have learnt their part better.\nJack: I know, but there was very little time: they only had two weeks to get ready for the play!"
+            }
+          ]
+        },
+        {
+          "part": 5,
+          "title": "Listening - Part 5",
+          "question_range": "21-25",
+          "type": "matching",
+          "instructions": "For each question, choose the correct answer.",
+          "context": "You will hear Kevin talking to his father about a science project. What will each classmate do?",
+          "audio": {
+            "track_number": 10,
+            "file_name": "A2 Key TK_10.mp3",
+            "relative_path": "audio/A2 Key TK_10.mp3"
+          },
+          "pdf_pages": [
+            12
+          ],
+          "page_images": [
+            "extracted_data/images/test_2/page_12.png"
+          ],
+          "example": {
+            "0": {
+              "item": "Kevin",
+              "answer": "H",
+              "value": "monkeys"
+            }
+          },
+          "left_column_title": "PEOPLE",
+          "right_column_title": "SCIENCE PROJECT",
+          "options": {
+            "A": "bees",
+            "B": "penguins",
+            "C": "butterflies",
+            "D": "spiders",
+            "E": "fish",
+            "F": "horses",
+            "G": "lions",
+            "H": "monkeys"
+          },
+          "questions": [
+            {
+              "question_number": 21,
+              "item": "Jason",
+              "answer": "D"
+            },
+            {
+              "question_number": 22,
+              "item": "Amanda",
+              "answer": "B"
+            },
+            {
+              "question_number": 23,
+              "item": "Lenny",
+              "answer": "E"
+            },
+            {
+              "question_number": 24,
+              "item": "Phil",
+              "answer": "G"
+            },
+            {
+              "question_number": 25,
+              "item": "Sally",
+              "answer": "A"
+            }
+          ],
+          "transcript": "Kevin: Hey Dad, can you help me do some research on monkeys? We're doing a science project on wild animals and I've got to write a few pages for next week.\nDad: Sure. What are your classmates doing?\nKevin: Well, my best friend Jason has the most interesting project: he has to study spiders. You know I love spiders.\nDad: How about Amanda? I know she really likes horse riding. Is she going to write about horses?\nKevin: No, actually she chose penguins because her father took some photos when he was in Antarctica. And Lenny has already finished his project on fish.\nDad: Is Phil doing his research on lions? I know he loves big cats.\nKevin: Yes, he is. And Sally wants to study bees: she wants to tell us how they make honey.\nDad: That's interesting!"
+        }
+      ]
+    }
+  }
+}

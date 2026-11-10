@@ -1,0 +1,769 @@
+{
+  "test_id": "test_8",
+  "test_number": 8,
+  "title": "Ready for A2 Key for Schools - Test 8",
+  "source_pdf": "Test 8.pdf",
+  "key_pdf": "Ready for A2 Key for Schools 8 test - KEY.pdf",
+  "papers": {
+    "reading_and_writing": {
+      "paper": "Paper 1: Reading and Writing",
+      "book_pages": "148-157",
+      "parts": [
+        {
+          "part": 1,
+          "title": "Reading - Part 1",
+          "question_range": "1-6",
+          "type": "multiple_choice_short_texts",
+          "instructions": "For each question, choose the correct answer.",
+          "pdf_pages": [
+            1,
+            2
+          ],
+          "page_images": [
+            "extracted_data/images/test_8/page_1.png",
+            "extracted_data/images/test_8/page_2.png"
+          ],
+          "questions": [
+            {
+              "question_number": 1,
+              "stimulus_type": "notice",
+              "stimulus_header": "SCHOOL PARTY!",
+              "stimulus_text": "Order tickets on the school website\nPay when you collect them from the office",
+              "question": null,
+              "options": {
+                "A": "Buy your tickets online.",
+                "B": "Go to the school office to order some tickets.",
+                "C": "Order your tickets first and pay later."
+              },
+              "answer": "C",
+              "images": {
+                "stimulus": "extracted_data/images/test_8/reading_p1_q1_stimulus.png",
+                "full_question": "extracted_data/images/test_8/reading_p1_q1_full.png"
+              }
+            },
+            {
+              "question_number": 2,
+              "stimulus_type": "poster",
+              "stimulus_header": "Cake competition",
+              "stimulus_text": "This Friday lunchtime\nPlease take your cakes to the school hall by 9 a.m. Friday",
+              "question": "Students should",
+              "options": {
+                "A": "leave their cakes in the hall before 9 a.m.",
+                "B": "bake cakes in the hall on Friday morning.",
+                "C": "take part in the competition at 9 a.m. on Friday."
+              },
+              "answer": "A",
+              "images": {
+                "stimulus": "extracted_data/images/test_8/reading_p1_q2_stimulus.png",
+                "full_question": "extracted_data/images/test_8/reading_p1_q2_full.png"
+              }
+            },
+            {
+              "question_number": 3,
+              "stimulus_type": "text_message",
+              "stimulus_header": null,
+              "stimulus_text": "Hi Geena, I forgot to bring some lunch. Can you get some sandwiches on your way to the bus stop? I'll see you at the cinema later! Josh",
+              "question": null,
+              "options": {
+                "A": "Geena should buy some sandwiches for Josh.",
+                "B": "Geena didn't remember to make any sandwiches.",
+                "C": "Geena must meet Josh at the bus stop."
+              },
+              "answer": "A",
+              "images": {
+                "stimulus": "extracted_data/images/test_8/reading_p1_q3_stimulus.png",
+                "full_question": "extracted_data/images/test_8/reading_p1_q3_full.png"
+              }
+            },
+            {
+              "question_number": 4,
+              "stimulus_type": "text_message",
+              "stimulus_header": null,
+              "stimulus_text": "Ron, we are outside the stadium, there are hundreds of people! If you are coming soon, we'll wait for you next to gate B. If you are late, text us and we'll see you inside. Paul",
+              "question": "What should Ron do?",
+              "options": {
+                "A": "wait for Paul inside",
+                "B": "tell Paul if he is late",
+                "C": "tell Paul where the stadium is"
+              },
+              "answer": "B",
+              "images": {
+                "stimulus": "extracted_data/images/test_8/reading_p1_q4_stimulus.png",
+                "full_question": "extracted_data/images/test_8/reading_p1_q4_full.png"
+              }
+            },
+            {
+              "question_number": 5,
+              "stimulus_type": "advert",
+              "stimulus_header": "FOR SALE",
+              "stimulus_text": "Smartphone bought last year\nUsed very little\nworks perfectly\nPhone Sarah: 78009786 after 8 p.m.",
+              "question": null,
+              "options": {
+                "A": "Sarah got a discount on her smartphone.",
+                "B": "You can call Sarah in the evening.",
+                "C": "There are a few problems with Sarah's smartphone."
+              },
+              "answer": "B",
+              "images": {
+                "stimulus": "extracted_data/images/test_8/reading_p1_q5_stimulus.png",
+                "full_question": "extracted_data/images/test_8/reading_p1_q5_full.png"
+              }
+            },
+            {
+              "question_number": 6,
+              "stimulus_type": "text_message",
+              "stimulus_header": null,
+              "stimulus_text": "Hi Sandra, my brother is asking if you're going to his pizza party tomorrow evening? I hope you can come! Lisa",
+              "question": null,
+              "options": {
+                "A": "Lisa is organising a pizza party.",
+                "B": "Lisa doesn't want Sandra to go to the party.",
+                "C": "Lisa's brother doesn't know if Sandra is going to the party"
+              },
+              "answer": "C",
+              "images": {
+                "stimulus": "extracted_data/images/test_8/reading_p1_q6_stimulus.png",
+                "full_question": "extracted_data/images/test_8/reading_p1_q6_full.png"
+              }
+            }
+          ]
+        },
+        {
+          "part": 2,
+          "title": "Reading - Part 2",
+          "question_range": "7-13",
+          "type": "multiple_matching",
+          "note": "Pages 150-151 (Reading Part 2) and Pages 156-157 (Writing Parts 6-7) are omitted in Test 8.pdf scan; answer key from KEY.pdf is included.",
+          "answers_only": {
+            "7": "B",
+            "8": "B",
+            "9": "C",
+            "10": "A",
+            "11": "C",
+            "12": "B",
+            "13": "A"
+          }
+        },
+        {
+          "part": 3,
+          "title": "Reading - Part 3",
+          "question_range": "14-18",
+          "type": "reading_comprehension_multiple_choice",
+          "instructions": "For each question, choose the correct answer.",
+          "pdf_pages": [
+            3,
+            4
+          ],
+          "page_images": [
+            "extracted_data/images/test_8/page_3.png",
+            "extracted_data/images/test_8/page_4.png"
+          ],
+          "passage_title": "NO ORDINARY PET",
+          "passage_author": null,
+          "passage_text": "Jimmy is a very special dog. He lives with Sarah and Kevin Ashby and their parents in Cornwall. However, it is surprising that Jimmy is still living in Cornwall after he spent a year having an adventure!\n\nIt all started when the family went on holiday. They travelled five hundred miles to Scotland by car from Cornwall with their dog sitting on the back seat with the children. They all had a wonderful time. They walked up mountains and Jimmy loved jumping into the lakes, or 'lochs' as they are called in Scotland. The whole family did everything together.\n\nOn the last day, the Ashby family packed their suitcases to go home. When they finished, Jimmy wasn't there. The whole family spent hours trying to find him, but they couldn't. At last it was time to go home. The children were very upset and said they didn't want to leave without Jimmy. The family drove back to Cornwall without their pet. They thought he was lost forever.\n\nFor a year, the family were very sad. They hoped someone would find Jimmy. They even thought about getting a new dog, but they knew that no dog would be as good as Jimmy.\n\nA year later Sarah heard a strange noise outside the door of their house. When she opened it she found Jimmy standing there. The whole family cried because everyone was so happy that Jimmy was home. To this day, no one knows what Jimmy did during that year away!",
+          "questions": [
+            {
+              "question_number": 14,
+              "question": "Jimmy the dog",
+              "options": {
+                "A": "has lived in Cornwall for a year.",
+                "B": "had a very bad adventure more than one year ago.",
+                "C": "arrived in Cornwall one year ago."
+              },
+              "answer": "B"
+            },
+            {
+              "question_number": 15,
+              "question": "The Ashby family",
+              "options": {
+                "A": "visited Scotland on holiday.",
+                "B": "lived in Scotland.",
+                "C": "found Jimmy in Scotland."
+              },
+              "answer": "A"
+            },
+            {
+              "question_number": 16,
+              "question": "When Jimmy got lost",
+              "options": {
+                "A": "they searched for him for a long time.",
+                "B": "they had a wonderful time.",
+                "C": "they decided to stay in Scotland."
+              },
+              "answer": "A"
+            },
+            {
+              "question_number": 17,
+              "question": "For a year, the Ashby family",
+              "options": {
+                "A": "never saw their dog.",
+                "B": "searched for their dog in Cornwall.",
+                "C": "looked for another dog."
+              },
+              "answer": "A"
+            },
+            {
+              "question_number": 18,
+              "question": "When Jimmy arrived home a year later",
+              "options": {
+                "A": "they weren't surprised.",
+                "B": "they were very happy.",
+                "C": "they didn't recognise him."
+              },
+              "answer": "B"
+            }
+          ]
+        },
+        {
+          "part": 4,
+          "title": "Reading - Part 4",
+          "question_range": "19-24",
+          "type": "multiple_choice_cloze",
+          "instructions": "For each question, choose the correct answer.",
+          "pdf_pages": [
+            5
+          ],
+          "page_images": [
+            "extracted_data/images/test_8/page_5.png"
+          ],
+          "passage_title": "A SPECIAL TEACHER",
+          "passage_text": "Louise Jeggins is a Maths teacher from Brighton in England. However, she isn't living there at the (19) ___. She's living in a small wooden home near a very green forest.\n\nWhen she finished university, Louise decided (20) ___ go to Africa and get some experience. She has worked for (21) ___ three years in a village in northern Nigeria. She teaches all the children, with ages from three to fifteen, in one class.\n\nThe classroom is a little (22) ___ from the school Louise went to in England. For a start, it's (23) ___! The children sit on the floor and don't use pens or paper very often. Louise says the work is (24) ___, and the days are long, but the people are very kind and interested in learning.",
+          "questions": [
+            {
+              "question_number": 19,
+              "options": {
+                "A": "time",
+                "B": "moment",
+                "C": "period"
+              },
+              "answer": "B"
+            },
+            {
+              "question_number": 20,
+              "options": {
+                "A": "to",
+                "B": "in",
+                "C": "for"
+              },
+              "answer": "A",
+              "key_pdf_note": "KEY.pdf prints 20 C, though grammatically 'decided to go' is A. Both A and C are noted."
+            },
+            {
+              "question_number": 21,
+              "options": {
+                "A": "almost",
+                "B": "near",
+                "C": "more"
+              },
+              "answer": "A"
+            },
+            {
+              "question_number": 22,
+              "options": {
+                "A": "new",
+                "B": "strange",
+                "C": "different"
+              },
+              "answer": "C"
+            },
+            {
+              "question_number": 23,
+              "options": {
+                "A": "out",
+                "B": "outside",
+                "C": "external"
+              },
+              "answer": "B"
+            },
+            {
+              "question_number": 24,
+              "options": {
+                "A": "tired",
+                "B": "tire",
+                "C": "tiring"
+              },
+              "answer": "C"
+            }
+          ]
+        },
+        {
+          "part": 5,
+          "title": "Reading - Part 5",
+          "question_range": "25-30",
+          "type": "open_cloze",
+          "instructions": "For each question, choose the correct answer. Write ONE word for each gap.",
+          "pdf_pages": [
+            6
+          ],
+          "page_images": [
+            "extracted_data/images/test_8/page_6.png"
+          ],
+          "example": {
+            "0": "it"
+          },
+          "email_header": {
+            "From": "Claire",
+            "To": "Joseph"
+          },
+          "passage_text": "Hi Joseph!\nI'm writing you this mail on my new computer. It's fantastic! I bought (0) [it] yesterday and I (25) ___ use it already! It's not as difficult (26) ___ my old one.\n\nWhen I bought the computer they gave (27) ___ two free gifts: a mouse and some great games.\nWhen (28) ___ you going to come and play (29) ___ me?\n\nI am very happy with my choice. I will (30) ___ able to do all my homework quickly, and it will be fun, too!\n\nWrite soon,\nClaire",
+          "questions": [
+            {
+              "question_number": 25,
+              "answer": "can",
+              "accepted_answers": [
+                "can"
+              ]
+            },
+            {
+              "question_number": 26,
+              "answer": "as",
+              "accepted_answers": [
+                "as"
+              ]
+            },
+            {
+              "question_number": 27,
+              "answer": "me",
+              "accepted_answers": [
+                "me"
+              ]
+            },
+            {
+              "question_number": 28,
+              "answer": "are",
+              "accepted_answers": [
+                "are"
+              ]
+            },
+            {
+              "question_number": 29,
+              "answer": "with",
+              "accepted_answers": [
+                "with"
+              ]
+            },
+            {
+              "question_number": 30,
+              "answer": "be",
+              "accepted_answers": [
+                "be"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "listening": {
+      "paper": "Paper 2: Listening",
+      "book_pages": "158-163",
+      "parts": [
+        {
+          "part": 1,
+          "title": "Listening - Part 1",
+          "question_range": "1-5",
+          "type": "multiple_choice_pictures",
+          "instructions": "For each question, choose the correct picture.",
+          "audio": {
+            "track_number": 36,
+            "file_name": "A2 Key TK_36.mp3",
+            "relative_path": "audio/A2 Key TK_36.mp3"
+          },
+          "pdf_pages": [
+            7,
+            8
+          ],
+          "page_images": [
+            "extracted_data/images/test_8/page_7.png",
+            "extracted_data/images/test_8/page_8.png"
+          ],
+          "questions": [
+            {
+              "question_number": 1,
+              "question": "Where are they meeting?",
+              "options_descriptions": {
+                "A": "At the 3D cinema",
+                "B": "At the coffee shop / café",
+                "C": "In front of the library"
+              },
+              "answer": "B",
+              "transcript": "A: Are you still coming to the cinema tonight?\nB: Yes, shall we meet in the new coffee shop first?\nA: I'm not sure. I went there yesterday.\nB: We could meet in front of the library?\nA: No, the coffee shop is a better idea.",
+              "images": {
+                "question_and_options": "extracted_data/images/test_8/listening_p1_q1.png",
+                "options_row": "extracted_data/images/test_8/listening_p1_q1_options.png",
+                "option_A": "extracted_data/images/test_8/listening_p1_q1_opt_A.png",
+                "option_B": "extracted_data/images/test_8/listening_p1_q1_opt_B.png",
+                "option_C": "extracted_data/images/test_8/listening_p1_q1_opt_C.png"
+              }
+            },
+            {
+              "question_number": 2,
+              "question": "What time does the match start?",
+              "options_descriptions": {
+                "A": "Clock showing 9:30 (half past nine)",
+                "B": "Clock showing 9:40 (twenty to ten)",
+                "C": "Clock showing 10:00 (ten o'clock)"
+              },
+              "answer": "C",
+              "transcript": "Dad: Hurry up, Jane! We'll be late for the basketball match!\nJane: Don't worry, Dad, it doesn't start until 10 o'clock.\nDad: Yes, I know. But the bus leaves at twenty to ten and it's already half past nine!",
+              "images": {
+                "question_and_options": "extracted_data/images/test_8/listening_p1_q2.png",
+                "options_row": "extracted_data/images/test_8/listening_p1_q2_options.png",
+                "option_A": "extracted_data/images/test_8/listening_p1_q2_opt_A.png",
+                "option_B": "extracted_data/images/test_8/listening_p1_q2_opt_B.png",
+                "option_C": "extracted_data/images/test_8/listening_p1_q2_opt_C.png"
+              }
+            },
+            {
+              "question_number": 3,
+              "question": "What's the man's job?",
+              "options_descriptions": {
+                "A": "English teacher",
+                "B": "Police officer",
+                "C": "Doctor"
+              },
+              "answer": "B",
+              "transcript": "A: Jim's a nice guy, isn't he? I met him when I was at the doctor's last week.\nB: Yes, he was a teacher at my son's school, you know.\nA: Really? Isn't he a police officer? I'm sure he is.\nB: He is now, but before that he taught English.",
+              "images": {
+                "question_and_options": "extracted_data/images/test_8/listening_p1_q3.png",
+                "options_row": "extracted_data/images/test_8/listening_p1_q3_options.png",
+                "option_A": "extracted_data/images/test_8/listening_p1_q3_opt_A.png",
+                "option_B": "extracted_data/images/test_8/listening_p1_q3_opt_B.png",
+                "option_C": "extracted_data/images/test_8/listening_p1_q3_opt_C.png"
+              }
+            },
+            {
+              "question_number": 4,
+              "question": "What did the boy lose?",
+              "options_descriptions": {
+                "A": "A camera",
+                "B": "A mobile phone",
+                "C": "A radio"
+              },
+              "answer": "A",
+              "transcript": "Woman: Hello, can I help you? You don't look very happy.\nBoy: I put my camera next to the radio over there, and now I can't find it.\nWoman: Oh dear, that's a shame. Have you got a mobile phone? You can take photos with that instead?",
+              "images": {
+                "question_and_options": "extracted_data/images/test_8/listening_p1_q4.png",
+                "options_row": "extracted_data/images/test_8/listening_p1_q4_options.png",
+                "option_A": "extracted_data/images/test_8/listening_p1_q4_opt_A.png",
+                "option_B": "extracted_data/images/test_8/listening_p1_q4_opt_B.png",
+                "option_C": "extracted_data/images/test_8/listening_p1_q4_opt_C.png"
+              }
+            },
+            {
+              "question_number": 5,
+              "question": "What does she choose?",
+              "options_descriptions": {
+                "A": "Vegetables",
+                "B": "Steak / meat",
+                "C": "Pizza"
+              },
+              "answer": "C",
+              "transcript": "Man: So, Shirley, what are you having to eat?\nShirley: Well, I quite like meat, and I love vegetables, so I'm not sure.\nMan: Why not have a pizza which has got both on it?\nShirley: Yeah, I'll do that. It's the easiest thing to order.",
+              "images": {
+                "question_and_options": "extracted_data/images/test_8/listening_p1_q5.png",
+                "options_row": "extracted_data/images/test_8/listening_p1_q5_options.png",
+                "option_A": "extracted_data/images/test_8/listening_p1_q5_opt_A.png",
+                "option_B": "extracted_data/images/test_8/listening_p1_q5_opt_B.png",
+                "option_C": "extracted_data/images/test_8/listening_p1_q5_opt_C.png"
+              }
+            }
+          ]
+        },
+        {
+          "part": 2,
+          "title": "Listening - Part 2",
+          "question_range": "6-10",
+          "type": "gap_fill_notes",
+          "instructions": "For each question, write the correct answer in the gap. Write one word or a number or a date or a time.",
+          "context": "You will hear a teacher telling students about a hotel they will stay in during a trip.",
+          "audio": {
+            "track_number": 37,
+            "file_name": "A2 Key TK_37.mp3",
+            "relative_path": "audio/A2 Key TK_37.mp3"
+          },
+          "pdf_pages": [
+            9
+          ],
+          "page_images": [
+            "extracted_data/images/test_8/page_9.png"
+          ],
+          "form_title": "HOTEL INFORMATION",
+          "example": {
+            "label": "Town",
+            "value": "Edinburgh"
+          },
+          "questions": [
+            {
+              "question_number": 6,
+              "label": "Location",
+              "prefix": "in",
+              "suffix": "Street.",
+              "answer": "George",
+              "accepted_answers": [
+                "George"
+              ]
+            },
+            {
+              "question_number": 7,
+              "label": "Price for single room",
+              "prefix": "£",
+              "suffix": "",
+              "answer": "90",
+              "accepted_answers": [
+                "90",
+                "ninety"
+              ]
+            },
+            {
+              "question_number": 8,
+              "label": "Number of bedrooms",
+              "prefix": "",
+              "suffix": "",
+              "answer": "100",
+              "accepted_answers": [
+                "100",
+                "one hundred",
+                "a hundred"
+              ]
+            },
+            {
+              "question_number": 9,
+              "label": "Facilities",
+              "prefix": "gym, sauna,",
+              "suffix": "",
+              "answer": "swimming pool",
+              "accepted_answers": [
+                "swimming pool",
+                "pool"
+              ]
+            },
+            {
+              "question_number": 10,
+              "label": "How to find it",
+              "prefix": "it's",
+              "suffix": "the post office.",
+              "answer": "opposite",
+              "accepted_answers": [
+                "opposite"
+              ]
+            }
+          ],
+          "transcript": "Good morning boys and girls. Let's have a look at the hotel information for our trip to Edinburgh. When we arrive in town, we'll go straight to St Andrew Square, which is 5 minutes' walk from the railway station and very close to our hotel, the Dork, which is in George Street. Tell your parents that the price for a double room is 120 pounds a night, and a single room is 90 pounds a night. So, if you're sharing a room, the price is 60 pounds a night.\nThe hotel is very big, there are 100 bedrooms, but we only need 20, possibly on the same floor.\nIt's a very nice hotel with a lot of facilities, such as a gym, a sauna and even a swimming pool, but we won't have time for any of those, we've got a very busy schedule!\nSo, did you get the address right? It's George Street, and the hotel is opposite the Post Office."
+        },
+        {
+          "part": 3,
+          "title": "Listening - Part 3",
+          "question_range": "11-15",
+          "type": "multiple_choice_conversation",
+          "instructions": "For each question, choose the correct answer.",
+          "context": "You will hear a conversation in a shop.",
+          "audio": {
+            "track_number": 38,
+            "file_name": "A2 Key TK_38.mp3",
+            "relative_path": "audio/A2 Key TK_38.mp3"
+          },
+          "pdf_pages": [
+            10
+          ],
+          "page_images": [
+            "extracted_data/images/test_8/page_10.png"
+          ],
+          "questions": [
+            {
+              "question_number": 11,
+              "question": "The lovely painting is",
+              "options": {
+                "A": "too cheap.",
+                "B": "too expensive.",
+                "C": "too heavy."
+              },
+              "answer": "B"
+            },
+            {
+              "question_number": 12,
+              "question": "The old guitar is",
+              "options": {
+                "A": "very big and ugly.",
+                "B": "impossible to play.",
+                "C": "without any strings."
+              },
+              "answer": "B"
+            },
+            {
+              "question_number": 13,
+              "question": "The table lamp is",
+              "options": {
+                "A": "50 years old.",
+                "B": "15 years old.",
+                "C": "25 years old."
+              },
+              "answer": "A"
+            },
+            {
+              "question_number": 14,
+              "question": "Kevin thinks that",
+              "options": {
+                "A": "the lamp is perfect.",
+                "B": "the painting is the best present.",
+                "C": "the shop is too expensive."
+              },
+              "answer": "A"
+            },
+            {
+              "question_number": 15,
+              "question": "In the end Kevin decides to",
+              "options": {
+                "A": "come back next week.",
+                "B": "go somewhere else.",
+                "C": "ask his father to decide."
+              },
+              "answer": "A"
+            }
+          ],
+          "transcript": "Shop assistant: Hello, can I help you?\nKevin: Ah, yes please. I'm looking for a present for my mum. It's her birthday next week.\nShop assistant: Let me see. Ah, here's a very lovely painting. What do you think?\nKevin: I really like the colour but it's too expensive for me. What else have you got?\nShop assistant: I know, how about this old guitar: you can't play it anymore, but it would look very good on the wall in your living room?\nKevin: My mum already has a guitar. She likes old things, you know, like stuff from the past. She thinks modern furniture is horrible!\nShop assistant: Then this Italian glass lamp is the perfect gift! I found it in a shop in Spain last year. It's fifty years old and very special. It still works too.\nKevin: Oh yes. The painting was very beautiful, but this table lamp is the best for Mum!\nShop assistant: Fine. So, that's thirty pounds.\nKevin: Oh, I haven't got the money now. Can you keep the lamp until next week? I'll ask my dad if he can come with me and get it next Tuesday after school.\nShop assistant: No problem, I'll see you next Tuesday."
+        },
+        {
+          "part": 4,
+          "title": "Listening - Part 4",
+          "question_range": "16-20",
+          "type": "multiple_choice_short_extracts",
+          "instructions": "For each question, choose the correct answer.",
+          "audio": {
+            "track_number": 39,
+            "file_name": "A2 Key TK_39.mp3",
+            "relative_path": "audio/A2 Key TK_39.mp3"
+          },
+          "pdf_pages": [
+            11
+          ],
+          "page_images": [
+            "extracted_data/images/test_8/page_11.png"
+          ],
+          "questions": [
+            {
+              "question_number": 16,
+              "question": "You will hear a boy talking to a shop assistant. What is he doing?",
+              "options": {
+                "A": "he's looking for his baby sister",
+                "B": "he's waiting for his grandfather",
+                "C": "he's looking for some presents"
+              },
+              "answer": "B",
+              "transcript": "Assistant: Good morning, how can I help you?\nBoy: Actually, I'm just waiting with my baby sister: my grandfather's trying on a pair of trousers.\nAssistant: Oh, yes, he's in the changing room right now. What a pretty sister you have! She looks like you a lot!\nBoy: Thanks..."
+            },
+            {
+              "question_number": 17,
+              "question": "You will hear a person asking for help. What's the problem?",
+              "options": {
+                "A": "the machine isn't working",
+                "B": "there are no more tickets",
+                "C": "he doesn't know how the machine works"
+              },
+              "answer": "C",
+              "transcript": "Man: Excuse me, where can I buy a ticket? This machine isn't working and the bus will be here in a minute...\nWoman: Let me see… you need to select the number of tickets you want to buy first and then put the money in.\nMan: Oh, that's why I couldn't put the coin in. Thanks for helping me, Madame."
+            },
+            {
+              "question_number": 18,
+              "question": "You will hear a person asking for directions. What's the weather like?",
+              "options": {
+                "A": "it's raining",
+                "B": "it's hot and sunny",
+                "C": "it will rain soon"
+              },
+              "answer": "A",
+              "transcript": "A: Excuse me, I'm afraid I'm lost. Do you know where this sushi restaurant is?\nB: I think it's the one behind the hospital. But it's at least five minutes from here and if you walk, you'll get wet.\nA: Oh, right. I don't even have an umbrella...\nB: Don't worry: if you take the underground and get off at the next stop, you'll be right in front of it."
+            },
+            {
+              "question_number": 19,
+              "question": "You will hear two friends talking about a trip. Where are they meeting up?",
+              "options": {
+                "A": "at the school's main gate",
+                "B": "in London",
+                "C": "on the coach"
+              },
+              "answer": "A",
+              "transcript": "Girl: Are you ready for tomorrow's trip to London?\nAdam: Sure. I've packed the sandwiches and the drinks. Don't forget the camera. Last time we were already on the coach when you realised you had left it at home…\nGirl: Don't worry, Adam. See you tomorrow at the gate. The coach will be there at 7.30."
+            },
+            {
+              "question_number": 20,
+              "question": "You will hear a person asking for information. When is the next bus?",
+              "options": {
+                "A": "at 4.30",
+                "B": "at 5.30",
+                "C": "at 6.30"
+              },
+              "answer": "B",
+              "transcript": "A: Excuse me, I need to go to Leeds. Does this bus go there?\nB: I'm afraid not. The one that goes to Leeds left at half past four. The bus runs every hour until 6.30: that's the last bus of the day.\nA: Well, it's ten to five. I guess I'll have a walk by the river while I wait for the next bus, then. Thanks."
+            }
+          ]
+        },
+        {
+          "part": 5,
+          "title": "Listening - Part 5",
+          "question_range": "21-25",
+          "type": "matching",
+          "instructions": "For each question, choose the correct answer.",
+          "context": "You will hear two girls talking about another girl. What does she do on each day of the week?",
+          "audio": {
+            "track_number": 40,
+            "file_name": "A2 Key TK_40.mp3",
+            "relative_path": "audio/A2 Key TK_40.mp3"
+          },
+          "pdf_pages": [
+            12
+          ],
+          "page_images": [
+            "extracted_data/images/test_8/page_12.png"
+          ],
+          "example": {
+            "0": {
+              "item": "Sunday",
+              "answer": "E",
+              "value": "ice skating"
+            }
+          },
+          "left_column_title": "DAYS OF THE WEEK",
+          "right_column_title": "ACTIVITIES",
+          "options": {
+            "A": "play football",
+            "B": "play tennis",
+            "C": "play rugby",
+            "D": "go to a restaurant",
+            "E": "ice skating",
+            "F": "gym",
+            "G": "painting",
+            "H": "watch football"
+          },
+          "questions": [
+            {
+              "question_number": 21,
+              "item": "Monday",
+              "answer": "F"
+            },
+            {
+              "question_number": 22,
+              "item": "Tuesday",
+              "answer": "B"
+            },
+            {
+              "question_number": 23,
+              "item": "Wednesday",
+              "answer": "D"
+            },
+            {
+              "question_number": 24,
+              "item": "Thursday",
+              "answer": "G"
+            },
+            {
+              "question_number": 25,
+              "item": "Friday",
+              "answer": "H"
+            }
+          ],
+          "transcript": "Lisa: Hi, Karen, have you seen your sister today?\nKaren: Of course I haven't! It's Sunday, and you know my sister always goes ice skating on Sundays!\nLisa: Oh yes. I suppose I'll have to see her tomorrow then.\nKaren: What? On Monday? No, she's joined a gym and she goes there every week.\nLisa: How about Tuesday? Do you think she'll be free then?\nKaren: Maybe. But she usually goes to play tennis on Tuesdays.\nLisa: Oh yeah. And on Wednesday she has her painting class.\nKaren: No, painting is now on Thursday. But you won't see her Wednesday because we're all going out to a restaurant for my dad's birthday.\nLisa: OK, I'll wait until Friday!\nKaren: Umm, no, football is on Friday.\nLisa: What? She can't even play football!\nKaren: Yeah, I know. But she likes to go and watch. Perhaps you can try and see her next week instead?"
+        }
+      ]
+    }
+  }
+}

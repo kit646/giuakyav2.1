@@ -1,0 +1,545 @@
+{
+  "test_id": "sample_test_a2_1",
+  "title": "Course: A2.1 - Mid-Course Competence Test (Sample Test)",
+  "source_pdfs": {
+    "reading": "A2.1-Mid course Reading Test-Sample Test.pdf",
+    "listening": "A2.1-Mid course Listening Test-Sample Test.pdf"
+  },
+  "reference_links_file": "Bài nghe va bai doc.txt",
+  "papers": {
+    "reading": {
+      "paper": "READING",
+      "duration": "30 minutes",
+      "total_parts": 4,
+      "total_questions": 20,
+      "parts": [
+        {
+          "part": 1,
+          "title": "PART 1",
+          "question_range": "1-5",
+          "type": "multiple_choice_short_texts",
+          "instructions": "For each question, choose the correct answer. (5 Questions)",
+          "questions": [
+            {
+              "question_number": 1,
+              "stimulus_type": "text_message",
+              "stimulus_text": "Mum, I'm in my bedroom and I'm studying. Can we have dinner at 8 o'clock after I finish all my homework? Thanks. Ben",
+              "options": {
+                "A": "Ben wants to do his homework in the dining room.",
+                "B": "Ben doesn't want dinner before he finishes his homework.",
+                "C": "Ben has got a lot of homework and doesn't want any dinner."
+              },
+              "answer": "B",
+              "image": "extracted_data/images/sample_reading_p1_q1.png"
+            },
+            {
+              "question_number": 2,
+              "stimulus_type": "message",
+              "stimulus_text": "Hi Steve,\nI've got a present for Miguel. It costs £12, so can you give me half of that when you see me?\nThanks\nChloe",
+              "question": "Chloe wrote this message because",
+              "options": {
+                "A": "she wants to borrow money to buy a present.",
+                "B": "she needs ideas about what present to buy.",
+                "C": "she wants to share the cost of a present."
+              },
+              "answer": "C",
+              "image": "extracted_data/images/sample_reading_p1_q2.png"
+            },
+            {
+              "question_number": 3,
+              "stimulus_type": "note",
+              "stimulus_text": "Hi Angela,\nOur swimming lesson is at 3:00 instead of 3:30. Mom can pick us up at 2:50. Don't forget your swimming hat.\nDan.",
+              "question": "Dan wants Angela to",
+              "options": {
+                "A": "take him to swimming classes.",
+                "B": "be ready earlier than usual.",
+                "C": "meet him at the pool."
+              },
+              "answer": "B",
+              "image": "extracted_data/images/sample_reading_p1_q3.png"
+            },
+            {
+              "question_number": 4,
+              "stimulus_type": "advert",
+              "stimulus_header": "Seavista Restaurant",
+              "stimulus_text": "Opening this weekend. Free food for children",
+              "options": {
+                "A": "The restaurant is old.",
+                "B": "The restaurant has great food.",
+                "C": "Guests don't have to pay for children's meals."
+              },
+              "answer": "C",
+              "image": "extracted_data/images/sample_reading_p1_q4.png"
+            },
+            {
+              "question_number": 5,
+              "stimulus_type": "notice",
+              "stimulus_header": "IMPORTANT NOTICE.",
+              "stimulus_text": "Class 5C English is in Room 4 today. (2.25 start, as usual)",
+              "options": {
+                "A": "This lesson is in a different place today.",
+                "B": "This lesson is not happening today.",
+                "C": "This lesson begins a bit later today."
+              },
+              "answer": "A",
+              "image": "extracted_data/images/sample_reading_p1_q5.png"
+            }
+          ]
+        },
+        {
+          "part": 2,
+          "title": "PART 2",
+          "question_range": "6-10",
+          "type": "reading_comprehension_multiple_choice",
+          "instructions": "For each question, choose the correct answer. (5 Questions)",
+          "passage_title": "Young chef",
+          "passage_subtitle": "14-year-old Marc Weiner has his own cooking show on TV.",
+          "passage_text": "Marc, when did you start cooking?\nI started helping my mum in the kitchen when I was six. I made her coffee – it was terrible! I was seven when I made my first meal – a pizza with four different kinds of cheese.\n\nDo you have a favourite recipe?\nIt's hard because I have so many. The easy ones are fun – things with pasta, tomatoes and onions. My favourites are the ones that include fish. There are so many different things you can do!\n\nWhat do your parents think of your cooking?\nWhen I won my first competition, my mum and dad understood that I was a real chef. They're glad that they don't have to make dinner every night, and they enjoy my food – usually! But, you can't make everyone happy all the time.\n\nWhat's the best way to get good at cooking?\nFirst, I threw away some of what I made because it was no good – that's how you learn. Then, I did it differently the next time. You need to practise, so if you know a chef, ask if you can help them in the kitchen sometimes.\n\nFinally, what's it like being on TV?\nIt's interesting. I'm actually a very quiet person, so I'm amazed that I really enjoy myself making the shows. They're watched by millions, but I still find it strange when people I don't know say hello to me in the street.",
+          "questions": [
+            {
+              "question_number": 6,
+              "question": "How old was Marc when he started cooking?",
+              "options": {
+                "A": "Four",
+                "B": "six",
+                "C": "seven"
+              },
+              "answer": "B"
+            },
+            {
+              "question_number": 7,
+              "question": "Marc says that his favorite recipes",
+              "options": {
+                "A": "use one kind of food",
+                "B": "are easy to make",
+                "C": "include a variety of vegetables"
+              },
+              "answer": "A"
+            },
+            {
+              "question_number": 8,
+              "question": "What does Marc say about his parents?",
+              "options": {
+                "A": "They are happy that he wins prizes for cooking.",
+                "B": "They get bored of cooking the same things.",
+                "C": "They don't always like his cooking."
+              },
+              "answer": "C"
+            },
+            {
+              "question_number": 9,
+              "question": "What does Marc think is the best way to improve?",
+              "options": {
+                "A": "cook everyday",
+                "B": "go to cooking classes",
+                "C": "learn from your mistakes"
+              },
+              "answer": "C"
+            },
+            {
+              "question_number": 10,
+              "question": "How does Marc feel about having a TV show?",
+              "options": {
+                "A": "happy that he is now famous",
+                "B": "surprised at how much fun it is",
+                "C": "excited by talking to so many people"
+              },
+              "answer": "B"
+            }
+          ]
+        },
+        {
+          "part": 3,
+          "title": "PART 3",
+          "question_range": "11-15",
+          "type": "multiple_choice_cloze",
+          "instructions": "For each question, choose the correct answer. (5 Questions)",
+          "passage_title": "Alek Wek",
+          "passage_text": "Alek Wek was born in South Sudan in 1977. She had a (11) ___ life there because there was a war. At the (12) ___ of 14, she left her family in Sudan and moved to London to live with her sister.\n\nAlek learned English very quickly. She was a good student, and she also worked hard after school to (13) ___ money which she sent home to her mother. When she was 18 she went to college and studied fashion, technology and business.\n\nShe was very (14) [printed as 15] ___ and one day a person from a model agency saw her in the street and asked her to work for them. It wasn't (15) [printed as 16] ___ before she became a rich and famous model. Now she works to help people in South Sudan.",
+          "note": "In the Sample Reading PDF, the last two gaps in the text are numbered (15) and (16) by typo, corresponding to questions 14 and 15 below.",
+          "questions": [
+            {
+              "question_number": 11,
+              "options": {
+                "A": "difficult",
+                "B": "heavy",
+                "C": "wrong"
+              },
+              "answer": "A"
+            },
+            {
+              "question_number": 12,
+              "options": {
+                "A": "age",
+                "B": "year",
+                "C": "time"
+              },
+              "answer": "A"
+            },
+            {
+              "question_number": 13,
+              "options": {
+                "A": "earn",
+                "B": "win",
+                "C": "pay"
+              },
+              "answer": "A"
+            },
+            {
+              "question_number": 14,
+              "printed_gap_number": 15,
+              "options": {
+                "A": "excellent",
+                "B": "favourite",
+                "C": "beautiful"
+              },
+              "answer": "C"
+            },
+            {
+              "question_number": 15,
+              "printed_gap_number": 16,
+              "options": {
+                "A": "far",
+                "B": "long",
+                "C": "wide"
+              },
+              "answer": "B"
+            }
+          ]
+        },
+        {
+          "part": 4,
+          "title": "PART 4",
+          "question_range": "16-20",
+          "type": "open_cloze",
+          "instructions": "Complete gaps using ONE word. (5 Questions)",
+          "passage_text": "Dad, I have sports after school today and I forgot my trainers. Can you bring (16) ___ to school for me, please? Mrs. Letts, the receptionist, says please leave the trainers with her. Also [printed: Answer] I forgot my snack, and I haven't got (17) ___ money. Can you bring a snack - or some money - as well, please?\n\nAgain?! OK, Matt. I'll drive to school. I'll leave (18) ___ trainers and some money at the reception. (19) ___ you want those new pencils for your art class? (20) ___ are on your bed.",
+          "questions": [
+            {
+              "question_number": 16,
+              "answer": "them",
+              "accepted_answers": [
+                "them"
+              ]
+            },
+            {
+              "question_number": 17,
+              "answer": "any",
+              "accepted_answers": [
+                "any"
+              ]
+            },
+            {
+              "question_number": 18,
+              "answer": "your / the",
+              "accepted_answers": [
+                "your",
+                "the"
+              ]
+            },
+            {
+              "question_number": 19,
+              "answer": "Do",
+              "accepted_answers": [
+                "Do",
+                "do"
+              ]
+            },
+            {
+              "question_number": 20,
+              "answer": "They",
+              "accepted_answers": [
+                "They",
+                "they"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "listening": {
+      "paper": "LISTENING",
+      "duration": "20 minutes",
+      "total_parts": 4,
+      "total_questions": 20,
+      "audio_note": "No local MP3 files in the audio/ folder correspond to this Sample Test (all 41 local MP3 files belong to Ready for A2 Key for Schools Tests 1-8). This sample test is a compilation of Cambridge A2 Key exercises (online sources listed in 'Bài nghe va bai doc.txt').",
+      "parts": [
+        {
+          "part": 1,
+          "title": "Part 1",
+          "question_range": "1-5",
+          "type": "multiple_choice_pictures",
+          "instructions": "For each question, choose the correct picture.",
+          "questions": [
+            {
+              "question_number": 1,
+              "question": "When is Holly visiting her friend in Japan?",
+              "options_descriptions": {
+                "A": "Green tree in summer",
+                "B": "Bare tree in snow (winter)",
+                "C": "Orange tree with falling leaves (autumn)"
+              },
+              "answer": "A",
+              "transcript": "Boy: When are you going to Japan? Is it in March?\nHolly: No, I'm going after that. In August.\nBoy: Oh, lovely. What clothes are you taking?\nHolly: Well, it won't be cold and I'll be back before the autumn.\nBoy: Summer will be lovely in Japan.\nHolly: I know, I can't wait!",
+              "image": "extracted_data/images/sample_listening_p1_q1.png"
+            },
+            {
+              "question_number": 2,
+              "question": "What is Frances doing on Sunday evening?",
+              "options_descriptions": {
+                "A": "Watching a play at the theatre",
+                "B": "Having dinner/food at a table",
+                "C": "Dancing in a dance class"
+              },
+              "answer": "B",
+              "transcript": "Frances: Hello?\nDennis: Hi, Frances. It's me. Would you like to come to the new dance class with me on Sunday evening?\nFrances: I'd love to but I can't. We've got friends coming for dinner. Do you remember Sally?\nDennis: Yes, her parents are actors, aren't they?\nFrances: That's right.",
+              "image": "extracted_data/images/sample_listening_p1_q2.png"
+            },
+            {
+              "question_number": 3,
+              "question": "What time does Lynn need to leave her class?",
+              "options_descriptions": {
+                "A": "Clock showing 3:30",
+                "B": "Clock showing 4:00",
+                "C": "Clock showing 4:30"
+              },
+              "answer": "B",
+              "note": "In the audio transcript, Lynn says 'The class finishes at 4.30, doesn't it? I have to go at 4.' Clock B shows 4:00.",
+              "transcript": "Lynn: What's the time, Diego?\nDiego: It's half past three.\nLynn: Why?\nDiego: I have to leave early today. Mum and I are visiting Aunty Jane. She's in hospital.\nDiego: Oh, dear.\nLynn: The class finishes at 4.30, doesn't it? I have to go at 4.\nDiego: OK. I'll tell you when it's time to go. You don't want to be late for visiting hours.",
+              "image": "extracted_data/images/sample_listening_p1_q3.png"
+            },
+            {
+              "question_number": 4,
+              "question": "How much is the book they buy?",
+              "options_descriptions": {
+                "A": "Book with £14 price tag",
+                "B": "Book with £14.30 price tag",
+                "C": "Book with £15.50 price tag"
+              },
+              "answer": "B",
+              "note": "In the audio transcript, the book they choose costs £14.30 (Picture B).",
+              "transcript": "A: But this one is £14.30.\nB: Yes, and the other is more expensive than that. It's £15.50.\nA: OK, let's get the cheaper one. Oh, I only have... there, 14 pounds.\nB: It's OK, I've got 30p.",
+              "image": "extracted_data/images/sample_listening_p1_q4.png"
+            },
+            {
+              "question_number": 5,
+              "question": "Who will meet Lee at the airport?",
+              "options_descriptions": {
+                "A": "His father (middle-aged man)",
+                "B": "His parents (woman and man)",
+                "C": "His grandfather (older man with grey hair)"
+              },
+              "answer": "A",
+              "transcript": "Girl: Will someone meet you when you get there, Lee?\nLee: Yes, of course. It's a long way home. I think Mum's working, but Dad can pick me up.\nGirl: Oh, that's alright then.\nLee: And the best thing is that we're visiting Grandad on the way home.",
+              "image": "extracted_data/images/sample_listening_p1_q5.png"
+            }
+          ],
+          "audio": {
+            "track_number": 1,
+            "file_name": "sample_listening_part1.mp3",
+            "relative_path": "audio/sample_listening_part1.mp3"
+          }
+        },
+        {
+          "part": 2,
+          "title": "Part 2",
+          "question_range": "6-10",
+          "type": "matching",
+          "instructions": "For each question, choose the correct answer.",
+          "context": "You will hear Luis talking to his sister about some places they could go to. What problem is there in each place?",
+          "source_url_note": "Matches EnglishPracticeTest KET Listening Test (Part 5 in standard KET)",
+          "example": {
+            "item": "tennis court",
+            "answer": "A",
+            "value": "wet"
+          },
+          "left_column_title": "Places",
+          "right_column_title": "Problems",
+          "options": {
+            "A": "wet",
+            "B": "noisy",
+            "C": "cold",
+            "D": "dirty",
+            "E": "busy",
+            "F": "warm",
+            "G": "expensive",
+            "H": "boring"
+          },
+          "questions": [
+            {
+              "question_number": 6,
+              "item": "swimming pool",
+              "answer": "D"
+            },
+            {
+              "question_number": 7,
+              "item": "cafe",
+              "answer": "E"
+            },
+            {
+              "question_number": 8,
+              "item": "cinema",
+              "answer": "G"
+            },
+            {
+              "question_number": 9,
+              "item": "park",
+              "answer": "C"
+            },
+            {
+              "question_number": 10,
+              "item": "home",
+              "answer": "H"
+            }
+          ],
+          "transcript": "Girl: Hey Luis! How about doing something this afternoon? Would you like to play tennis at the local court?\nLuis: I'd love to, but it's going to rain.\nGirl: Well, let's do something indoors. The pool is open at weekends.\nLuis: No way! Last time I went there the water was green! I'm sure they haven't cleaned it yet!\nGirl: There's always the cafe in Elm Square. Let's go for a coffee.\nLuis: That's not a good idea on a Saturday! It's full of people! It will take ages to get a seat!\nGirl: Hey! I heard there's a good film at the cinema.\nLuis: Sorry, I can't do that this week. It's £8 a ticket and I've got no money left.\nGirl: OK. Well, that leaves the park, but I'm not sure it's warm enough to spend so much time outside.\nLuis: You're right, it's freezing! I suppose we'll just have to stay at home, even though there's nothing to do here!",
+          "audio": {
+            "track_number": 2,
+            "file_name": "sample_listening_part2.mp3",
+            "relative_path": "audio/sample_listening_part2.mp3"
+          }
+        },
+        {
+          "part": 3,
+          "title": "Part 3",
+          "question_range": "11-15",
+          "type": "multiple_choice_conversation",
+          "instructions": "For each question, choose the correct answer.",
+          "context": "You will hear Vivien and Tom talking about their meals last night.",
+          "questions": [
+            {
+              "question_number": 11,
+              "question": "The table in Vivien's restaurant was",
+              "options": {
+                "A": "too big.",
+                "B": "too small.",
+                "C": "too round."
+              },
+              "answer": "B"
+            },
+            {
+              "question_number": 12,
+              "question": "Vivien's restaurant",
+              "options": {
+                "A": "had special food for people like Monica.",
+                "B": "had a lot of dishes on the menu.",
+                "C": "didn't have vegetarian dishes."
+              },
+              "answer": "C"
+            },
+            {
+              "question_number": 13,
+              "question": "At Vivien's restaurant, Mark",
+              "options": {
+                "A": "changed his order.",
+                "B": "ordered chicken.",
+                "C": "had steak."
+              },
+              "answer": "C"
+            },
+            {
+              "question_number": 14,
+              "question": "At Tom's restaurant,",
+              "options": {
+                "A": "the dessert was the best part of the meal.",
+                "B": "everything was delicious, but not the dessert.",
+                "C": "the food was delicious, but the dessert wasn't as good as the rest of the meal."
+              },
+              "answer": "A"
+            },
+            {
+              "question_number": 15,
+              "question": "Tom",
+              "options": {
+                "A": "paid too much for his meal.",
+                "B": "paid less than the full price for his meal.",
+                "C": "fixed the problem with the bill after half an hour."
+              },
+              "answer": "B"
+            }
+          ],
+          "transcript": "Vivien: Hi Tom.\nTom: Hi Vivien. How was your meal last night?\nVivien: Actually, it didn't go too well. Firstly, we couldn't get around the table. We'd booked for six people, but eight came.\nTom: Oh dear!\nVivien: Then they didn't have anything for Monica to eat.\nTom: She doesn't eat meat or fish, does she?\nVivien: That's right. She's a vegetarian. She wasn't happy! Then they brought Mark the wrong dish. He ordered steak but they brought him chicken, so he sent it back, and then he had to wait again for his steak. What about your meal?\nTom: The food was delicious, especially the dessert. Everything was perfect — until the bill arrived.\nVivien: Was it expensive?\nTom: Well, it was quite expensive, but we knew that from before. The problem was they gave us the bill for a different table. It took half an hour for them to fix the problem! In the end, they gave us a discount because of all the problems with the bill.",
+          "audio": {
+            "track_number": 3,
+            "file_name": "sample_listening_part3.mp3",
+            "relative_path": "audio/sample_listening_part3.mp3"
+          }
+        },
+        {
+          "part": 4,
+          "title": "Part 4",
+          "question_range": "16-20",
+          "type": "gap_fill_notes",
+          "instructions": "For each question, write the correct answer in the gap. Write ONE WORD or a number or a date or a time. (5 questions)",
+          "context": "You will hear a teacher talking to a group of students about a summer course.",
+          "source_url": "https://englishpracticetest.net/practice-ket-a2-listening-test-29-with-answers-and-audioscripts/",
+          "form_title": "Summer course",
+          "example": {
+            "label": "Study in",
+            "value": "Brighton"
+          },
+          "questions": [
+            {
+              "question_number": 16,
+              "label": "Dates of course",
+              "prefix": "20th June – 15th",
+              "suffix": "",
+              "answer": "August",
+              "accepted_answers": [
+                "August"
+              ]
+            },
+            {
+              "question_number": 17,
+              "label": "Students must not be older than",
+              "prefix": "",
+              "suffix": "years old",
+              "answer": "25",
+              "accepted_answers": [
+                "25",
+                "twenty-five",
+                "twenty five"
+              ]
+            },
+            {
+              "question_number": 18,
+              "label": "Any student can work as",
+              "prefix": "an",
+              "suffix": "",
+              "answer": "assistant",
+              "accepted_answers": [
+                "assistant"
+              ]
+            },
+            {
+              "question_number": 19,
+              "label": "Students have to be good at",
+              "prefix": "",
+              "suffix": "",
+              "answer": "English",
+              "accepted_answers": [
+                "English"
+              ]
+            },
+            {
+              "question_number": 20,
+              "label": "Send an email to",
+              "prefix": "",
+              "suffix": "@mail.com",
+              "answer": "jessyjones",
+              "accepted_answers": [
+                "jessyjones"
+              ]
+            }
+          ],
+          "transcript": "Most students in this college study in Brighton Summer School during the summer holidays and really enjoy it. So I'm going to tell you a bit about their summer school.\nCourses start on the twentieth of June so you can choose any date that suits you until August the 15th. Most students choose courses in the middle of July as the weather's better then.\nCourses are available for students who are between eighteen and twenty five years old.\nBut to work there as an assistant during your studies, you have to be at least twenty-two. You don't need to be good at sports or other languages, but they need you to speak good English. That's because all classes will be in English. Each day you'll get some homework and during your time there you'll need to do two group projects, one each week.\nIf you're interested, you need to email me at jessyjones@mail.com — that's J-E-DOUBLE-S-Y-J-O-N-E-S — telling me why you'd like to go.",
+          "audio": {
+            "track_number": 4,
+            "file_name": "sample_listening_part4.mp3",
+            "relative_path": "audio/sample_listening_part4.mp3"
+          }
+        }
+      ]
+    }
+  }
+}

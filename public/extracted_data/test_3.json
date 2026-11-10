@@ -1,0 +1,792 @@
+{
+  "test_id": "test_3",
+  "test_number": 3,
+  "title": "Ready for A2 Key for Schools - Test 3",
+  "source_pdf": "Test 3.pdf",
+  "key_pdf": "Ready for A2 Key for Schools 8 test - KEY.pdf",
+  "papers": {
+    "reading_and_writing": {
+      "paper": "Paper 1: Reading and Writing",
+      "book_pages": "48-57",
+      "parts": [
+        {
+          "part": 1,
+          "title": "Reading - Part 1",
+          "question_range": "1-6",
+          "type": "multiple_choice_short_texts",
+          "instructions": "For each question, choose the correct answer.",
+          "pdf_pages": [
+            1,
+            2
+          ],
+          "page_images": [
+            "extracted_data/images/test_3/page_1.png",
+            "extracted_data/images/test_3/page_2.png"
+          ],
+          "questions": [
+            {
+              "question_number": 1,
+              "stimulus_type": "sign",
+              "stimulus_header": "RIDING CENTRE",
+              "stimulus_text": "Beginners lesson starts at 3.00 p.m.\nPlease visit the front desk 20 minutes before class to pick up riding equipment.",
+              "question": null,
+              "options": {
+                "A": "Training is from three to twenty past three.",
+                "B": "You must collect something at the front desk first.",
+                "C": "Beginners can buy equipment from the front desk."
+              },
+              "answer": "B",
+              "images": {
+                "stimulus": "extracted_data/images/test_3/reading_p1_q1_stimulus.png",
+                "full_question": "extracted_data/images/test_3/reading_p1_q1_full.png"
+              }
+            },
+            {
+              "question_number": 2,
+              "stimulus_type": "note",
+              "stimulus_header": null,
+              "stimulus_text": "Hi Steve,\nDad rang. He said he's already been shopping, but don't forget to take the book back to the library.\nMum",
+              "question": "What should Steve do?",
+              "options": {
+                "A": "remember to return something",
+                "B": "go to the shops",
+                "C": "call his dad"
+              },
+              "answer": "A",
+              "images": {
+                "stimulus": "extracted_data/images/test_3/reading_p1_q2_stimulus.png",
+                "full_question": "extracted_data/images/test_3/reading_p1_q2_full.png"
+              }
+            },
+            {
+              "question_number": 3,
+              "stimulus_type": "text_message",
+              "stimulus_header": null,
+              "stimulus_text": "Laura, I'm sick so I'm not coming to the theatre with the class tonight. Tell the teacher I'll bring the money for the ticket to school tomorrow. Thanks, Andy",
+              "question": "What does Andy want Laura to tell the teacher?",
+              "options": {
+                "A": "Andy won't be at school tomorrow.",
+                "B": "Andy will pay for the ticket at school.",
+                "C": "Andy will go to the theatre later."
+              },
+              "answer": "B",
+              "images": {
+                "stimulus": "extracted_data/images/test_3/reading_p1_q3_stimulus.png",
+                "full_question": "extracted_data/images/test_3/reading_p1_q3_full.png"
+              }
+            },
+            {
+              "question_number": 4,
+              "stimulus_type": "advert",
+              "stimulus_header": "FOR SALE-Road Bike",
+              "stimulus_text": "Five years old, in good condition but needs new tyres.\ntext Annie 542-661950 for more info",
+              "question": "The advert says that",
+              "options": {
+                "A": "you might need to make a few changes to the bike.",
+                "B": "5-year-old children can ride the bike.",
+                "C": "the bike's tyres are in good condition."
+              },
+              "answer": "A",
+              "images": {
+                "stimulus": "extracted_data/images/test_3/reading_p1_q4_stimulus.png",
+                "full_question": "extracted_data/images/test_3/reading_p1_q4_full.png"
+              }
+            },
+            {
+              "question_number": 5,
+              "stimulus_type": "email",
+              "stimulus_header": "From: Phil | To: Lucy",
+              "stimulus_text": "Hi Lucy,\nCan we have the class party on Saturday, not on Sunday? Half past seven is fine, but it won't be at Pat's house, it will be at mine instead.",
+              "question": "What does Phil want to do?",
+              "options": {
+                "A": "change the time and day of the party",
+                "B": "have the party in another place and on another day",
+                "C": "have the party on a different weekend"
+              },
+              "answer": "B",
+              "images": {
+                "stimulus": "extracted_data/images/test_3/reading_p1_q5_stimulus.png",
+                "full_question": "extracted_data/images/test_3/reading_p1_q5_full.png"
+              }
+            },
+            {
+              "question_number": 6,
+              "stimulus_type": "sign",
+              "stimulus_header": null,
+              "stimulus_text": "ALL PASSENGERS MUST SHOW THEIR TICKET TO THE POLICE BEFORE ENTERING THE PLATFORM.",
+              "question": "Where is this sign?",
+              "options": {
+                "A": "at a railway station",
+                "B": "at an airport",
+                "C": "on a bus"
+              },
+              "answer": "A",
+              "images": {
+                "stimulus": "extracted_data/images/test_3/reading_p1_q6_stimulus.png",
+                "full_question": "extracted_data/images/test_3/reading_p1_q6_full.png"
+              }
+            }
+          ]
+        },
+        {
+          "part": 2,
+          "title": "Reading - Part 2",
+          "question_range": "7-13",
+          "type": "multiple_matching",
+          "note": "Pages 50-51 (Reading Part 2) and Pages 56-57 (Writing Parts 6-7) are omitted in Test 3.pdf scan; answer key from KEY.pdf is included.",
+          "answers_only": {
+            "7": "B",
+            "8": "C",
+            "9": "A",
+            "10": "A",
+            "11": "B",
+            "12": "C",
+            "13": "A"
+          }
+        },
+        {
+          "part": 3,
+          "title": "Reading - Part 3",
+          "question_range": "14-18",
+          "type": "reading_comprehension_multiple_choice",
+          "instructions": "For each question, choose the correct answer.",
+          "pdf_pages": [
+            3,
+            4
+          ],
+          "page_images": [
+            "extracted_data/images/test_3/page_3.png",
+            "extracted_data/images/test_3/page_4.png"
+          ],
+          "passage_title": "TRENTON BIOLOGY FAIR",
+          "passage_author": "by Anita Jones, age 12",
+          "passage_text": "Last month, all the science teachers at my junior high school decided to set up a biology fair. They asked all the students to plan and make a project for the two-day fair last week. I was in a group with my best friends Wei-ling, Julia and Pedro. All the groups worked hard on their projects for two weeks before the fair.\n\nMy group did an experiment to find out what happens to your teeth when you drink sugary drinks: we used three eggs because their shells are similar to the outside of our teeth. We put them into different glasses with cola, apple juice and plain water. Then we checked how the colour changed and took pictures that we pasted on a large whiteboard in the hall.\n\nThe other groups from my class worked on a lot of interesting projects, too. It was great to walk around the hall and look at the other students while they worked: one group showed how important light is to grow plants. Another group stopped an apple from turning brown by using lemon juice.\n\nWe all worked really hard and at the end of the two weeks our teachers chose the top four projects. They gave a prize to each of them. The top prize went to a group of older students. It's a pity that my group didn't get a prize but that's not so important. I was just pleased we took part and we had a great time together.",
+          "questions": [
+            {
+              "question_number": 14,
+              "question": "How long did the students prepare for the fair?",
+              "options": {
+                "A": "2 days",
+                "B": "1 month",
+                "C": "2 weeks"
+              },
+              "answer": "C"
+            },
+            {
+              "question_number": 15,
+              "question": "What was the main topic of Anita's experiment?",
+              "options": {
+                "A": "eggs",
+                "B": "teeth",
+                "C": "sugar"
+              },
+              "answer": "B"
+            },
+            {
+              "question_number": 16,
+              "question": "Where did the students work on their projects?",
+              "options": {
+                "A": "in the hall",
+                "B": "in a garden",
+                "C": "in their classrooms"
+              },
+              "answer": "A"
+            },
+            {
+              "question_number": 17,
+              "question": "What did the group who worked on the apple find out?",
+              "options": {
+                "A": "Apples turn brown when you put them into lemon juice.",
+                "B": "Apples don't change their colour if you use lemon juice.",
+                "C": "Brown apples turn white with lemon juice."
+              },
+              "answer": "B"
+            },
+            {
+              "question_number": 18,
+              "question": "How did Anita feel when the teachers chose the best projects?",
+              "options": {
+                "A": "angry because her group didn't win",
+                "B": "happy because she enjoyed working with her classmates",
+                "C": "tired because her group had done a lot of work."
+              },
+              "answer": "B"
+            }
+          ]
+        },
+        {
+          "part": 4,
+          "title": "Reading - Part 4",
+          "question_range": "19-24",
+          "type": "multiple_choice_cloze",
+          "instructions": "For each question, choose the correct answer.",
+          "pdf_pages": [
+            5
+          ],
+          "page_images": [
+            "extracted_data/images/test_3/page_5.png"
+          ],
+          "passage_title": "VINCENT VAN GOGH'S EARLY YEARS",
+          "passage_text": "Vincent van Gogh (19) ___ born in the Netherlands in 1853. Many people in his family worked in the art world. Vincent had two brothers and three sisters, but he was closest (20) ___ his younger brother Theo.\n\nVincent enjoyed drawing from the time he was a young boy, but he had a number of other jobs before he decided to work (21) ___ an artist full time. He was a teacher in London and he (22) ___ worked in a bookstore and an art gallery.\n\n(23) ___ Vincent first started drawing he used pencils and watercolour paints as well. He liked to draw pictures of poor people. At the beginning of his career, he used a lot of dark colours and his pictures were often sad. The (24) ___ famous early painting of all was called The Potato Eaters.",
+          "questions": [
+            {
+              "question_number": 19,
+              "options": {
+                "A": "is",
+                "B": "has",
+                "C": "was"
+              },
+              "answer": "C"
+            },
+            {
+              "question_number": 20,
+              "options": {
+                "A": "to",
+                "B": "at",
+                "C": "with"
+              },
+              "answer": "A"
+            },
+            {
+              "question_number": 21,
+              "options": {
+                "A": "like",
+                "B": "as",
+                "C": "how"
+              },
+              "answer": "B"
+            },
+            {
+              "question_number": 22,
+              "options": {
+                "A": "too",
+                "B": "just",
+                "C": "also"
+              },
+              "answer": "C"
+            },
+            {
+              "question_number": 23,
+              "options": {
+                "A": "When",
+                "B": "While",
+                "C": "If"
+              },
+              "answer": "A"
+            },
+            {
+              "question_number": 24,
+              "options": {
+                "A": "much",
+                "B": "most",
+                "C": "quite"
+              },
+              "answer": "B"
+            }
+          ]
+        },
+        {
+          "part": 5,
+          "title": "Reading - Part 5",
+          "question_range": "25-30",
+          "type": "open_cloze",
+          "instructions": "For each question, choose the correct answer. Write ONE word for each gap.",
+          "pdf_pages": [
+            6
+          ],
+          "page_images": [
+            "extracted_data/images/test_3/page_6.png"
+          ],
+          "example": {
+            "0": "Last"
+          },
+          "email_header": {
+            "From": "Harry",
+            "To": "Amanda"
+          },
+          "passage_text": "Hi Amanda,\n\nGuess what? (0) [Last] week I met Perry Stevens, (25) ___ pop star. He sat next (26) ___ me on the train to Glasgow!\n\nHe was really nice and friendly. He was going to visit his grandmother (27) ___ lives in Glasgow. He said he lived there until a few years (28) ___ and now he really misses Scotland. I told him (29) ___ much I loved his music.\n\nHe (30) ___ me his email address and told me to write to him if I wanted to see his concert in Edinburgh next December! I can't believe it!\n\nAnyway, write soon!",
+          "questions": [
+            {
+              "question_number": 25,
+              "answer": "a",
+              "accepted_answers": [
+                "a",
+                "the"
+              ]
+            },
+            {
+              "question_number": 26,
+              "answer": "to",
+              "accepted_answers": [
+                "to"
+              ]
+            },
+            {
+              "question_number": 27,
+              "answer": "who / that",
+              "accepted_answers": [
+                "who",
+                "that"
+              ]
+            },
+            {
+              "question_number": 28,
+              "answer": "ago",
+              "accepted_answers": [
+                "ago"
+              ]
+            },
+            {
+              "question_number": 29,
+              "answer": "how",
+              "accepted_answers": [
+                "how"
+              ]
+            },
+            {
+              "question_number": 30,
+              "answer": "gave",
+              "accepted_answers": [
+                "gave"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "listening": {
+      "paper": "Paper 2: Listening",
+      "book_pages": "58-63",
+      "parts": [
+        {
+          "part": 1,
+          "title": "Listening - Part 1",
+          "question_range": "1-5",
+          "type": "multiple_choice_pictures",
+          "instructions": "For each question, choose the correct picture.",
+          "audio": {
+            "track_number": 11,
+            "file_name": "A2 Key TK_11.mp3",
+            "relative_path": "audio/A2 Key TK_11.mp3"
+          },
+          "pdf_pages": [
+            7,
+            8
+          ],
+          "page_images": [
+            "extracted_data/images/test_3/page_7.png",
+            "extracted_data/images/test_3/page_8.png"
+          ],
+          "questions": [
+            {
+              "question_number": 1,
+              "question": "Where has the man left his mobile phone?",
+              "options_descriptions": {
+                "A": "In his jacket pocket",
+                "B": "On the library desk",
+                "C": "On the car/taxi seat"
+              },
+              "answer": "C",
+              "transcript": "Man: Oh no, I haven't got my phone!\nWoman: But you used it just now when we were in the taxi.\nMan: I remember. I put it down on the seat while I was putting my jacket on.\nWoman: Look, the taxi's there in front of the library. Let's go back quickly.",
+              "images": {
+                "question_and_options": "extracted_data/images/test_3/listening_p1_q1.png",
+                "options_row": "extracted_data/images/test_3/listening_p1_q1_options.png",
+                "option_A": "extracted_data/images/test_3/listening_p1_q1_opt_A.png",
+                "option_B": "extracted_data/images/test_3/listening_p1_q1_opt_B.png",
+                "option_C": "extracted_data/images/test_3/listening_p1_q1_opt_C.png"
+              }
+            },
+            {
+              "question_number": 2,
+              "question": "What will the girl eat?",
+              "options_descriptions": {
+                "A": "Fish",
+                "B": "Salad",
+                "C": "Chicken"
+              },
+              "answer": "A",
+              "transcript": "Boy: What are you going to eat? Did you have the chicken last time?\nGirl: Yes, but it wasn't very nice.\nBoy: Oh right. I've already had salad for lunch today so… I'm going to have fish now.\nGirl: That's a good idea. I'll have the same as you.",
+              "images": {
+                "question_and_options": "extracted_data/images/test_3/listening_p1_q2.png",
+                "options_row": "extracted_data/images/test_3/listening_p1_q2_options.png",
+                "option_A": "extracted_data/images/test_3/listening_p1_q2_opt_A.png",
+                "option_B": "extracted_data/images/test_3/listening_p1_q2_opt_B.png",
+                "option_C": "extracted_data/images/test_3/listening_p1_q2_opt_C.png"
+              }
+            },
+            {
+              "question_number": 3,
+              "question": "What is the weather like now?",
+              "options_descriptions": {
+                "A": "Raining",
+                "B": "Snowing",
+                "C": "Windy"
+              },
+              "answer": "C",
+              "transcript": "Boy: Has it stopped raining yet?\nGirl: Yes, but it's still really windy. Mum says it's probably going to continue for a few hours.\nBoy: Do you think it will snow later?\nGirl: I hope so: I really love the snow!",
+              "images": {
+                "question_and_options": "extracted_data/images/test_3/listening_p1_q3.png",
+                "options_row": "extracted_data/images/test_3/listening_p1_q3_options.png",
+                "option_A": "extracted_data/images/test_3/listening_p1_q3_opt_A.png",
+                "option_B": "extracted_data/images/test_3/listening_p1_q3_opt_B.png",
+                "option_C": "extracted_data/images/test_3/listening_p1_q3_opt_C.png"
+              }
+            },
+            {
+              "question_number": 4,
+              "question": "What does Kurt borrow?",
+              "options_descriptions": {
+                "A": "An umbrella",
+                "B": "A jacket",
+                "C": "A cap"
+              },
+              "answer": "A",
+              "transcript": "Anna: Why don't you put your cap on, Kurt. It's raining again!\nKurt: I haven't got my cap: I left it at home because it wasn't raining this morning.\nAnna: Don't worry. I'll lend you my umbrella.\nKurt: Thanks, Anna.",
+              "images": {
+                "question_and_options": "extracted_data/images/test_3/listening_p1_q4.png",
+                "options_row": "extracted_data/images/test_3/listening_p1_q4_options.png",
+                "option_A": "extracted_data/images/test_3/listening_p1_q4_opt_A.png",
+                "option_B": "extracted_data/images/test_3/listening_p1_q4_opt_B.png",
+                "option_C": "extracted_data/images/test_3/listening_p1_q4_opt_C.png"
+              }
+            },
+            {
+              "question_number": 5,
+              "question": "What sport are these students talking about?",
+              "options_descriptions": {
+                "A": "Running / jogging",
+                "B": "Working out at the gym",
+                "C": "Playing tennis"
+              },
+              "answer": "C",
+              "transcript": "Girl: Aren't you tired after running around for an hour?\nBoy: If you're fit, it's OK. It was difficult to see the ball sometimes, though. It's so fast!\nGirl: At least you hit the ball!\nBoy: Well, my racket is better than yours. Perhaps you should buy a new one!",
+              "images": {
+                "question_and_options": "extracted_data/images/test_3/listening_p1_q5.png",
+                "options_row": "extracted_data/images/test_3/listening_p1_q5_options.png",
+                "option_A": "extracted_data/images/test_3/listening_p1_q5_opt_A.png",
+                "option_B": "extracted_data/images/test_3/listening_p1_q5_opt_B.png",
+                "option_C": "extracted_data/images/test_3/listening_p1_q5_opt_C.png"
+              }
+            }
+          ]
+        },
+        {
+          "part": 2,
+          "title": "Listening - Part 2",
+          "question_range": "6-10",
+          "type": "gap_fill_notes",
+          "instructions": "For each question, write the correct answer in the gap. Write one word or a number or a date or a time.",
+          "context": "You will hear a coach telling some boys and girls about a boat race.",
+          "audio": {
+            "track_number": 12,
+            "file_name": "A2 Key TK_12.mp3",
+            "relative_path": "audio/A2 Key TK_12.mp3"
+          },
+          "pdf_pages": [
+            9
+          ],
+          "page_images": [
+            "extracted_data/images/test_3/page_9.png"
+          ],
+          "form_title": "SCHOOL BOAT RACE",
+          "example": {
+            "label": "When",
+            "value": "tomorrow"
+          },
+          "questions": [
+            {
+              "question_number": 6,
+              "label": "Starting time",
+              "prefix": "",
+              "suffix": "",
+              "answer": "10.30",
+              "accepted_answers": [
+                "10.30",
+                "10:30",
+                "half past ten"
+              ]
+            },
+            {
+              "question_number": 7,
+              "label": "Clothes you need",
+              "prefix": "",
+              "suffix": "",
+              "answer": "shorts",
+              "accepted_answers": [
+                "shorts"
+              ]
+            },
+            {
+              "question_number": 8,
+              "label": "Day of young children's race",
+              "prefix": "",
+              "suffix": "",
+              "answer": "Friday",
+              "accepted_answers": [
+                "Friday"
+              ]
+            },
+            {
+              "question_number": 9,
+              "label": "First prize",
+              "prefix": "",
+              "suffix": "",
+              "answer": "surfboard",
+              "accepted_answers": [
+                "surfboard"
+              ]
+            },
+            {
+              "question_number": 10,
+              "label": "Souvenir for all students",
+              "prefix": "",
+              "suffix": "",
+              "answer": "T-shirt",
+              "accepted_answers": [
+                "T-shirt",
+                "t-shirt",
+                "tee-shirt"
+              ]
+            }
+          ],
+          "transcript": "Hello everybody. I'm going to give you some information about tomorrow's school boat race. All racers must be at the meeting point at ten o'clock because the race will begin at half past ten. All you need to wear is a pair of shorts. You shouldn't wear sunglasses because you may lose them during the race.\nRemember that the race is only for students aged 10 to 15. The swimming race for younger children will take place on Friday.\nThere are different prizes for each race. In the school boat race, for those who win the first prize there is a new surfboard, and those who come second and third will get a book on sailing each. Don't be sad if you don't win, though: everybody who takes part in the race will get a T-shirt as a souvenir.\nIf you haven't signed up, now just tell me and I will add you to the list."
+        },
+        {
+          "part": 3,
+          "title": "Listening - Part 3",
+          "question_range": "11-15",
+          "type": "multiple_choice_conversation",
+          "instructions": "For each question, choose the correct answer.",
+          "context": "You will hear Nelly and Bart talking about school uniforms.",
+          "audio": {
+            "track_number": 13,
+            "file_name": "A2 Key TK_13.mp3",
+            "relative_path": "audio/A2 Key TK_13.mp3"
+          },
+          "pdf_pages": [
+            10
+          ],
+          "page_images": [
+            "extracted_data/images/test_3/page_10.png"
+          ],
+          "questions": [
+            {
+              "question_number": 11,
+              "question": "Why have Nelly and Bart not met for a long time?",
+              "options": {
+                "A": "He was in a foreign country.",
+                "B": "She changed school.",
+                "C": "He was travelling with his Italian uncle."
+              },
+              "answer": "A"
+            },
+            {
+              "question_number": 12,
+              "question": "Why is Nelly wearing a school uniform?",
+              "options": {
+                "A": "Her own clothes are too old.",
+                "B": "She goes to a different school now.",
+                "C": "Her old school now has a uniform."
+              },
+              "answer": "B"
+            },
+            {
+              "question_number": 13,
+              "question": "What does Nelly think about uniforms?",
+              "options": {
+                "A": "They are boring.",
+                "B": "She really loves wearing them.",
+                "C": "She thinks they are useful."
+              },
+              "answer": "C"
+            },
+            {
+              "question_number": 14,
+              "question": "Why doesn't Bart like uniforms?",
+              "options": {
+                "A": "He thinks uniforms are too different.",
+                "B": "He thinks everyone looks the same in a uniform.",
+                "C": "He thinks most people don't like uniforms."
+              },
+              "answer": "B"
+            },
+            {
+              "question_number": 15,
+              "question": "How does Nelly feel about her clothes?",
+              "options": {
+                "A": "She would like to wear them to school sometimes.",
+                "B": "She only wants to wear them on Sundays and Saturdays.",
+                "C": "She doesn't like them anymore."
+              },
+              "answer": "A"
+            }
+          ],
+          "transcript": "Nelly: Hey Bart: I haven't seen you for a long time. Where were you last month?\nBart: Hi Nelly, I was on holiday in Italy with my parents. My uncle Jeff lives there so we stayed at his house. Why are you wearing a school uniform?\nNelly: Well, I can't wear my own clothes any more like at our old school. I changed school last term when I moved to a different part of the town. I told you, didn't I?\nBart: Yes, but I didn't know you have to wear a uniform now. That must be awful!\nNelly: Oh I don't know. It's not such a bad thing, in my opinion.\nBart: But don't you want to wear the clothes you choose?\nNelly: Yes, but… the good thing is that I don't have to think about what I have to wear every morning.\nBart: Well, maybe… but I wouldn't like to wear a uniform anyway. I don't like looking like other people. I want to be different!\nNelly: I don't mind wearing a uniform but I miss wearing my clothes at school sometimes, of course…\nBart: I'm sure you do... but this way you don't need to buy so many clothes anymore. You're right, school uniforms aren't so bad at all!"
+        },
+        {
+          "part": 4,
+          "title": "Listening - Part 4",
+          "question_range": "16-20",
+          "type": "multiple_choice_short_extracts",
+          "instructions": "For each question, choose the correct answer.",
+          "audio": {
+            "track_number": 14,
+            "file_name": "A2 Key TK_14.mp3",
+            "relative_path": "audio/A2 Key TK_14.mp3"
+          },
+          "pdf_pages": [
+            11
+          ],
+          "page_images": [
+            "extracted_data/images/test_3/page_11.png"
+          ],
+          "questions": [
+            {
+              "question_number": 16,
+              "question": "You will hear a girl talking about TV programmes. Which one does she want to watch?",
+              "options": {
+                "A": "a football match",
+                "B": "a TV series",
+                "C": "a documentary"
+              },
+              "answer": "B",
+              "transcript": "Girl: This match is so long!\nBoy: I thought you loved football...\nGirl: I do, but my team isn't playing and my favourite TV series starts in 10 minutes.\nBoy: Aren't you going to watch the documentary on kangaroos? You said you wanted to see it with your sister.\nGirl: My sister said she's going to record it, so I'll see it another time."
+            },
+            {
+              "question_number": 17,
+              "question": "You will hear two friends talking about a drawing course. What did the girl enjoy most about the course?",
+              "options": {
+                "A": "The teacher was great fun.",
+                "B": "She learned a lot of new things.",
+                "C": "She made new friends."
+              },
+              "answer": "B",
+              "transcript": "Boy: Hi Lisa. How was your drawing class?\nLisa: Fantastic - I learnt so much. The teacher was good, but very serious!\nBoy: So what was the best thing?\nLisa: I think, more than anything, I liked trying different ways of drawing. I've never done that before. I had a lot of fun with the other students, too."
+            },
+            {
+              "question_number": 18,
+              "question": "You will hear a girl talking about going to school. Why doesn't she want to go with her friend?",
+              "options": {
+                "A": "because her friend doesn't walk fast enough",
+                "B": "because she enjoys walking alone",
+                "C": "because she doesn't enjoy chatting"
+              },
+              "answer": "A",
+              "transcript": "Friend: Shall we go to school together tomorrow?\nGirl: I think I'll go by myself. I have to get to school early.\nFriend: But it's more fun if you come with me. We can chat on the way there.\nGirl: But we're often late because you walk too slowly… I like chatting, but we can walk home after school!"
+            },
+            {
+              "question_number": 19,
+              "question": "You will hear a boy talking about a day out with his grandparents. Why did they go to the lake?",
+              "options": {
+                "A": "It's near to where they live.",
+                "B": "There are a lot of things to do there.",
+                "C": "It was good for swimming."
+              },
+              "answer": "C",
+              "transcript": "Girl: How did you spend your weekend, Sam?\nSam: I went to the lake with my grandparents.\nGirl: The one near here? But it's so quiet and boring!\nSam: That's why we went to another lake. It's not so close so we had to drive there. But the water was lovely and warm and I had a lot of fun in the water."
+            },
+            {
+              "question_number": 20,
+              "question": "You will hear a girl talking about a film. Why was the film a surprise?",
+              "options": {
+                "A": "The actors were very young.",
+                "B": "The film wasn't long enough.",
+                "C": "The end was strange."
+              },
+              "answer": "A",
+              "transcript": "Boy: What did you think about the film, Anna?\nAnna: It was great, although perhaps a bit too long. I really liked the actors. And they were about the same age as us! I couldn't believe it when you told me their age!\nBoy: I know. It was good that we knew the story too.\nAnna: Yes, that's right, we studied it at school last year."
+            }
+          ]
+        },
+        {
+          "part": 5,
+          "title": "Listening - Part 5",
+          "question_range": "21-25",
+          "type": "matching",
+          "instructions": "For each question, choose the correct answer.",
+          "context": "You will hear Elizabeth talking to her friend about a party. What did each of her friends bring?",
+          "audio": {
+            "track_number": 15,
+            "file_name": "A2 Key TK_15.mp3",
+            "relative_path": "audio/A2 Key TK_15.mp3"
+          },
+          "pdf_pages": [
+            12
+          ],
+          "page_images": [
+            "extracted_data/images/test_3/page_12.png"
+          ],
+          "example": {
+            "0": {
+              "item": "Elizabeth",
+              "answer": "G",
+              "value": "strawberries"
+            }
+          },
+          "left_column_title": "PEOPLE",
+          "right_column_title": "FOOD AND DRINKS",
+          "options": {
+            "A": "chicken",
+            "B": "sandwiches",
+            "C": "omelettes",
+            "D": "ice cream",
+            "E": "potatoes",
+            "F": "cake",
+            "G": "strawberries",
+            "H": "salad"
+          },
+          "questions": [
+            {
+              "question_number": 21,
+              "item": "Fred",
+              "answer": "B"
+            },
+            {
+              "question_number": 22,
+              "item": "Yuki",
+              "answer": "D"
+            },
+            {
+              "question_number": 23,
+              "item": "Leela",
+              "answer": "F"
+            },
+            {
+              "question_number": 24,
+              "item": "Paul",
+              "answer": "C"
+            },
+            {
+              "question_number": 25,
+              "item": "Shane",
+              "answer": "H"
+            }
+          ],
+          "transcript": "Friend: How was your birthday party, Elizabeth?\nElizabeth: It was great, thanks.\nFriend: Did you make a lot of food?\nElizabeth: Not really. I only made strawberries, but my friends brought a lot of things to eat. My favourite was Fred's sandwiches.\nFriend: What did Yuki bring? I know she loves making cakes.\nElizabeth: Yes, she does but this time she brought some ice cream because she had no time to cook.\nFriend: Oh no! So, you didn't get a birthday cake?\nElizabeth: Of course I did! Leela brought a cake. It was a delicious strawberry cake.\nFriend: How about Paul? Did he make his lovely omelettes?\nElizabeth: Yes, and this time he put potatoes in them.\nFriend: And Shane? She always cooks rice when there's a party.\nElizabeth: Not this time! In fact, Shane made a salad! I couldn't believe it!"
+        }
+      ]
+    },
+    "speaking": {
+      "paper": "Paper 3: Speaking",
+      "book_pages": "64",
+      "pdf_pages": [
+        13
+      ],
+      "page_images": [
+        "extracted_data/images/test_3/page_13.png"
+      ],
+      "part": 1,
+      "duration": "3 - 4 minutes",
+      "questions": [
+        "What's your name?",
+        "And what's your name?",
+        "How old are you?",
+        "Where do you live? / Where do you come from?"
+      ],
+      "backup_prompts": [
+        "Are you from (country)?",
+        "Do you live in (name of the area, town, etc.)?"
+      ]
+    }
+  }
+}
