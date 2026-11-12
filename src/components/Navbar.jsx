@@ -8,14 +8,21 @@ export default function Navbar({
   bilingualMode,
   onToggleBilingual,
   stats,
+  activeTest,
   activeTestTitle,
   activePaperName,
+  activePaperKey,
   examMode,
   isMobileMode,
-  onToggleViewMode
+  onToggleViewMode,
+  onSwitchPaper
 }) {
   const isTakingTest = currentView === 'reading' || currentView === 'listening'
   const [showMobileModal, setShowMobileModal] = useState(false)
+  const hasBothPapers = Boolean(activeTest && (activeTest.papers?.reading_and_writing || activeTest.papers?.reading) && activeTest.papers?.listening)
+  const otherPaperKey = activePaperKey === 'listening'
+    ? (activeTest?.papers?.reading ? 'reading' : 'reading_and_writing')
+    : 'listening'
 
   return (
     <>
@@ -54,9 +61,24 @@ export default function Navbar({
                 }`}>
                   {isTakingTest && activeTestTitle ? activeTestTitle : 'A2 Key Master'}
                 </div>
-                <div className="text-[11px] text-slate-500 font-medium truncate">
+                <div className="text-[11px] text-slate-500 font-medium truncate flex items-center gap-1.5">
                   {isTakingTest && activePaperName ? (
-                    <span className="text-brand-600 font-semibold">{activePaperName}</span>
+                    <>
+                      <span className="text-brand-600 font-semibold">{activePaperName}</span>
+                      {hasBothPapers && onSwitchPaper && (
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            onSwitchPaper(otherPaperKey)
+                          }}
+                          className="px-1.5 py-0.5 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 text-[10px] font-bold border border-slate-200 transition-colors cursor-pointer"
+                          title="Đổi sang phần kỹ năng còn lại"
+                        >
+                          Đổi sang {activePaperKey === 'listening' ? '📖 Đọc' : '🎧 Nghe'}
+                        </button>
+                      )}
+                    </>
                   ) : (
                     'Luyện Thi A2.1'
                   )}

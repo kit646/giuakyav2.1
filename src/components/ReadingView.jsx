@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { BookOpen, Flag, CheckCircle2, LayoutGrid, AlertCircle, ZoomIn, Check, ChevronDown, ChevronUp, CheckSquare } from 'lucide-react'
+import { BookOpen, Headphones, Flag, CheckCircle2, LayoutGrid, AlertCircle, ZoomIn, Check, ChevronDown, ChevronUp, CheckSquare } from 'lucide-react'
 import { getImageUrl } from '../services/dataService'
 import ImageModal from './ImageModal'
 import QuestionMatrixModal from './QuestionMatrixModal'
@@ -52,7 +52,8 @@ export default function ReadingView({
   bilingualMode,
   examMode,
   timeLeft,
-  isMobileMode = false
+  isMobileMode = false,
+  onSwitchPaper
 }) {
   const paper = test.papers ? test.papers[paperKey] : null
   const parts = paper?.parts || []
@@ -60,10 +61,18 @@ export default function ReadingView({
   const [activePartIndex, setActivePartIndex] = useState(0)
   const [isMatrixOpen, setIsMatrixOpen] = useState(false)
   const [modalImage, setModalImage] = useState(null)
-  const [mobileReadingTab, setMobileReadingTab] = useState('questions')
-  const [mobilePassageExpanded, setMobilePassageExpanded] = useState(false)
+  const [mobileReadingTab, setMobileReadingTab] = useState('passage')
+  const [mobilePassageExpanded, setMobilePassageExpanded] = useState(true)
 
   const currentPart = parts[activePartIndex] || parts[0]
+
+  // Automatically reset to 'passage' tab when user switches to a reading part
+  useEffect(() => {
+    if (currentPart && currentPart.part !== 1) {
+      setMobileReadingTab('passage')
+      setMobilePassageExpanded(true)
+    }
+  }, [activePartIndex])
 
   // Format time mm:ss for exam mode
   const formatTimer = (secs) => {
@@ -141,12 +150,32 @@ export default function ReadingView({
         
         {/* Left: Test Info & Parts Navigation */}
         <div className="space-y-2 w-full md:w-auto">
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-brand-50 text-brand-700">
               {test.title}
             </span>
+
+            {/* Paper Switcher: If test has both papers */}
+            {test.papers?.listening && (
+              <div className="inline-flex items-center bg-slate-100 p-0.5 rounded-xl border border-slate-200 text-xs font-bold shrink-0">
+                <span className="px-2.5 py-1 rounded-lg bg-brand-600 text-white shadow-xs flex items-center gap-1 cursor-default">
+                  <BookOpen className="w-3.5 h-3.5" />
+                  <span>Reading & Writing</span>
+                </span>
+                <button
+                  type="button"
+                  onClick={() => onSwitchPaper && onSwitchPaper('listening')}
+                  className="px-2.5 py-1 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-white transition-all flex items-center gap-1 cursor-pointer"
+                  title="Chuyển sang làm bài Nghe (Listening)"
+                >
+                  <Headphones className="w-3.5 h-3.5 text-audio-600" />
+                  <span>Sang Listening</span>
+                </button>
+              </div>
+            )}
+
             <span className="text-xs text-slate-600 font-medium">
-              Reading & Writing • Đã làm <strong className="text-brand-700">{answeredCount}/{totalQuestionsInPaper}</strong> câu
+              Đã làm <strong className="text-brand-700">{answeredCount}/{totalQuestionsInPaper}</strong> câu
             </span>
           </div>
 

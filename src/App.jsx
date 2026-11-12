@@ -137,6 +137,12 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
+  // Switch between papers of the active test (e.g. Reading <-> Listening)
+  const handleSwitchPaper = (newPaperKey) => {
+    if (!activeTest || !newPaperKey || newPaperKey === activePaperKey) return
+    handleStartTest(activeTest, newPaperKey, examMode)
+  }
+
   // Handle student selecting or typing an answer
   const handleAnswer = (qNum, val) => {
     setAnswers((prev) => {
@@ -290,11 +296,14 @@ export default function App() {
         bilingualMode={bilingualMode}
         onToggleBilingual={handleToggleBilingual}
         stats={stats}
+        activeTest={activeTest}
         activeTestTitle={activeTest?.title}
         activePaperName={activePaperKey === 'listening' ? 'Listening' : 'Reading & Writing'}
+        activePaperKey={activePaperKey}
         examMode={examMode}
         isMobileMode={isMobileMode}
         onToggleViewMode={handleToggleViewMode}
+        onSwitchPaper={handleSwitchPaper}
       />
 
       {/* Main Content Area */}
@@ -325,6 +334,7 @@ export default function App() {
             timeLeft={timeLeft}
             isMobileMode={isMobileMode}
             onToggleViewMode={handleToggleViewMode}
+            onSwitchPaper={handleSwitchPaper}
           />
         )}
 
@@ -341,6 +351,7 @@ export default function App() {
             timeLeft={timeLeft}
             isMobileMode={isMobileMode}
             onToggleViewMode={handleToggleViewMode}
+            onSwitchPaper={handleSwitchPaper}
           />
         )}
 
@@ -351,6 +362,7 @@ export default function App() {
             paperKey={activePaperKey}
             onRetakeTest={handleRetakeTest}
             onNavigateHome={handleNavigateHome}
+            onStartOtherPaper={handleSwitchPaper}
             isMobileMode={isMobileMode}
           />
         )}

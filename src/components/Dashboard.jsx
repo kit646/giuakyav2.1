@@ -316,42 +316,89 @@ export default function Dashboard({
 
               {/* Action Buttons */}
               <div className="space-y-2 pt-2 border-t border-slate-100">
-                {/* Listening Quick Button */}
-                {hasListening && (
-                  <button
-                    type="button"
-                    onClick={() => onStartTest(item, 'listening', 'study')}
-                    className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-audio-50 hover:bg-audio-100 text-audio-700 font-bold text-sm border border-audio-200 transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-audio-500"
-                    aria-label={`Luyện nghe Listening cho đề ${item.title}`}
-                  >
-                    <Headphones className="w-4 h-4" />
-                    <span>Luyện Nghe Listening (Audio)</span>
-                  </button>
-                )}
+                {/* PRACTICE MODE BUTTONS */}
+                {hasReading && hasListening ? (
+                  <div className="grid grid-cols-2 gap-2">
+                    <button
+                      type="button"
+                      onClick={() => onStartTest(item, readingPaperKey, 'study')}
+                      className="flex items-center justify-center gap-1.5 py-2.5 px-2 rounded-xl bg-brand-50 hover:bg-brand-100 text-brand-700 font-bold text-xs sm:text-sm border border-brand-200 transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-brand-500 shadow-2xs"
+                      title={`Luyện đọc Reading cho đề ${item.title}`}
+                      aria-label={`Luyện đọc Reading cho đề ${item.title}`}
+                    >
+                      <BookOpen className="w-4 h-4 text-brand-600 shrink-0" />
+                      <span className="truncate">Luyện Đọc</span>
+                    </button>
 
-                {/* Reading Quick Button */}
-                {hasReading && (
+                    <button
+                      type="button"
+                      onClick={() => onStartTest(item, 'listening', 'study')}
+                      className="flex items-center justify-center gap-1.5 py-2.5 px-2 rounded-xl bg-audio-50 hover:bg-audio-100 text-audio-700 font-bold text-xs sm:text-sm border border-audio-200 transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-audio-500 shadow-2xs"
+                      title={`Luyện nghe Listening cho đề ${item.title}`}
+                      aria-label={`Luyện nghe Listening cho đề ${item.title}`}
+                    >
+                      <Headphones className="w-4 h-4 text-audio-600 shrink-0" />
+                      <span className="truncate">Luyện Nghe</span>
+                    </button>
+                  </div>
+                ) : hasReading ? (
                   <button
                     type="button"
                     onClick={() => onStartTest(item, readingPaperKey, 'study')}
                     className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-brand-50 hover:bg-brand-100 text-brand-700 font-bold text-sm border border-brand-200 transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-brand-500"
                     aria-label={`Luyện đọc Reading cho đề ${item.title}`}
                   >
-                    <BookOpen className="w-4 h-4" />
+                    <BookOpen className="w-4 h-4 text-brand-600" />
                     <span>Luyện Đọc Reading</span>
                   </button>
-                )}
+                ) : hasListening ? (
+                  <button
+                    type="button"
+                    onClick={() => onStartTest(item, 'listening', 'study')}
+                    className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-audio-50 hover:bg-audio-100 text-audio-700 font-bold text-sm border border-audio-200 transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-audio-500"
+                    aria-label={`Luyện nghe Listening cho đề ${item.title}`}
+                  >
+                    <Headphones className="w-4 h-4 text-audio-600" />
+                    <span>Luyện Nghe Listening (Audio)</span>
+                  </button>
+                ) : null}
 
-                {/* Full Exam Mode Button */}
-                <button
-                  type="button"
-                  onClick={() => onStartTest(item, hasListening ? 'listening' : readingPaperKey, 'exam')}
-                  className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm transition-colors cursor-pointer shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-700 focus:ring-offset-2"
-                  aria-label={`Bắt đầu thi thử tính giờ cho đề ${item.title}`}
-                >
-                  <Clock className="w-4 h-4 text-sunny-400" />
-                  <span>Thi Thử Tính Giờ (Exam Mode)</span>
-                </button>
+                {/* EXAM MODE (THI THỰC TẾ CÓ TÍNH GIỜ) BUTTONS */}
+                {hasReading && hasListening ? (
+                  <div className="grid grid-cols-2 gap-2 pt-1">
+                    <button
+                      type="button"
+                      onClick={() => onStartTest(item, readingPaperKey, 'exam')}
+                      className="flex items-center justify-center gap-1.5 py-2.5 px-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs sm:text-sm transition-all cursor-pointer shadow-sm hover:scale-[1.02] active:scale-95 focus:outline-none focus:ring-2 focus:ring-brand-500"
+                      title={`Thi thử tính giờ phần Đọc & Viết (60 phút)`}
+                      aria-label={`Thi thử tính giờ phần Đọc cho đề ${item.title}`}
+                    >
+                      <Clock className="w-3.5 h-3.5 text-sunny-400 shrink-0" />
+                      <span className="truncate">Thi Đọc (60p)</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => onStartTest(item, 'listening', 'exam')}
+                      className="flex items-center justify-center gap-1.5 py-2.5 px-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs sm:text-sm transition-all cursor-pointer shadow-sm hover:scale-[1.02] active:scale-95 focus:outline-none focus:ring-2 focus:ring-audio-500"
+                      title={`Thi thử tính giờ phần Nghe (30 phút)`}
+                      aria-label={`Thi thử tính giờ phần Nghe cho đề ${item.title}`}
+                    >
+                      <Clock className="w-3.5 h-3.5 text-audio-400 shrink-0" />
+                      <span className="truncate">Thi Nghe (30p)</span>
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => onStartTest(item, hasListening ? 'listening' : readingPaperKey, 'exam')}
+                    className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm transition-all cursor-pointer shadow-sm hover:scale-[1.01] active:scale-95 focus:outline-none focus:ring-2 focus:ring-slate-700"
+                    aria-label={`Bắt đầu thi thử tính giờ cho đề ${item.title}`}
+                  >
+                    <Clock className="w-4 h-4 text-sunny-400" />
+                    <span>Thi Thử Tính Giờ ({hasListening ? 'Listening 30p' : 'Reading 60p'})</span>
+                  </button>
+                )}
               </div>
 
             </div>

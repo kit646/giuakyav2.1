@@ -7,10 +7,16 @@ export default function ResultView({
   test,
   paperKey,
   onRetakeTest,
-  onNavigateHome
+  onNavigateHome,
+  onStartOtherPaper,
+  isMobileMode = false
 }) {
   const [filter, setFilter] = useState('all') // 'all' | 'wrong'
   const [expandedTranscripts, setExpandedTranscripts] = useState({})
+
+  const otherPaperKey = paperKey.includes('reading')
+    ? (test?.papers?.listening ? 'listening' : null)
+    : (test?.papers?.reading_and_writing ? 'reading_and_writing' : test?.papers?.reading ? 'reading' : null)
 
   // Trigger celebration confetti on high score
   useEffect(() => {
@@ -53,7 +59,7 @@ export default function ResultView({
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 pb-16">
       
       {/* Top Navigation */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <button
           type="button"
           onClick={onNavigateHome}
@@ -64,15 +70,37 @@ export default function ResultView({
           <span>Về trang chủ</span>
         </button>
 
-        <button
-          type="button"
-          onClick={onRetakeTest}
-          className="inline-flex items-center gap-2 px-4 py-2 bg-brand-50 hover:bg-brand-100 text-brand-700 font-semibold text-sm rounded-xl border border-brand-200 transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-brand-500"
-          aria-label="Làm lại bài thi này"
-        >
-          <RotateCcw className="w-4 h-4" />
-          <span>Làm lại bài này</span>
-        </button>
+        <div className="flex items-center gap-2">
+          {otherPaperKey && onStartOtherPaper && (
+            <button
+              type="button"
+              onClick={() => onStartOtherPaper(otherPaperKey)}
+              className="inline-flex items-center gap-2 px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm rounded-xl shadow-md transition-all cursor-pointer hover:scale-105 active:scale-95"
+            >
+              {otherPaperKey === 'listening' ? (
+                <>
+                  <Headphones className="w-4 h-4 text-audio-400" />
+                  <span>Làm tiếp phần Nghe (Listening) →</span>
+                </>
+              ) : (
+                <>
+                  <BookOpen className="w-4 h-4 text-sunny-400" />
+                  <span>Làm tiếp phần Đọc (Reading) →</span>
+                </>
+              )}
+            </button>
+          )}
+
+          <button
+            type="button"
+            onClick={onRetakeTest}
+            className="inline-flex items-center gap-2 px-4 py-2 bg-brand-50 hover:bg-brand-100 text-brand-700 font-semibold text-sm rounded-xl border border-brand-200 transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-brand-500"
+            aria-label="Làm lại bài thi này"
+          >
+            <RotateCcw className="w-4 h-4" />
+            <span className="hidden sm:inline">Làm lại bài này</span>
+          </button>
+        </div>
       </div>
 
       {/* Main Score Celebration Card */}

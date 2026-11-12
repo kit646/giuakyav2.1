@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Headphones, Flag, CheckCircle2, AlertCircle, Sparkles, Check } from 'lucide-react'
+import { Headphones, BookOpen, Flag, CheckCircle2, AlertCircle, Sparkles, Check } from 'lucide-react'
 import AudioPlayer from './AudioPlayer'
 import { getImageUrl } from '../services/dataService'
 
@@ -50,10 +50,13 @@ export default function ListeningView({
   bilingualMode,
   examMode,
   timeLeft,
-  isMobileMode = false
+  isMobileMode = false,
+  onSwitchPaper
 }) {
   const paper = test.papers ? test.papers.listening : null
   const parts = paper?.parts || []
+  const hasReading = Boolean(test.papers?.reading_and_writing || test.papers?.reading)
+  const readingPaperKey = test.papers?.reading ? 'reading' : 'reading_and_writing'
 
   const [activePartIndex, setActivePartIndex] = useState(0)
   const currentPart = parts[activePartIndex] || parts[0]
@@ -106,12 +109,32 @@ export default function ListeningView({
           
           {/* Left: Test Info & Parts Selector */}
           <div className="space-y-2 w-full md:w-auto">
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-audio-50 text-audio-700">
                 {test.title}
               </span>
+
+              {/* Paper Switcher: If test has both papers */}
+              {hasReading && (
+                <div className="inline-flex items-center bg-slate-100 p-0.5 rounded-xl border border-slate-200 text-xs font-bold shrink-0">
+                  <button
+                    type="button"
+                    onClick={() => onSwitchPaper && onSwitchPaper(readingPaperKey)}
+                    className="px-2.5 py-1 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-white transition-all flex items-center gap-1 cursor-pointer"
+                    title="Chuyển sang làm bài Đọc (Reading & Writing)"
+                  >
+                    <BookOpen className="w-3.5 h-3.5 text-brand-600" />
+                    <span>Sang Reading</span>
+                  </button>
+                  <span className="px-2.5 py-1 rounded-lg bg-audio-600 text-white shadow-xs flex items-center gap-1 cursor-default">
+                    <Headphones className="w-3.5 h-3.5" />
+                    <span>Listening</span>
+                  </span>
+                </div>
+              )}
+
               <span className="text-xs text-slate-600 font-medium">
-                Listening Paper • Đã làm <strong className="text-audio-700">{answeredCount}/{totalQuestions}</strong> câu
+                Đã làm <strong className="text-audio-700">{answeredCount}/{totalQuestions}</strong> câu
               </span>
             </div>
 
