@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { Headphones, BookOpen, Flag, CheckCircle2, AlertCircle, Sparkles, Check } from 'lucide-react'
+import React, { useState, useEffect, useMemo } from 'react'
+import { Headphones, BookOpen, Flag, CheckCircle2, XCircle, AlertTriangle, AlertCircle, Sparkles, Check, ArrowLeft, RotateCcw, ArrowRight } from 'lucide-react'
 import AudioPlayer from './AudioPlayer'
 import { getImageUrl } from '../services/dataService'
 
@@ -51,12 +51,26 @@ export default function ListeningView({
   examMode,
   timeLeft,
   isMobileMode = false,
-  onSwitchPaper
+  onSwitchPaper,
+  reviewMode = false,
+  result = null,
+  onBackToResult,
+  onRetakeTest
 }) {
   const paper = test.papers ? test.papers.listening : null
   const parts = paper?.parts || []
   const hasReading = Boolean(test.papers?.reading_and_writing || test.papers?.reading)
   const readingPaperKey = test.papers?.reading ? 'reading' : 'reading_and_writing'
+
+  const questionDetailsMap = useMemo(() => {
+    const map = {}
+    if (result && result.questionDetails) {
+      result.questionDetails.forEach((qd) => {
+        map[qd.questionNumber] = qd
+      })
+    }
+    return map
+  }, [result])
 
   const [activePartIndex, setActivePartIndex] = useState(0)
   const currentPart = parts[activePartIndex] || parts[0]
@@ -169,9 +183,9 @@ export default function ListeningView({
             </div>
           </div>
 
-          {/* Right: Timer (Exam Mode) & Submit Button */}
-          <div className="flex items-center gap-3 w-full md:w-auto justify-end">
-            {examMode === 'exam' && timeLeft !== undefined && (
+          {/* Right: Timer (Exam Mode) & Submit / Review Buttons */}
+          <div className="flex flex-wrap items-center gap-2.5 w-full md:w-auto justify-end">
+            {!reviewMode && examMode === 'exam' && timeLeft !== undefined && (
               <div 
                 aria-label={`Thời gian làm bài còn lại: ${formatTimer(timeLeft)}`}
                 className={`px-4 py-2 rounded-xl text-sm font-mono font-bold flex items-center gap-2 border ${
@@ -184,17 +198,56 @@ export default function ListeningView({
               </div>
             )}
 
-            <button
-              type="button"
-              onClick={onSubmit}
-              className="w-full md:w-auto px-5 py-2.5 bg-fresh-600 hover:bg-fresh-700 text-white font-bold text-sm rounded-xl shadow-md shadow-fresh-600/20 transition-all cursor-pointer flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-fresh-500"
-            >
-              <CheckCircle2 className="w-4 h-4" />
-              <span>Nộp Bài & Chấm Điểm</span>
-            </button>
+            {reviewMode ? (
+              <>
+                {onBackToResult && (
+                  <button
+                    type="button"
+                    onClick={onBackToResult}
+                    className="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs sm:text-sm rounded-xl shadow-sm transition-all cursor-pointer flex items-center gap-1.5"
+                  >
+                    <ArrowLeft className="w-4 h-4" />
+                    <span>Về Bảng Điểm Chi Tiết</span>
+                  </button>
+                )}
+                {onRetakeTest && (
+                  <button
+                    type="button"
+                    onClick={onRetakeTest}
+                    className="px-3.5 py-2 bg-audio-50 hover:bg-audio-100 text-audio-700 border border-audio-200 font-bold text-xs sm:text-sm rounded-xl transition-all cursor-pointer flex items-center gap-1.5"
+                  >
+                    <RotateCcw className="w-4 h-4" />
+                    <span>Làm lại đề</span>
+                  </button>
+                )}
+              </>
+            ) : (
+              <button
+                type="button"
+                onClick={onSubmit}
+                className="w-full md:w-auto px-5 py-2.5 bg-fresh-600 hover:bg-fresh-700 text-white font-bold text-sm rounded-xl shadow-md shadow-fresh-600/20 transition-all cursor-pointer flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-fresh-500"
+              >
+                <CheckCircle2 className="w-4 h-4" />
+                <span>Nộp Bài & Chấm Điểm</span>
+              </button>
+            )}
           </div>
 
         </div>
+
+        {/* Review Mode Banner */}
+        {reviewMode && result && (
+          <div className="bg-amber-50 border-2 border-amber-300 rounded-2xl p-4 flex flex-wrap items-center justify-between gap-3 shadow-xs">
+            <div className="flex items-center gap-3">
+              <span className="px-3 py-1 rounded-xl bg-amber-500 text-slate-950 font-extrabold text-xs uppercase tracking-wider">
+                🔍 Chế độ Sửa Bài Trực Tiếp Trên Đề
+              </span>
+              <span className="text-xs sm:text-sm font-bold text-slate-800">
+                Kết quả: Đúng <strong className="text-fresh-700">{result.correctCount}/{result.totalQuestions}</strong> câu ({result.percentage}%) • Bạn có thể bấm nghe lại Audio ở trên kết hợp đọc lời thoại (Audioscript) bên dưới mỗi câu.
+              </span>
+            </div>
+          </div>
+        )}
 
         {/* Current Part Content */}
         {currentPart && (
@@ -283,6 +336,9 @@ export default function ListeningView({
                 const qNum = q.question_number || q.number
                 const userAns = answers[qNum]
                 const isFlagged = flagged[qNum]
+                const qd = reviewMode ? questionDetailsMap[qNum] : null
+                const userKeyUpper = String(userAns || '').trim().toUpperCase()
+                const correctKeyUpper = String(qd?.correctAnswer || q.answer || '').trim().toUpperCase()
 
                 // Dynamic type determination
                 const matchingOptions = currentPart.matching_options || currentPart.options
@@ -295,41 +351,82 @@ export default function ListeningView({
                   <div
                     key={qNum}
                     className={`bg-white rounded-2xl border p-5 sm:p-6 shadow-card transition-all ${
-                      userAns !== undefined ? 'border-audio-400 ring-1 ring-audio-300' : 'border-slate-200'
+                      reviewMode && qd
+                        ? qd.isCorrect
+                          ? 'border-fresh-400 ring-1 ring-fresh-200'
+                          : 'border-coral-400 ring-2 ring-coral-200/70'
+                        : userAns !== undefined
+                          ? 'border-audio-400 ring-1 ring-audio-300'
+                          : 'border-slate-200'
                     }`}
                   >
                     {/* Question Header */}
                     <div className="flex items-center justify-between gap-2 mb-3">
                       <div className="flex items-center gap-2">
-                        <span className="w-8 h-8 rounded-xl bg-slate-100 text-slate-900 font-bold font-lexend text-sm flex items-center justify-center">
+                        <span className={`w-8 h-8 rounded-xl font-bold font-lexend text-sm flex items-center justify-center ${
+                          reviewMode && qd
+                            ? qd.isCorrect
+                              ? 'bg-fresh-600 text-white'
+                              : 'bg-coral-600 text-white'
+                            : 'bg-slate-100 text-slate-900'
+                        }`}>
                           {qNum}
                         </span>
                         <span className="text-xs font-semibold text-slate-600 uppercase tracking-wider">
                           Câu hỏi {qNum}
                         </span>
-                        {userAns !== undefined && (
-                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
-                            <Check className="w-3 h-3 text-emerald-600" />
-                            Đã lưu
+                        {reviewMode && qd ? (
+                          <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-extrabold border ${
+                            qd.isCorrect
+                              ? 'bg-fresh-50 text-fresh-700 border-fresh-300'
+                              : qd.isUnanswered
+                                ? 'bg-amber-50 text-amber-800 border-amber-300'
+                                : 'bg-coral-50 text-coral-700 border-coral-300'
+                          }`}>
+                            {qd.isCorrect ? (
+                              <>
+                                <CheckCircle2 className="w-3.5 h-3.5 text-fresh-600" />
+                                <span>Đúng</span>
+                              </>
+                            ) : qd.isUnanswered ? (
+                              <>
+                                <AlertTriangle className="w-3.5 h-3.5 text-amber-600" />
+                                <span>Bỏ trống</span>
+                              </>
+                            ) : (
+                              <>
+                                <XCircle className="w-3.5 h-3.5 text-coral-600" />
+                                <span>Làm sai</span>
+                              </>
+                            )}
                           </span>
+                        ) : (
+                          userAns !== undefined && (
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                              <Check className="w-3 h-3 text-emerald-600" />
+                              Đã lưu
+                            </span>
+                          )
                         )}
                       </div>
 
-                      <button
-                        type="button"
-                        onClick={() => onToggleFlag(qNum)}
-                        aria-pressed={isFlagged}
-                        aria-label={isFlagged ? `Bỏ ghim câu hỏi ${qNum}` : `Ghim câu hỏi ${qNum} để xem lại`}
-                        className={`p-2 rounded-xl text-xs font-medium flex items-center gap-1 transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-sunny-400 ${
-                          isFlagged
-                            ? 'bg-sunny-100 text-sunny-900 border border-sunny-300'
-                            : 'text-slate-500 hover:text-slate-800 hover:bg-slate-100'
-                        }`}
-                        title="Đánh dấu câu hỏi cần xem lại"
-                      >
-                        <Flag className={`w-3.5 h-3.5 ${isFlagged ? 'fill-sunny-500 text-sunny-600' : ''}`} />
-                        <span className="hidden sm:inline">{isFlagged ? 'Đã ghim' : 'Ghim'}</span>
-                      </button>
+                      {!reviewMode && (
+                        <button
+                          type="button"
+                          onClick={() => onToggleFlag(qNum)}
+                          aria-pressed={isFlagged}
+                          aria-label={isFlagged ? `Bỏ ghim câu hỏi ${qNum}` : `Ghim câu hỏi ${qNum} để xem lại`}
+                          className={`p-2 rounded-xl text-xs font-medium flex items-center gap-1 transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-sunny-400 ${
+                            isFlagged
+                              ? 'bg-sunny-100 text-sunny-900 border border-sunny-300'
+                              : 'text-slate-500 hover:text-slate-800 hover:bg-slate-100'
+                          }`}
+                          title="Đánh dấu câu hỏi cần xem lại"
+                        >
+                          <Flag className={`w-3.5 h-3.5 ${isFlagged ? 'fill-sunny-500 text-sunny-600' : ''}`} />
+                          <span className="hidden sm:inline">{isFlagged ? 'Đã ghim' : 'Ghim'}</span>
+                        </button>
+                      )}
                     </div>
 
                     {/* Question Prompt */}
@@ -350,6 +447,8 @@ export default function ListeningView({
                           <div className={`grid ${isMobileMode ? 'grid-cols-3 gap-2' : 'grid-cols-1 sm:grid-cols-3 gap-4'}`} role="radiogroup" aria-label={`Lựa chọn cho câu ${qNum}`}>
                             {['A', 'B', 'C'].map((optKey) => {
                               const isSelected = userAns === optKey
+                              const isCorrectOpt = reviewMode && optKey === correctKeyUpper
+                              const isUserWrongOpt = reviewMode && !qd?.isCorrect && optKey === userKeyUpper
                               const optImg = getImageUrl(q.images[`option_${optKey}`])
                               const optDesc = q.options_descriptions ? q.options_descriptions[optKey] : ''
 
@@ -359,12 +458,19 @@ export default function ListeningView({
                                   type="button"
                                   role="radio"
                                   aria-checked={isSelected}
+                                  disabled={reviewMode}
                                   aria-label={`Lựa chọn ${optKey}${optDesc ? `: ${optDesc}` : ''}`}
-                                  onClick={() => onAnswer(qNum, optKey)}
-                                  className={`rounded-2xl border p-2 sm:p-3 flex flex-col items-center justify-between gap-2 transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-audio-500 ${
-                                    isSelected
-                                      ? 'bg-audio-50 border-audio-600 ring-2 ring-audio-600/30 shadow-md'
-                                      : 'bg-white border-slate-200 hover:bg-slate-50 hover:border-slate-300 shadow-xs'
+                                  onClick={() => !reviewMode && onAnswer(qNum, optKey)}
+                                  className={`rounded-2xl border p-2 sm:p-3 flex flex-col items-center justify-between gap-2 transition-all ${
+                                    reviewMode
+                                      ? isCorrectOpt
+                                        ? 'bg-fresh-50 border-fresh-500 ring-2 ring-fresh-500/30 shadow-md'
+                                        : isUserWrongOpt
+                                          ? 'bg-coral-50 border-coral-500 ring-2 ring-coral-500/30'
+                                          : 'bg-white border-slate-200 opacity-75'
+                                      : isSelected
+                                        ? 'bg-audio-50 border-audio-600 ring-2 ring-audio-600/30 shadow-md cursor-pointer'
+                                        : 'bg-white border-slate-200 hover:bg-slate-50 hover:border-slate-300 shadow-xs cursor-pointer'
                                   }`}
                                 >
                                   {/* Picture container */}
@@ -379,13 +485,27 @@ export default function ListeningView({
                                   </div>
 
                                   {/* Option Key Badge & Description */}
-                                  <div className="w-full flex items-center justify-center sm:justify-between px-1">
+                                  <div className="w-full flex flex-wrap items-center justify-between gap-1 px-1">
                                     <span className={`w-6 sm:w-7 h-6 sm:h-7 rounded-lg flex items-center justify-center text-xs font-bold font-lexend ${
-                                      isSelected ? 'bg-audio-600 text-white' : 'bg-slate-100 text-slate-700'
+                                      reviewMode
+                                        ? isCorrectOpt
+                                          ? 'bg-fresh-600 text-white'
+                                          : isUserWrongOpt
+                                            ? 'bg-coral-600 text-white'
+                                            : 'bg-slate-100 text-slate-700'
+                                        : isSelected
+                                          ? 'bg-audio-600 text-white'
+                                          : 'bg-slate-100 text-slate-700'
                                     }`}>
                                       {optKey}
                                     </span>
-                                    {optDesc && !isMobileMode && (
+                                    {reviewMode && isCorrectOpt && (
+                                      <span className="text-[11px] font-extrabold text-fresh-700">✓ Đúng</span>
+                                    )}
+                                    {reviewMode && isUserWrongOpt && (
+                                      <span className="text-[11px] font-extrabold text-coral-700">✗ Bạn chọn</span>
+                                    )}
+                                    {!reviewMode && optDesc && !isMobileMode && (
                                       <span className="hidden sm:inline text-xs text-slate-600 truncate max-w-[140px] text-right font-medium">
                                         {optDesc}
                                       </span>
@@ -407,43 +527,65 @@ export default function ListeningView({
                               />
                             </div>
                             <div className="grid grid-cols-3 gap-3" role="radiogroup" aria-label={`Chọn đáp án cho câu ${qNum}`}>
-                              {['A', 'B', 'C'].map((optKey) => (
-                                <button
-                                  key={optKey}
-                                  type="button"
-                                  role="radio"
-                                  aria-checked={userAns === optKey}
-                                  onClick={() => onAnswer(qNum, optKey)}
-                                  className={`py-3 rounded-xl border font-lexend font-bold text-sm transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-audio-500 ${
-                                    userAns === optKey
-                                      ? 'bg-audio-600 text-white border-audio-600 shadow-md'
-                                      : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
-                                  }`}
-                                >
-                                  Chọn {optKey}
-                                </button>
-                              ))}
+                              {['A', 'B', 'C'].map((optKey) => {
+                                const isCorrectOpt = reviewMode && optKey === correctKeyUpper
+                                const isUserWrongOpt = reviewMode && !qd?.isCorrect && optKey === userKeyUpper
+                                return (
+                                  <button
+                                    key={optKey}
+                                    type="button"
+                                    role="radio"
+                                    disabled={reviewMode}
+                                    aria-checked={userAns === optKey}
+                                    onClick={() => !reviewMode && onAnswer(qNum, optKey)}
+                                    className={`py-3 rounded-xl border font-lexend font-bold text-sm transition-all ${
+                                      reviewMode
+                                        ? isCorrectOpt
+                                          ? 'bg-fresh-600 text-white border-fresh-600 shadow-md'
+                                          : isUserWrongOpt
+                                            ? 'bg-coral-600 text-white border-coral-600'
+                                            : 'bg-white text-slate-600 border-slate-200'
+                                        : userAns === optKey
+                                          ? 'bg-audio-600 text-white border-audio-600 shadow-md cursor-pointer'
+                                          : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50 cursor-pointer'
+                                    }`}
+                                  >
+                                    {reviewMode && isCorrectOpt ? `✓ Đáp án ${optKey}` : reviewMode && isUserWrongOpt ? `✗ Bạn chọn ${optKey}` : `Chọn ${optKey}`}
+                                  </button>
+                                )
+                              })}
                             </div>
                           </div>
                         ) : (
                           <div className="grid grid-cols-3 gap-3" role="radiogroup" aria-label={`Chọn đáp án cho câu ${qNum}`}>
-                            {['A', 'B', 'C'].map((optKey) => (
-                              <button
-                                key={optKey}
-                                type="button"
-                                role="radio"
-                                aria-checked={userAns === optKey}
-                                onClick={() => onAnswer(qNum, optKey)}
-                                className={`p-4 rounded-xl border text-center transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-audio-500 ${
-                                  userAns === optKey
-                                    ? 'bg-audio-50 border-audio-500 text-audio-900 ring-2 ring-audio-500/20'
-                                    : 'bg-white border-slate-200 hover:bg-slate-50'
-                                }`}
-                              >
-                                <div className="font-bold text-lg">{optKey}</div>
-                                <div className="text-xs text-slate-600 mt-1">{q.options_descriptions?.[optKey] || `Hình ${optKey}`}</div>
-                              </button>
-                            ))}
+                            {['A', 'B', 'C'].map((optKey) => {
+                              const isCorrectOpt = reviewMode && optKey === correctKeyUpper
+                              const isUserWrongOpt = reviewMode && !qd?.isCorrect && optKey === userKeyUpper
+                              return (
+                                <button
+                                  key={optKey}
+                                  type="button"
+                                  role="radio"
+                                  disabled={reviewMode}
+                                  aria-checked={userAns === optKey}
+                                  onClick={() => !reviewMode && onAnswer(qNum, optKey)}
+                                  className={`p-4 rounded-xl border text-center transition-all ${
+                                    reviewMode
+                                      ? isCorrectOpt
+                                        ? 'bg-fresh-50 border-fresh-500 text-fresh-950 font-bold'
+                                        : isUserWrongOpt
+                                          ? 'bg-coral-50 border-coral-500 text-coral-950'
+                                          : 'bg-white border-slate-200'
+                                      : userAns === optKey
+                                        ? 'bg-audio-50 border-audio-500 text-audio-900 ring-2 ring-audio-500/20 cursor-pointer'
+                                        : 'bg-white border-slate-200 hover:bg-slate-50 cursor-pointer'
+                                  }`}
+                                >
+                                  <div className="font-bold text-lg">{optKey}</div>
+                                  <div className="text-xs text-slate-600 mt-1">{q.options_descriptions?.[optKey] || `Hình ${optKey}`}</div>
+                                </button>
+                              )
+                            })}
                           </div>
                         )}
                       </div>
@@ -458,25 +600,39 @@ export default function ListeningView({
                         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5" role="radiogroup" aria-label={`Đáp án ghép đôi cho câu ${qNum}`}>
                           {Object.entries(matchingOptions || { A: 'A', B: 'B', C: 'C', D: 'D', E: 'E', F: 'F', G: 'G', H: 'H' }).map(([letter, labelText]) => {
                             const isSelected = userAns === letter
+                            const letterUpper = letter.toUpperCase()
+                            const isCorrectOpt = reviewMode && letterUpper === correctKeyUpper
+                            const isUserWrongOpt = reviewMode && !qd?.isCorrect && letterUpper === userKeyUpper
                             return (
                               <button
                                 key={letter}
                                 type="button"
                                 role="radio"
+                                disabled={reviewMode}
                                 aria-checked={isSelected}
                                 aria-label={`Ghép với ${letter}${labelText ? `: ${labelText}` : ''}`}
-                                onClick={() => onAnswer(qNum, letter)}
-                                className={`min-h-11 px-3 py-2 rounded-xl font-bold font-lexend text-xs sm:text-sm transition-all cursor-pointer flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-audio-500 ${
-                                  isSelected
-                                    ? 'bg-audio-600 text-white shadow-md shadow-audio-600/30'
-                                    : 'bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200'
+                                onClick={() => !reviewMode && onAnswer(qNum, letter)}
+                                className={`min-h-11 px-3 py-2 rounded-xl font-bold font-lexend text-xs sm:text-sm transition-all flex items-center gap-2 ${
+                                  reviewMode
+                                    ? isCorrectOpt
+                                      ? 'bg-fresh-600 text-white shadow-md ring-2 ring-fresh-400'
+                                      : isUserWrongOpt
+                                        ? 'bg-coral-600 text-white shadow-md'
+                                        : 'bg-slate-50 text-slate-600 border border-slate-200 opacity-75'
+                                    : isSelected
+                                      ? 'bg-audio-600 text-white shadow-md shadow-audio-600/30 cursor-pointer'
+                                      : 'bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200 cursor-pointer'
                                 }`}
                               >
-                                <span className={`w-6 h-6 rounded-md flex items-center justify-center shrink-0 ${isSelected ? 'bg-white/20 text-white' : 'bg-slate-200 text-slate-800'}`}>
+                                <span className={`w-6 h-6 rounded-md flex items-center justify-center shrink-0 ${
+                                  reviewMode
+                                    ? (isCorrectOpt || isUserWrongOpt ? 'bg-white/20 text-white' : 'bg-slate-200 text-slate-700')
+                                    : (isSelected ? 'bg-white/20 text-white' : 'bg-slate-200 text-slate-800')
+                                }`}>
                                   {letter}
                                 </span>
                                 {labelText && typeof labelText === 'string' && (
-                                  <span className="font-medium text-xs truncate text-left" title={labelText}>
+                                  <span className={`font-medium text-xs truncate text-left ${isUserWrongOpt ? 'line-through' : ''}`} title={labelText}>
                                     {labelText}
                                   </span>
                                 )}
@@ -492,29 +648,57 @@ export default function ListeningView({
                       <div className="space-y-2.5" role="radiogroup" aria-label={`Các phương án câu ${qNum}`}>
                         {Object.entries(q.options).map(([optKey, optText]) => {
                           const isSelected = userAns === optKey
+                          const optUpper = optKey.toUpperCase()
+                          const isCorrectOpt = reviewMode && optUpper === correctKeyUpper
+                          const isUserWrongOpt = reviewMode && !qd?.isCorrect && optUpper === userKeyUpper
                           return (
                             <button
                               key={optKey}
                               type="button"
                               role="radio"
+                              disabled={reviewMode}
                               aria-checked={isSelected}
-                              onClick={() => onAnswer(qNum, optKey)}
-                              className={`w-full text-left p-3.5 rounded-xl border flex items-center gap-3 transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-audio-500 ${
-                                isSelected
-                                  ? 'bg-audio-50 border-audio-500 text-audio-900 ring-2 ring-audio-500/20 shadow-xs'
-                                  : 'bg-white border-slate-200 text-slate-800 hover:bg-slate-50 hover:border-slate-300'
+                              onClick={() => !reviewMode && onAnswer(qNum, optKey)}
+                              className={`w-full text-left p-3.5 rounded-xl border flex items-center justify-between gap-3 transition-all ${
+                                reviewMode
+                                  ? isCorrectOpt
+                                    ? 'bg-fresh-50 border-fresh-500 text-fresh-950 font-bold ring-2 ring-fresh-500/20'
+                                    : isUserWrongOpt
+                                      ? 'bg-coral-50 border-coral-400 text-coral-950 font-semibold'
+                                      : 'bg-white border-slate-200 text-slate-600 opacity-80'
+                                  : isSelected
+                                    ? 'bg-audio-50 border-audio-500 text-audio-900 ring-2 ring-audio-500/20 shadow-xs cursor-pointer'
+                                    : 'bg-white border-slate-200 text-slate-800 hover:bg-slate-50 hover:border-slate-300 cursor-pointer'
                               }`}
                             >
-                              <span className={`w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold font-lexend shrink-0 transition-colors ${
-                                isSelected
-                                  ? 'bg-audio-600 text-white'
-                                  : 'bg-slate-100 text-slate-600'
-                              }`}>
-                                {optKey}
-                              </span>
-                              <span className="text-sm font-medium leading-relaxed">
-                                {optText}
-                              </span>
+                              <div className="flex items-center gap-3">
+                                <span className={`w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold font-lexend shrink-0 transition-colors ${
+                                  reviewMode
+                                    ? isCorrectOpt
+                                      ? 'bg-fresh-600 text-white'
+                                      : isUserWrongOpt
+                                        ? 'bg-coral-600 text-white'
+                                        : 'bg-slate-100 text-slate-600'
+                                    : isSelected
+                                      ? 'bg-audio-600 text-white'
+                                      : 'bg-slate-100 text-slate-600'
+                                }`}>
+                                  {optKey}
+                                </span>
+                                <span className={`text-sm leading-relaxed ${isUserWrongOpt ? 'line-through decoration-coral-600' : 'font-medium'}`}>
+                                  {optText}
+                                </span>
+                              </div>
+                              {reviewMode && isCorrectOpt && (
+                                <span className="shrink-0 px-2.5 py-0.5 rounded-full bg-fresh-600 text-white text-[11px] font-extrabold">
+                                  ✓ Đáp án đúng
+                                </span>
+                              )}
+                              {reviewMode && isUserWrongOpt && (
+                                <span className="shrink-0 px-2.5 py-0.5 rounded-full bg-coral-600 text-white text-[11px] font-extrabold">
+                                  ✗ Bạn chọn (Sai)
+                                </span>
+                              )}
                             </button>
                           )
                         })}
@@ -524,33 +708,102 @@ export default function ListeningView({
                     {/* CASE 4: GAP FILL NOTES */}
                     {isGapFill && (
                       <div className="pt-2 space-y-2">
-                        <label className="block text-xs font-semibold text-slate-700">
-                          {q.label ? `Điền thông tin cho "${q.label}":` : `Nhập thông tin điền vào chỗ trống (${qNum}):`}
-                        </label>
-                        <div className="flex items-center gap-2 max-w-md">
-                          {q.prefix && (
-                            <span className="font-bold text-slate-800 text-sm bg-slate-100 px-3 py-3 rounded-xl border border-slate-200 shrink-0">
-                              {q.prefix}
+                        {reviewMode && qd ? (
+                          <div className="flex flex-wrap items-center gap-3 p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+                            {q.prefix && (
+                              <span className="font-bold text-slate-800 text-sm bg-white px-2.5 py-1 rounded border border-slate-200">
+                                {q.prefix}
+                              </span>
+                            )}
+                            <div>
+                              <span className="text-xs text-slate-500 block font-semibold">Bạn đã điền:</span>
+                              <span className={`text-base font-extrabold ${qd.isCorrect ? 'text-fresh-700' : 'text-coral-700 line-through'}`}>
+                                {qd.isCorrect ? '✓ ' : '✗ '}
+                                {qd.isUnanswered ? '(Bỏ trống)' : qd.userAnswer}
+                              </span>
+                            </div>
+                            {!qd.isCorrect && (
+                              <>
+                                <ArrowRight className="w-4 h-4 text-slate-400" />
+                                <div className="px-3 py-1.5 rounded-xl bg-fresh-50 border border-fresh-300">
+                                  <span className="text-xs text-fresh-800 block font-semibold">Đáp án đúng:</span>
+                                  <span className="text-base font-extrabold text-fresh-900">
+                                    ✓ {qd.correctAnswer}
+                                  </span>
+                                </div>
+                              </>
+                            )}
+                            {q.suffix && (
+                              <span className="font-bold text-slate-700 text-sm bg-white px-2.5 py-1 rounded border border-slate-200">
+                                {q.suffix}
+                              </span>
+                            )}
+                          </div>
+                        ) : (
+                          <>
+                            <label className="block text-xs font-semibold text-slate-700">
+                              {q.label ? `Điền thông tin cho "${q.label}":` : `Nhập thông tin điền vào chỗ trống (${qNum}):`}
+                            </label>
+                            <div className="flex items-center gap-2 max-w-md">
+                              {q.prefix && (
+                                <span className="font-bold text-slate-800 text-sm bg-slate-100 px-3 py-3 rounded-xl border border-slate-200 shrink-0">
+                                  {q.prefix}
+                                </span>
+                              )}
+                              <DebouncedInput
+                                value={userAns}
+                                onChange={(val) => onAnswer(qNum, val)}
+                                placeholder="Nhập câu trả lời..."
+                                ariaLabel={`Đáp án điền từ cho câu ${qNum}`}
+                                className="flex-1 px-4 py-3 rounded-xl border border-slate-300 focus:border-audio-500 focus:ring-2 focus:ring-audio-500/20 text-slate-900 font-semibold text-sm outline-none transition-all shadow-xs"
+                              />
+                              {q.suffix && (
+                                <span className="font-bold text-slate-700 text-sm bg-slate-100 px-3 py-3 rounded-xl border border-slate-200 shrink-0">
+                                  {q.suffix}
+                                </span>
+                              )}
+                            </div>
+                          </>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Review Mode Error Analysis & Audioscript Evidence */}
+                    {reviewMode && qd && (
+                      <div className={`mt-4 p-4 rounded-xl border space-y-2.5 text-xs sm:text-sm ${
+                        qd.isCorrect
+                          ? 'bg-fresh-50/50 border-fresh-200 text-slate-800'
+                          : 'bg-coral-50/50 border-coral-200 text-slate-900'
+                      }`}>
+                        {!qd.isCorrect && qd.errorAnalysis && (
+                          <div className="text-coral-900 font-semibold">
+                            <strong className="font-extrabold">🔎 Chỉ ra lỗi sai: </strong>
+                            {qd.errorAnalysis}
+                          </div>
+                        )}
+                        {qd.evidenceQuote && (
+                          <div className="p-2.5 bg-white rounded-lg border border-slate-200">
+                            <span className="text-[11px] font-extrabold uppercase text-audio-700 block mb-0.5">
+                              🎧 Câu dẫn chứng trong băng nghe:
                             </span>
-                          )}
-                          <DebouncedInput
-                            value={userAns}
-                            onChange={(val) => onAnswer(qNum, val)}
-                            placeholder="Nhập câu trả lời..."
-                            ariaLabel={`Đáp án điền từ cho câu ${qNum}`}
-                            className="flex-1 px-4 py-3 rounded-xl border border-slate-300 focus:border-audio-500 focus:ring-2 focus:ring-audio-500/20 text-slate-900 font-semibold text-sm outline-none transition-all shadow-xs"
-                          />
-                          {q.suffix && (
-                            <span className="font-bold text-slate-700 text-sm bg-slate-100 px-3 py-3 rounded-xl border border-slate-200 shrink-0">
-                              {q.suffix}
-                            </span>
-                          )}
-                        </div>
+                            <span className="italic text-slate-800 font-medium">"{qd.evidenceQuote}"</span>
+                          </div>
+                        )}
+                        {qd.transcript && (
+                          <details className="pt-1" open={!qd.isCorrect}>
+                            <summary className="text-xs font-extrabold text-audio-800 cursor-pointer hover:underline">
+                              Xem toàn bộ lời thoại (Audioscript) của phần này
+                            </summary>
+                            <div className="mt-2 p-3 bg-white/90 rounded-lg border border-audio-200 text-xs text-slate-700 whitespace-pre-line leading-relaxed">
+                              {qd.transcript}
+                            </div>
+                          </details>
+                        )}
                       </div>
                     )}
 
                     {/* Bilingual Hint */}
-                    {bilingualMode && (
+                    {!reviewMode && bilingualMode && (
                       <div className="mt-3 text-xs text-slate-600 italic bg-slate-50 p-2.5 rounded-lg border border-slate-100">
                         {isPictureQuestion && `(Dịch câu hỏi ${qNum}: Lắng nghe chi tiết về người, đồ vật hoặc thời gian trong audio)`}
                         {isGapFill && `(Dịch câu hỏi ${qNum}: Chú ý cách đánh vần tên riêng hoặc số liệu giờ giấc/tiền tệ)`}

@@ -37,6 +37,7 @@ export default function App() {
   const [flagged, setFlagged] = useState({})
   const [timeLeft, setTimeLeft] = useState(0)
   const [currentResult, setCurrentResult] = useState(null)
+  const [reviewMode, setReviewMode] = useState(false)
 
   // Confirmation Modals
   const [submitConfirmOpen, setSubmitConfirmOpen] = useState(false)
@@ -90,7 +91,7 @@ export default function App() {
   // 2. Countdown timer for Exam Mode
   useEffect(() => {
     let timerId = null
-    if (examMode === 'exam' && (currentView === 'reading' || currentView === 'listening')) {
+    if (examMode === 'exam' && !reviewMode && (currentView === 'reading' || currentView === 'listening')) {
       if (timeLeft > 0) {
         timerId = setInterval(() => {
           setTimeLeft((prev) => {
@@ -107,13 +108,14 @@ export default function App() {
     return () => {
       if (timerId) clearInterval(timerId)
     }
-  }, [examMode, currentView, timeLeft])
+  }, [examMode, reviewMode, currentView, timeLeft])
 
   // Start a test (reading or listening)
   const handleStartTest = (test, paperKey, mode = 'study') => {
     setActiveTest(test)
     setActivePaperKey(paperKey)
     setExamMode(mode)
+    setReviewMode(false)
 
     // Load saved answers for this test if available
     const saved = getSavedAnswers(test.test_id, paperKey)
@@ -213,8 +215,28 @@ export default function App() {
     persistResult(activeTest.test_id, activePaperKey, result)
 
     setCurrentResult(result)
+    setReviewMode(false)
     setProgress(getAllTestProgress())
     setStats(getGlobalStats())
+    setCurrentView('result')
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  // Open test view in Review Mode to inspect mistakes inline
+  const handleReviewInTest = () => {
+    if (!activeTest || !activePaperKey) return
+    setReviewMode(true)
+    if (activePaperKey === 'listening') {
+      setCurrentView('listening')
+    } else {
+      setCurrentView('reading')
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  // Return from In-Test Review Mode back to Result summary
+  const handleBackToResult = () => {
+    setReviewMode(false)
     setCurrentView('result')
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
@@ -225,12 +247,13 @@ export default function App() {
     persistClearAnswers(activeTest.test_id, activePaperKey)
     setAnswers({})
     setFlagged({})
+    setReviewMode(false)
     handleStartTest(activeTest, activePaperKey, examMode)
   }
 
   // Request navigate back to Dashboard
   const handleRequestNavigateHome = () => {
-    if (examMode === 'exam' && (currentView === 'reading' || currentView === 'listening')) {
+    if (examMode === 'exam' && !reviewMode && (currentView === 'reading' || currentView === 'listening')) {
       setExitExamConfirmOpen(true)
     } else {
       handleNavigateHome()
@@ -242,6 +265,7 @@ export default function App() {
     setCurrentView('dashboard')
     setActiveTest(null)
     setActivePaperKey('')
+    setReviewMode(false)
     setProgress(getAllTestProgress())
     setStats(getGlobalStats())
     window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -335,6 +359,10 @@ export default function App() {
             isMobileMode={isMobileMode}
             onToggleViewMode={handleToggleViewMode}
             onSwitchPaper={handleSwitchPaper}
+            reviewMode={reviewMode}
+            result={currentResult}
+            onBackToResult={handleBackToResult}
+            onRetakeTest={handleRetakeTest}
           />
         )}
 
@@ -352,6 +380,10 @@ export default function App() {
             isMobileMode={isMobileMode}
             onToggleViewMode={handleToggleViewMode}
             onSwitchPaper={handleSwitchPaper}
+            reviewMode={reviewMode}
+            result={currentResult}
+            onBackToResult={handleBackToResult}
+            onRetakeTest={handleRetakeTest}
           />
         )}
 
@@ -363,6 +395,7 @@ export default function App() {
             onRetakeTest={handleRetakeTest}
             onNavigateHome={handleNavigateHome}
             onStartOtherPaper={handleSwitchPaper}
+            onReviewInTest={handleReviewInTest}
             isMobileMode={isMobileMode}
           />
         )}
