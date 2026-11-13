@@ -116,13 +116,15 @@ export default function ListeningView({
         />
       )}
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+      <div className={isMobileMode ? 'w-full px-3 space-y-4' : 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6'}>
         
         {/* Top Control Bar: Parts Navigation & Submit */}
-        <div className="bg-white rounded-2xl border border-slate-200 p-4 shadow-card flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div className={`bg-white rounded-2xl border border-slate-200 p-4 shadow-card ${
+          isMobileMode ? 'flex flex-col items-start gap-3' : 'flex flex-col md:flex-row items-start md:items-center justify-between gap-4'
+        }`}>
           
           {/* Left: Test Info & Parts Selector */}
-          <div className="space-y-2 w-full md:w-auto">
+          <div className={isMobileMode ? 'space-y-2 w-full' : 'space-y-2 w-full md:w-auto'}>
             <div className="flex flex-wrap items-center gap-2">
               <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-audio-50 text-audio-700">
                 {test.title}
@@ -650,7 +652,8 @@ export default function ListeningView({
                           const isSelected = userAns === optKey
                           const optUpper = optKey.toUpperCase()
                           const isCorrectOpt = reviewMode && optUpper === correctKeyUpper
-                          const isUserWrongOpt = reviewMode && !qd?.isCorrect && optUpper === userKeyUpper
+                          const isUserSelected = reviewMode && !qd?.isUnanswered && optUpper === userKeyUpper
+                          const isUserWrongOpt = reviewMode && !qd?.isCorrect && isUserSelected
                           return (
                             <button
                               key={optKey}
@@ -659,20 +662,35 @@ export default function ListeningView({
                               disabled={reviewMode}
                               aria-checked={isSelected}
                               onClick={() => !reviewMode && onAnswer(qNum, optKey)}
-                              className={`w-full text-left p-3.5 rounded-xl border flex items-center justify-between gap-3 transition-all ${
+                              className={`w-full text-left p-3.5 rounded-xl border flex flex-col gap-1.5 transition-all ${
                                 reviewMode
                                   ? isCorrectOpt
-                                    ? 'bg-fresh-50 border-fresh-500 text-fresh-950 font-bold ring-2 ring-fresh-500/20'
+                                    ? 'bg-fresh-50 border-fresh-500 text-fresh-950 font-bold ring-1 ring-fresh-400'
                                     : isUserWrongOpt
                                       ? 'bg-coral-50 border-coral-400 text-coral-950 font-semibold'
                                       : 'bg-white border-slate-200 text-slate-600 opacity-80'
                                   : isSelected
-                                    ? 'bg-audio-50 border-audio-500 text-audio-900 ring-2 ring-audio-500/20 shadow-xs cursor-pointer'
+                                    ? 'bg-audio-50 border-audio-500 text-audio-900 ring-2 ring-audio-500/20 shadow-sm cursor-pointer'
                                     : 'bg-white border-slate-200 text-slate-800 hover:bg-slate-50 hover:border-slate-300 cursor-pointer'
                               }`}
                             >
-                              <div className="flex items-center gap-3">
-                                <span className={`w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold font-lexend shrink-0 transition-colors ${
+                              {reviewMode && (isCorrectOpt || isUserWrongOpt) && (
+                                <div className="flex items-center gap-2">
+                                  {isCorrectOpt && (
+                                    <span className="px-2 py-0.5 rounded-md bg-fresh-600 text-white text-[11px] font-extrabold">
+                                      ✓ {isUserSelected ? 'Bạn chọn đúng' : 'Đáp án đúng'}
+                                    </span>
+                                  )}
+                                  {isUserWrongOpt && (
+                                    <span className="px-2 py-0.5 rounded-md bg-coral-600 text-white text-[11px] font-extrabold">
+                                      ✗ Bạn đã chọn (Sai)
+                                    </span>
+                                  )}
+                                </div>
+                              )}
+
+                              <div className="flex items-start gap-3">
+                                <span className={`w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold font-lexend shrink-0 mt-0.5 transition-colors ${
                                   reviewMode
                                     ? isCorrectOpt
                                       ? 'bg-fresh-600 text-white'
@@ -685,20 +703,10 @@ export default function ListeningView({
                                 }`}>
                                   {optKey}
                                 </span>
-                                <span className={`text-sm leading-relaxed ${isUserWrongOpt ? 'line-through decoration-coral-600' : 'font-medium'}`}>
+                                <span className="text-sm leading-relaxed font-medium break-words">
                                   {optText}
                                 </span>
                               </div>
-                              {reviewMode && isCorrectOpt && (
-                                <span className="shrink-0 px-2.5 py-0.5 rounded-full bg-fresh-600 text-white text-[11px] font-extrabold">
-                                  ✓ Đáp án đúng
-                                </span>
-                              )}
-                              {reviewMode && isUserWrongOpt && (
-                                <span className="shrink-0 px-2.5 py-0.5 rounded-full bg-coral-600 text-white text-[11px] font-extrabold">
-                                  ✗ Bạn chọn (Sai)
-                                </span>
-                              )}
                             </button>
                           )
                         })}
@@ -709,34 +717,29 @@ export default function ListeningView({
                     {isGapFill && (
                       <div className="pt-2 space-y-2">
                         {reviewMode && qd ? (
-                          <div className="flex flex-wrap items-center gap-3 p-3.5 rounded-xl bg-slate-50 border border-slate-200">
-                            {q.prefix && (
-                              <span className="font-bold text-slate-800 text-sm bg-white px-2.5 py-1 rounded border border-slate-200">
-                                {q.prefix}
-                              </span>
-                            )}
-                            <div>
-                              <span className="text-xs text-slate-500 block font-semibold">Bạn đã điền:</span>
-                              <span className={`text-base font-extrabold ${qd.isCorrect ? 'text-fresh-700' : 'text-coral-700 line-through'}`}>
-                                {qd.isCorrect ? '✓ ' : '✗ '}
-                                {qd.isUnanswered ? '(Bỏ trống)' : qd.userAnswer}
+                          <div className={`grid gap-2.5 ${isMobileMode ? 'grid-cols-1' : 'grid-cols-1 sm:grid-cols-2'}`}>
+                            <div className={`p-3 rounded-xl border ${
+                              qd.isCorrect
+                                ? 'bg-fresh-50 border-fresh-300'
+                                : qd.isUnanswered
+                                  ? 'bg-amber-50 border-amber-300'
+                                  : 'bg-coral-50 border-coral-300'
+                            }`}>
+                              <span className="text-[11px] text-slate-600 block font-bold uppercase mb-0.5">Bạn đã điền:</span>
+                              <span className={`text-base font-extrabold ${
+                                qd.isCorrect ? 'text-fresh-800' : qd.isUnanswered ? 'text-amber-800' : 'text-coral-700'
+                              }`}>
+                                {qd.isCorrect ? '✓ ' : qd.isUnanswered ? '⚠️ ' : '✗ '}
+                                {qd.isUnanswered ? '(Bỏ trống)' : `${q.prefix ? `${q.prefix} ` : ''}${qd.userAnswer}${q.suffix ? ` ${q.suffix}` : ''}`}
                               </span>
                             </div>
                             {!qd.isCorrect && (
-                              <>
-                                <ArrowRight className="w-4 h-4 text-slate-400" />
-                                <div className="px-3 py-1.5 rounded-xl bg-fresh-50 border border-fresh-300">
-                                  <span className="text-xs text-fresh-800 block font-semibold">Đáp án đúng:</span>
-                                  <span className="text-base font-extrabold text-fresh-900">
-                                    ✓ {qd.correctAnswer}
-                                  </span>
-                                </div>
-                              </>
-                            )}
-                            {q.suffix && (
-                              <span className="font-bold text-slate-700 text-sm bg-white px-2.5 py-1 rounded border border-slate-200">
-                                {q.suffix}
-                              </span>
+                              <div className="p-3 rounded-xl bg-fresh-50 border border-fresh-400">
+                                <span className="text-[11px] text-fresh-800 block font-bold uppercase mb-0.5">Đáp án đúng:</span>
+                                <span className="text-base font-extrabold text-fresh-900">
+                                  ✓ {q.prefix ? `${q.prefix} ` : ''}{qd.correctAnswer}{q.suffix ? ` ${q.suffix}` : ''}
+                                </span>
+                              </div>
                             )}
                           </div>
                         ) : (

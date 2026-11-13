@@ -119,10 +119,13 @@ export default function ReadingView({
 
   const handleSelectQuestionFromMatrix = (partIdx, qNum) => {
     setActivePartIndex(partIdx)
+    if (isMobileMode) {
+      setMobileReadingTab('questions')
+    }
     setTimeout(() => {
       const el = document.getElementById(`reading-question-${qNum}`)
       if (el) {
-        el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' })
       }
     }, 100)
   }
@@ -138,7 +141,10 @@ export default function ReadingView({
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+    <div className={isMobileMode
+      ? 'w-full px-3 py-4 space-y-4 pb-20'
+      : 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6'
+    }>
       
       {/* Lightbox Modal */}
       {modalImage && (
@@ -161,10 +167,12 @@ export default function ReadingView({
       />
 
       {/* Top Bar: Title, Part Tabs, Matrix & Submit */}
-      <div className="bg-white rounded-2xl border border-slate-200 p-4 shadow-card flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <div className={`bg-white rounded-2xl border border-slate-200 p-4 shadow-card ${
+        isMobileMode ? 'flex flex-col items-start gap-3' : 'flex flex-col md:flex-row items-start md:items-center justify-between gap-4'
+      }`}>
         
         {/* Left: Test Info & Parts Navigation */}
-        <div className="space-y-2 w-full md:w-auto">
+        <div className={isMobileMode ? 'space-y-2 w-full' : 'space-y-2 w-full md:w-auto'}>
           <div className="flex flex-wrap items-center gap-2">
             <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-brand-50 text-brand-700">
               {test.title}
@@ -226,7 +234,7 @@ export default function ReadingView({
         </div>
 
         {/* Right: Matrix, Timer (if Exam Mode) & Submit / Review Buttons */}
-        <div className="flex flex-wrap items-center gap-2 sm:gap-3 w-full md:w-auto justify-end">
+        <div className={`flex flex-wrap items-center gap-2 sm:gap-3 ${isMobileMode ? 'w-full justify-between' : 'w-full md:w-auto justify-end'}`}>
           {/* Question Matrix Button */}
           <button
             type="button"
@@ -304,26 +312,28 @@ export default function ReadingView({
         </div>
       )}
 
-      {/* Mobile Anchor Bar (Visible only on < lg screens) */}
-      <div className="lg:hidden flex items-center justify-between bg-slate-100 p-2 rounded-xl border border-slate-200 text-xs font-semibold">
-        <button
-          type="button"
-          onClick={scrollToPassage}
-          className="flex-1 py-1.5 text-center text-brand-700 bg-white rounded-lg shadow-xs hover:bg-brand-50 transition-colors flex items-center justify-center gap-1 cursor-pointer"
-        >
-          <BookOpen className="w-3.5 h-3.5" />
-          <span>Lên đầu bài đọc</span>
-        </button>
-        <span className="px-2 text-slate-400">•</span>
-        <button
-          type="button"
-          onClick={scrollToQuestions}
-          className="flex-1 py-1.5 text-center text-slate-700 bg-white rounded-lg shadow-xs hover:bg-slate-50 transition-colors flex items-center justify-center gap-1 cursor-pointer"
-        >
-          <ChevronDown className="w-3.5 h-3.5" />
-          <span>Xuống danh sách câu hỏi</span>
-        </button>
-      </div>
+      {/* Mobile Anchor Bar (Only shown in Desktop Mode on narrow viewports < lg) */}
+      {!isMobileMode && (
+        <div className="lg:hidden flex items-center justify-between bg-slate-100 p-2 rounded-xl border border-slate-200 text-xs font-semibold">
+          <button
+            type="button"
+            onClick={scrollToPassage}
+            className="flex-1 py-1.5 text-center text-brand-700 bg-white rounded-lg shadow-sm hover:bg-brand-50 transition-colors flex items-center justify-center gap-1 cursor-pointer"
+          >
+            <BookOpen className="w-3.5 h-3.5" />
+            <span>Lên đầu bài đọc</span>
+          </button>
+          <span className="px-2 text-slate-400">•</span>
+          <button
+            type="button"
+            onClick={scrollToQuestions}
+            className="flex-1 py-1.5 text-center text-slate-700 bg-white rounded-lg shadow-sm hover:bg-slate-50 transition-colors flex items-center justify-center gap-1 cursor-pointer"
+          >
+            <ChevronDown className="w-3.5 h-3.5" />
+            <span>Xuống danh sách câu hỏi</span>
+          </button>
+        </div>
+      )}
 
       {/* Part Content Area */}
       {currentPart && (
@@ -373,46 +383,55 @@ export default function ReadingView({
             </div>
           )}
 
-          {/* Mobile Reading Mode Segmented Tab Selector */}
+          {/* Mobile Reading Mode Segmented Tab Selector (For Parts 2–5) */}
           {isMobileMode && currentPart.part !== 1 && (
-            <div className="flex bg-slate-200/90 p-1 rounded-2xl sticky top-14 z-20 shadow-xs mb-4">
+            <div className="flex bg-slate-200/95 p-1 rounded-2xl sticky top-14 z-20 shadow-sm mb-3">
               <button
                 type="button"
                 onClick={() => setMobileReadingTab('passage')}
-                className={`flex-1 py-2 text-xs font-bold rounded-xl transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+                className={`flex-1 py-2 px-2 text-xs font-bold rounded-xl transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
                   mobileReadingTab === 'passage'
                     ? 'bg-white text-brand-700 shadow-sm'
                     : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
-                <BookOpen className="w-3.5 h-3.5 text-brand-600" />
-                <span>1. Xem đoạn văn</span>
+                <BookOpen className="w-3.5 h-3.5 text-brand-600 shrink-0" />
+                <span>{reviewMode ? '1. Đoạn văn (Đáp án)' : '1. Xem đoạn văn'}</span>
               </button>
               <button
                 type="button"
                 onClick={() => setMobileReadingTab('questions')}
-                className={`flex-1 py-2 text-xs font-bold rounded-xl transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+                className={`flex-1 py-2 px-2 text-xs font-bold rounded-xl transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
                   mobileReadingTab === 'questions'
                     ? 'bg-brand-600 text-white shadow-sm'
                     : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
-                <CheckSquare className="w-3.5 h-3.5" />
-                <span>2. Làm câu hỏi ({currentPart.questions?.length || 0} câu)</span>
+                <CheckSquare className="w-3.5 h-3.5 shrink-0" />
+                <span>
+                  {reviewMode
+                    ? `2. Sửa lỗi (${currentPart.questions?.length || 0} câu)`
+                    : `2. Làm câu hỏi (${currentPart.questions?.length || 0})`}
+                </span>
               </button>
             </div>
           )}
 
-          {/* MAIN TWO-COLUMN SPLIT VIEW FOR READING */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          {/* MAIN LAYOUT: Strict 1-col in isMobileMode, 2-col split on Desktop */}
+          <div className={isMobileMode ? 'grid grid-cols-1 gap-4 items-start' : 'grid grid-cols-1 lg:grid-cols-12 gap-6 items-start'}>
             
-            {/* LEFT COLUMN: Passage or Stimulus Area (6 Cols) */}
-            <div 
-              id="reading-passage-column"
-              className={`lg:col-span-6 bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-card space-y-4 max-h-[750px] overflow-y-auto lg:sticky lg:top-24 ${
-                isMobileMode && currentPart.part !== 1 && mobileReadingTab === 'questions' ? 'hidden lg:block' : 'block'
-              }`}
-            >
+            {/* LEFT COLUMN: Passage or Stimulus Area */}
+            {!(isMobileMode && currentPart.part === 1) && (
+              <div
+                id="reading-passage-column"
+                className={`${
+                  isMobileMode
+                    ? `bg-white rounded-2xl border border-slate-200 p-4 shadow-card space-y-4 ${
+                        currentPart.part !== 1 && mobileReadingTab === 'questions' ? 'hidden' : 'block'
+                      }`
+                    : 'lg:col-span-6 bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-card space-y-4 max-h-[750px] overflow-y-auto lg:sticky lg:top-24'
+                }`}
+              >
               <div className="flex items-center justify-between border-b border-slate-100 pb-3">
                 <div className="flex items-center gap-2 text-sm font-bold text-slate-800">
                   <BookOpen className="w-4 h-4 text-brand-600" />
@@ -456,7 +475,9 @@ export default function ReadingView({
                           <span>{typeof passageObj.example === 'object' ? Object.entries(passageObj.example).map(([k, v]) => `(${k}) ${v}`).join(', ') : passageObj.example}</span>
                         </div>
                       )}
-                      <div className="text-base text-slate-800 leading-relaxed whitespace-pre-line font-vietnam selection:bg-brand-100">
+                      <div className={`text-base text-slate-800 whitespace-pre-line font-vietnam selection:bg-brand-100 ${
+                        reviewMode && (currentPart.part === 4 || currentPart.part === 5) ? 'leading-[2.2]' : 'leading-relaxed'
+                      }`}>
                         {reviewMode && (currentPart.part === 4 || currentPart.part === 5)
                           ? String(passageObj.text).split(/(\(\s*\d+\s*\)\s*_+)/g).map((chunk, i) => {
                               const m = chunk.match(/\(\s*(\d+)\s*\)/)
@@ -465,36 +486,27 @@ export default function ReadingView({
                                 const qd = questionDetailsMap[gapNum]
                                 if (qd) {
                                   const correctWord = qd.correctOptionText || qd.correctAnswer
-                                  const userWord = qd.userOptionText || qd.userAnswer
                                   return (
                                     <button
                                       key={i}
                                       type="button"
                                       onClick={() => {
-                                        const el = document.getElementById(`reading-question-${gapNum}`)
-                                        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+                                        if (isMobileMode) {
+                                          setMobileReadingTab('questions')
+                                        }
+                                        setTimeout(() => {
+                                          const el = document.getElementById(`reading-question-${gapNum}`)
+                                          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                                        }, 80)
                                       }}
-                                      className={`inline-flex items-center gap-1 px-2 py-0.5 mx-1 rounded-lg text-sm font-bold border transition-transform hover:scale-105 cursor-pointer ${
+                                      className={`inline-block align-baseline px-2 py-0.5 mx-0.5 rounded-md text-xs sm:text-sm font-extrabold border transition-transform hover:scale-105 cursor-pointer ${
                                         qd.isCorrect
                                           ? 'bg-fresh-100 border-fresh-500 text-fresh-900'
-                                          : 'bg-coral-50 border-coral-500 text-coral-900 shadow-2xs'
+                                          : 'bg-coral-50 border-coral-500 text-coral-800'
                                       }`}
-                                      title="Bấm để xem giải thích câu này ở cột bên phải"
+                                      title="Bấm để xem giải thích câu này"
                                     >
-                                      <span className="text-xs opacity-75">({gapNum})</span>
-                                      {qd.isCorrect ? (
-                                        <span>✓ {correctWord}</span>
-                                      ) : (
-                                        <>
-                                          <span className="line-through text-coral-700">
-                                            ✗ {qd.isUnanswered ? 'trống' : userWord}
-                                          </span>
-                                          <ArrowRight className="w-3 h-3 text-slate-500" />
-                                          <span className="text-fresh-800 font-extrabold underline">
-                                            ✓ {correctWord}
-                                          </span>
-                                        </>
-                                      )}
+                                      ({gapNum}) {qd.isCorrect ? `✓ ${correctWord}` : `${correctWord} ✗`}
                                     </button>
                                   )
                                 }
@@ -590,17 +602,20 @@ export default function ReadingView({
                   onClick={() => setMobileReadingTab('questions')}
                   className="w-full py-3 px-4 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-2 shadow-sm cursor-pointer transition-colors"
                 >
-                  <span>Đã đọc xong, chuyển sang làm câu hỏi</span>
+                  <span>{reviewMode ? 'Chuyển sang danh sách câu hỏi & sửa lỗi' : 'Đã đọc xong, chuyển sang làm câu hỏi'}</span>
                   <CheckSquare className="w-4 h-4" />
                 </button>
               )}
             </div>
+            )}
 
-            {/* RIGHT COLUMN: Questions & Options (6 Cols) */}
+            {/* RIGHT COLUMN: Questions & Options */}
             <div 
               id="reading-questions-column" 
-              className={`lg:col-span-6 space-y-5 ${
-                isMobileMode && currentPart.part !== 1 && mobileReadingTab === 'passage' ? 'hidden lg:block' : 'block'
+              className={`${
+                isMobileMode
+                  ? `space-y-4 ${currentPart.part !== 1 && mobileReadingTab === 'passage' ? 'hidden' : 'block'}`
+                  : 'lg:col-span-6 space-y-5'
               }`}
             >
               {/* Mobile Shortcut to re-read passage */}
@@ -612,7 +627,7 @@ export default function ReadingView({
                 >
                   <span className="flex items-center gap-1.5">
                     <BookOpen className="w-4 h-4 text-brand-600" />
-                    <span>Bấm để xem lại đoạn văn đọc hiểu</span>
+                    <span>{reviewMode ? 'Xem đoạn văn có đáp án đã điền' : 'Bấm để xem lại đoạn văn đọc hiểu'}</span>
                   </span>
                   <span className="text-[11px] text-brand-700 font-semibold underline">Xem bài đọc</span>
                 </button>
@@ -625,16 +640,17 @@ export default function ReadingView({
                 const qd = reviewMode ? questionDetailsMap[qNum] : null
                 const userKeyUpper = String(userAns || '').trim().toUpperCase()
                 const correctKeyUpper = String(qd?.correctAnswer || q.answer || '').trim().toUpperCase()
+                const stimImg = q.images?.stimulus ? getImageUrl(q.images.stimulus) : null
 
                 return (
                   <div
                     id={`reading-question-${qNum}`}
                     key={qNum}
-                    className={`bg-white rounded-2xl border p-5 shadow-card transition-all ${
+                    className={`scroll-mt-32 bg-white rounded-2xl border p-4 sm:p-5 shadow-card transition-all ${
                       reviewMode && qd
                         ? qd.isCorrect
                           ? 'border-fresh-400 ring-1 ring-fresh-200'
-                          : 'border-coral-400 ring-2 ring-coral-200/70'
+                          : 'border-coral-400 ring-1 ring-coral-200'
                         : userAns !== undefined
                           ? 'border-brand-400 ring-1 ring-brand-300'
                           : 'border-slate-200'
@@ -709,6 +725,31 @@ export default function ReadingView({
                       )}
                     </div>
 
+                    {/* Part 1 Mobile Inline Stimulus (Sign/Notice shown directly inside each question card) */}
+                    {isMobileMode && currentPart.part === 1 && (stimImg || q.stimulus_text || q.text) && (
+                      <div className="mb-3.5 p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                        <div className="text-[11px] font-bold text-brand-700 uppercase">
+                          📋 Biển báo / Tin nhắn (Câu {qNum}):
+                        </div>
+                        {stimImg ? (
+                          <div
+                            onClick={() => setModalImage({ src: stimImg, alt: `Biển báo câu ${qNum}` })}
+                            className="flex justify-center bg-white p-2 rounded-lg border border-slate-200 cursor-pointer"
+                          >
+                            <img
+                              src={stimImg}
+                              alt={`Biển báo câu ${qNum}`}
+                              className="max-h-44 object-contain rounded"
+                            />
+                          </div>
+                        ) : (
+                          <div className="bg-white p-3 rounded-lg border border-slate-300 font-mono text-xs font-bold text-center tracking-wide text-slate-800 uppercase">
+                            {q.stimulus_text || q.text}
+                          </div>
+                        )}
+                      </div>
+                    )}
+
                     {/* Question Text Prompt */}
                     <div className="text-base font-semibold text-slate-900 mb-4 leading-snug">
                       {q.question || q.prompt || (currentPart.part === 5 ? `Chỗ trống (${qNum}) — Hãy điền MỘT từ thích hợp:` : currentPart.part === 4 ? `Chỗ trống (${qNum}) — Chọn từ thích hợp điền vào đoạn văn:` : 'Chọn đáp án đúng nhất:')}
@@ -721,7 +762,8 @@ export default function ReadingView({
                           const isSelected = userAns === optKey
                           const optUpper = optKey.toUpperCase()
                           const isCorrectOption = reviewMode && optUpper === correctKeyUpper
-                          const isUserWrongOption = reviewMode && !qd?.isCorrect && optUpper === userKeyUpper
+                          const isUserSelected = reviewMode && !qd?.isUnanswered && optUpper === userKeyUpper
+                          const isUserWrongOption = reviewMode && !qd?.isCorrect && isUserSelected
 
                           return (
                             <button
@@ -731,20 +773,35 @@ export default function ReadingView({
                               aria-checked={isSelected}
                               disabled={reviewMode}
                               onClick={() => !reviewMode && onAnswer(qNum, optKey)}
-                              className={`w-full text-left p-3.5 rounded-xl border flex items-center justify-between gap-3 transition-all ${
+                              className={`w-full text-left p-3.5 rounded-xl border flex flex-col gap-1.5 transition-all ${
                                 reviewMode
                                   ? isCorrectOption
-                                    ? 'bg-fresh-50 border-fresh-500 text-fresh-950 ring-2 ring-fresh-500/20 font-bold'
+                                    ? 'bg-fresh-50 border-fresh-500 text-fresh-950 ring-1 ring-fresh-400 font-bold'
                                     : isUserWrongOption
                                       ? 'bg-coral-50 border-coral-400 text-coral-950 font-semibold'
                                       : 'bg-white border-slate-200 text-slate-600 opacity-80'
                                   : isSelected
-                                    ? 'bg-brand-50 border-brand-600 text-brand-900 ring-2 ring-brand-500/20 shadow-xs cursor-pointer'
+                                    ? 'bg-brand-50 border-brand-600 text-brand-900 ring-2 ring-brand-500/20 shadow-sm cursor-pointer'
                                     : 'bg-white border-slate-200 text-slate-800 hover:bg-slate-50 hover:border-slate-300 cursor-pointer'
                               }`}
                             >
-                              <div className="flex items-center gap-3">
-                                <span className={`w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold font-lexend shrink-0 transition-colors ${
+                              {reviewMode && (isCorrectOption || isUserWrongOption) && (
+                                <div className="flex items-center gap-2">
+                                  {isCorrectOption && (
+                                    <span className="px-2 py-0.5 rounded-md bg-fresh-600 text-white text-[11px] font-extrabold">
+                                      ✓ {isUserSelected ? 'Bạn chọn đúng' : 'Đáp án đúng'}
+                                    </span>
+                                  )}
+                                  {isUserWrongOption && (
+                                    <span className="px-2 py-0.5 rounded-md bg-coral-600 text-white text-[11px] font-extrabold">
+                                      ✗ Bạn đã chọn (Sai)
+                                    </span>
+                                  )}
+                                </div>
+                              )}
+
+                              <div className="flex items-start gap-3">
+                                <span className={`w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold font-lexend shrink-0 mt-0.5 transition-colors ${
                                   reviewMode
                                     ? isCorrectOption
                                       ? 'bg-fresh-600 text-white'
@@ -757,21 +814,10 @@ export default function ReadingView({
                                 }`}>
                                   {optKey}
                                 </span>
-                                <span className={`text-sm leading-relaxed ${isUserWrongOption ? 'line-through decoration-coral-600' : 'font-medium'}`}>
+                                <span className="text-sm leading-relaxed font-medium break-words">
                                   {optText}
                                 </span>
                               </div>
-
-                              {reviewMode && isCorrectOption && (
-                                <span className="shrink-0 px-2.5 py-0.5 rounded-full bg-fresh-600 text-white text-[11px] font-extrabold">
-                                  ✓ Đáp án đúng
-                                </span>
-                              )}
-                              {reviewMode && isUserWrongOption && (
-                                <span className="shrink-0 px-2.5 py-0.5 rounded-full bg-coral-600 text-white text-[11px] font-extrabold">
-                                  ✗ Bạn chọn (Sai)
-                                </span>
-                              )}
                             </button>
                           )
                         })}
@@ -780,24 +826,29 @@ export default function ReadingView({
                       /* Open Cloze text input (Part 5: điền từ với DebouncedInput) */
                       <div className="pt-2 space-y-2">
                         {reviewMode && qd ? (
-                          <div className="flex flex-wrap items-center gap-3 p-3.5 rounded-xl bg-slate-50 border border-slate-200">
-                            <div>
-                              <span className="text-xs text-slate-500 block font-semibold">Từ bạn đã điền:</span>
-                              <span className={`text-base font-extrabold ${qd.isCorrect ? 'text-fresh-700' : 'text-coral-700 line-through'}`}>
-                                {qd.isCorrect ? '✓ ' : '✗ '}
+                          <div className={`grid gap-2.5 ${isMobileMode ? 'grid-cols-1' : 'grid-cols-1 sm:grid-cols-2'}`}>
+                            <div className={`p-3 rounded-xl border ${
+                              qd.isCorrect
+                                ? 'bg-fresh-50 border-fresh-300'
+                                : qd.isUnanswered
+                                  ? 'bg-amber-50 border-amber-300'
+                                  : 'bg-coral-50 border-coral-300'
+                            }`}>
+                              <span className="text-[11px] text-slate-600 block font-bold uppercase mb-0.5">Từ bạn đã điền:</span>
+                              <span className={`text-base font-extrabold ${
+                                qd.isCorrect ? 'text-fresh-800' : qd.isUnanswered ? 'text-amber-800' : 'text-coral-700'
+                              }`}>
+                                {qd.isCorrect ? '✓ ' : qd.isUnanswered ? '⚠️ ' : '✗ '}
                                 {qd.isUnanswered ? '(Bỏ trống)' : qd.userAnswer}
                               </span>
                             </div>
                             {!qd.isCorrect && (
-                              <>
-                                <ArrowRight className="w-4 h-4 text-slate-400" />
-                                <div className="px-3 py-1.5 rounded-xl bg-fresh-50 border border-fresh-300">
-                                  <span className="text-xs text-fresh-800 block font-semibold">Đáp án đúng:</span>
-                                  <span className="text-base font-extrabold text-fresh-900">
-                                    ✓ {qd.correctAnswer}
-                                  </span>
-                                </div>
-                              </>
+                              <div className="p-3 rounded-xl bg-fresh-50 border border-fresh-400">
+                                <span className="text-[11px] text-fresh-800 block font-bold uppercase mb-0.5">Đáp án đúng:</span>
+                                <span className="text-base font-extrabold text-fresh-900">
+                                  ✓ {qd.correctAnswer}
+                                </span>
+                              </div>
                             )}
                           </div>
                         ) : (
@@ -810,7 +861,7 @@ export default function ReadingView({
                               onChange={(val) => onAnswer(qNum, val)}
                               placeholder="Nhập 1 từ duy nhất (ví dụ: at, on, the, with...)"
                               ariaLabel={`Đáp án điền từ chỗ trống câu ${qNum}`}
-                              className="w-full sm:w-80 px-4 py-3 rounded-xl border border-slate-300 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 text-slate-900 font-semibold text-sm outline-none transition-all shadow-xs"
+                              className="w-full sm:w-80 px-4 py-3 rounded-xl border border-slate-300 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 text-slate-900 font-semibold text-sm outline-none transition-all shadow-sm"
                             />
                           </>
                         )}

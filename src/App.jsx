@@ -331,7 +331,7 @@ export default function App() {
       />
 
       {/* Main Content Area */}
-      <main className="flex-1">
+      <main className={isMobileMode ? 'flex-1 w-full max-w-lg mx-auto' : 'flex-1 w-full'}>
         {currentView === 'dashboard' && (
           <Dashboard
             tests={[...(masterData.tests || []), ...(masterData.online_tests || [])]}
