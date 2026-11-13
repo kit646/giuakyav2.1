@@ -2,7 +2,11 @@ import React, { useState, useEffect, useMemo, useRef } from 'react'
 import { Headphones, BookOpen, Flag, CheckCircle2, XCircle, AlertTriangle, AlertCircle, Sparkles, Check, ArrowLeft, RotateCcw, ArrowRight } from 'lucide-react'
 import AudioPlayer from './AudioPlayer'
 import { getImageUrl } from '../services/dataService'
-import { useGSAP, animateStaggerCards } from '../utils/motion'
+import {
+  useGSAP,
+  initScrollRevealBatch,
+  refreshScrollTriggers,
+} from '../utils/motion'
 
 function DebouncedInput({ value, onChange, placeholder, className, ariaLabel }) {
   const [localVal, setLocalVal] = useState(value || '')
@@ -77,19 +81,20 @@ export default function ListeningView({
   const currentPart = parts[activePartIndex] || parts[0]
   const scopeRef = useRef(null)
 
-  // 60fps question card stagger when switching Listening Parts (keeps sticky AudioPlayer untouched)
+  // 60fps scroll-triggered question reveal when scrolling or switching Listening Parts
   useGSAP(
     () => {
-      animateStaggerCards(scopeRef.current, '.gsap-listening-question', {
-        y: 12,
-        duration: 0.28,
-        each: 0.03,
-        maxTotalStagger: 0.22,
+      initScrollRevealBatch(scopeRef.current, '.gsap-listening-question', {
+        y: 16,
+        duration: 0.48,
+        stagger: 0.045,
+        start: 'top 93%',
       })
+      refreshScrollTriggers()
     },
     {
       scope: scopeRef,
-      dependencies: [activePartIndex, reviewMode, test?.test_id],
+      dependencies: [activePartIndex, reviewMode, test?.test_id, isMobileMode],
       revertOnUpdate: true,
     }
   )

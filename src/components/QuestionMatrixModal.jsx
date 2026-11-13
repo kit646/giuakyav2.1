@@ -102,7 +102,7 @@ export default function QuestionMatrixModal({
         </div>
 
         {/* Matrix Grid grouped by Part */}
-        <div className="flex-1 overflow-y-auto space-y-4 pr-1">
+        <div data-lenis-prevent className="flex-1 overflow-y-auto space-y-4 pr-1">
           {parts.map((p) => {
             const partQuestions = allQuestions.filter(q => q.partNumber === p.part)
             if (partQuestions.length === 0) return null

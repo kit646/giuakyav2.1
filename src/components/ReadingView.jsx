@@ -3,7 +3,12 @@ import { BookOpen, Headphones, Flag, CheckCircle2, XCircle, AlertTriangle, Layou
 import { getImageUrl } from '../services/dataService'
 import ImageModal from './ImageModal'
 import QuestionMatrixModal from './QuestionMatrixModal'
-import { useGSAP, animateEntrance, animateStaggerCards } from '../utils/motion'
+import {
+  useGSAP,
+  animateEntrance,
+  initScrollRevealBatch,
+  refreshScrollTriggers,
+} from '../utils/motion'
 
 function DebouncedInput({ value, onChange, placeholder, className, ariaLabel }) {
   const [localVal, setLocalVal] = useState(value || '')
@@ -83,23 +88,24 @@ export default function ReadingView({
 
   const currentPart = parts[activePartIndex] || parts[0]
 
-  // 60fps Part/Tab transition without disrupting sticky tab bars
+  // 60fps gentle scroll-reveal & tab switch without disrupting sticky headers
   useGSAP(
     () => {
       animateEntrance(scopeRef.current, '#reading-passage-column:not(.hidden)', {
-        y: 12,
-        duration: 0.3,
+        y: 14,
+        duration: 0.42,
       })
-      animateStaggerCards(scopeRef.current, '#reading-questions-column:not(.hidden) .gsap-reading-question', {
-        y: 12,
-        duration: 0.28,
-        each: 0.03,
-        maxTotalStagger: 0.22,
+      initScrollRevealBatch(scopeRef.current, '#reading-questions-column:not(.hidden) .gsap-reading-question', {
+        y: 16,
+        duration: 0.48,
+        stagger: 0.045,
+        start: 'top 93%',
       })
+      refreshScrollTriggers()
     },
     {
       scope: scopeRef,
-      dependencies: [activePartIndex, reviewMode, mobileReadingTab, test?.test_id, paperKey],
+      dependencies: [activePartIndex, reviewMode, mobileReadingTab, test?.test_id, paperKey, isMobileMode],
       revertOnUpdate: true,
     }
   )
@@ -447,6 +453,7 @@ export default function ReadingView({
             {!(isMobileMode && currentPart.part === 1) && (
               <div
                 id="reading-passage-column"
+                data-lenis-prevent={!isMobileMode ? true : undefined}
                 className={`${
                   isMobileMode
                     ? `bg-white rounded-2xl border border-slate-200 p-4 shadow-card space-y-4 ${

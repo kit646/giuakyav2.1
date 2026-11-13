@@ -19,9 +19,11 @@ import { getImageUrl } from '../services/dataService'
 import {
   useGSAP,
   animateEntrance,
-  animateStaggerCards,
+  initScrollRevealBatch,
+  initScrollRevealSections,
   animateProgressBars,
   animateCounter,
+  refreshScrollTriggers,
 } from '../utils/motion'
 
 export default function ResultView({
@@ -38,6 +40,7 @@ export default function ResultView({
   const [expandedTranscripts, setExpandedTranscripts] = useState({})
   const scopeRef = useRef(null)
   const scoreNumRef = useRef(null)
+  const partBreakdownRef = useRef(null)
 
   const otherPaperKey = paperKey.includes('reading')
     ? (test?.papers?.listening ? 'listening' : null)
@@ -87,10 +90,10 @@ export default function ResultView({
     return true
   })
 
-  // 60fps Score Card + Counter + Part Progress Bars entrance
+  // 60fps Score Card + Counter + Scroll-revealed overview sections & Part bars
   useGSAP(
     () => {
-      animateEntrance(scopeRef.current, '.gsap-score-card', { y: 16, duration: 0.4 })
+      animateEntrance(scopeRef.current, '.gsap-score-card', { y: 16, duration: 0.45 })
       animateCounter(scoreNumRef.current, cambridgeScore, {
         from: Math.max(0, cambridgeScore - 45),
         duration: 0.85,
@@ -98,37 +101,47 @@ export default function ResultView({
       })
       animateEntrance(scopeRef.current, '.gsap-grade-badge', {
         y: 8,
-        scale: 0.9,
-        duration: 0.42,
+        scale: 0.94,
+        duration: 0.45,
         delay: 0.16,
-        ease: 'back.out(1.6)',
       })
-      animateStaggerCards(scopeRef.current, '.gsap-stat-card', {
+      animateEntrance(scopeRef.current, '.gsap-stat-card', {
         y: 12,
-        duration: 0.34,
-        each: 0.05,
+        duration: 0.36,
+        stagger: 0.05,
         delay: 0.1,
+      })
+      initScrollRevealSections(scopeRef.current, '.gsap-reveal-section', {
+        y: 18,
+        duration: 0.55,
       })
       animateProgressBars(
         scopeRef.current,
         '.gsap-part-bar',
         Array(partBreakdown.length).fill(1),
-        { duration: 0.65, delay: 0.18, stagger: 0.06 }
+        {
+          duration: 0.65,
+          delay: 0.12,
+          stagger: 0.06,
+          triggerEl: partBreakdownRef.current,
+        }
       )
     },
     { scope: scopeRef, dependencies: [test?.test_id, paperKey, cambridgeScore], revertOnUpdate: true }
   )
 
-  // Filter-aware stagger reveal for review question cards
+  // Gentle 60fps ScrollTrigger.batch reveal for detailed review question cards
   useGSAP(
     () => {
-      animateStaggerCards(scopeRef.current, '.gsap-review-card', {
-        y: 14,
-        duration: 0.32,
-        maxTotalStagger: 0.25,
+      initScrollRevealBatch(scopeRef.current, '.gsap-review-card', {
+        y: 18,
+        duration: 0.5,
+        stagger: 0.05,
+        start: 'top 92%',
       })
+      refreshScrollTriggers()
     },
-    { scope: scopeRef, dependencies: [filter], revertOnUpdate: true }
+    { scope: scopeRef, dependencies: [filter, isMobileMode], revertOnUpdate: true }
   )
 
   const toggleTranscript = (qNum) => {
@@ -294,7 +307,7 @@ export default function ResultView({
       </div>
 
       {/* Quick Question Navigator Map */}
-      <div className={`bg-white rounded-3xl border border-slate-200 shadow-card space-y-3.5 ${isMobileMode ? 'p-4' : 'p-6'}`}>
+      <div className={`gsap-reveal-section bg-white rounded-3xl border border-slate-200 shadow-card space-y-3.5 ${isMobileMode ? 'p-4' : 'p-6'}`}>
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
             <h2 className="text-base sm:text-lg font-bold text-slate-900">
@@ -346,7 +359,7 @@ export default function ResultView({
       </div>
 
       {/* Part Breakdown Overview */}
-      <div className={`bg-white rounded-3xl border border-slate-200 shadow-card space-y-3 ${isMobileMode ? 'p-4' : 'p-6'}`}>
+      <div ref={partBreakdownRef} className={`gsap-reveal-section bg-white rounded-3xl border border-slate-200 shadow-card space-y-3 ${isMobileMode ? 'p-4' : 'p-6'}`}>
         <h2 className="text-base sm:text-lg font-bold text-slate-900">
           Kết quả theo từng Part
         </h2>
@@ -792,7 +805,7 @@ export default function ResultView({
                       </button>
 
                       {isExpanded && (
-                        <div className="mt-2 p-3.5 bg-audio-50/70 rounded-xl border border-audio-200 text-xs sm:text-sm text-slate-800 leading-relaxed whitespace-pre-line font-vietnam max-h-64 overflow-y-auto">
+                        <div data-lenis-prevent className="mt-2 p-3.5 bg-audio-50/70 rounded-xl border border-audio-200 text-xs sm:text-sm text-slate-800 leading-relaxed whitespace-pre-line font-vietnam max-h-64 overflow-y-auto">
                           <div className="text-[11px] font-extrabold uppercase text-audio-800 mb-1">
                             🎧 Lời thoại gốc trong băng nghe:
                           </div>

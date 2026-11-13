@@ -1,7 +1,12 @@
 import React, { useState, useRef } from 'react'
 import { BookOpen, Headphones, Award, Clock, ArrowRight, Play, CheckCircle2, RotateCcw, Sparkles, Flame, Check, Globe, Smartphone, Monitor, QrCode } from 'lucide-react'
 import MobileAccessModal from './MobileAccessModal'
-import { useGSAP, animateEntrance, animateStaggerCards } from '../utils/motion'
+import {
+  useGSAP,
+  animateEntrance,
+  initScrollRevealBatch,
+  refreshScrollTriggers,
+} from '../utils/motion'
 
 export default function Dashboard({
   tests = [],
@@ -24,14 +29,16 @@ export default function Dashboard({
     { scope: scopeRef }
   )
 
-  // Fast, capped stagger reveal when test cards render or filter changes
+  // Gentle 60fps scroll-triggered reveal for test cards grid (batch-grouped per viewport row)
   useGSAP(
     () => {
-      animateStaggerCards(scopeRef.current, '.gsap-test-card', {
-        y: 18,
-        duration: 0.36,
-        maxTotalStagger: 0.32,
+      initScrollRevealBatch(scopeRef.current, '.gsap-test-card', {
+        y: 20,
+        duration: 0.55,
+        stagger: 0.055,
+        start: 'top 92%',
       })
+      refreshScrollTriggers()
     },
     { scope: scopeRef, dependencies: [filter, isMobileMode], revertOnUpdate: true }
   )

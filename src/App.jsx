@@ -6,7 +6,13 @@ import ListeningView from './components/ListeningView'
 import ResultView from './components/ResultView'
 import ConfirmModal from './components/ConfirmModal'
 import { loadMasterData, gradePaper } from './services/dataService'
-import { gsap, useGSAP, prefersReducedMotion } from './utils/motion'
+import {
+  gsap,
+  useGSAP,
+  prefersReducedMotion,
+  initLenisMotion,
+  refreshScrollTriggers,
+} from './utils/motion'
 import {
   getSettings,
   saveSettings,
@@ -47,6 +53,14 @@ export default function App() {
 
   const mainRef = useRef(null)
   const isFirstViewRef = useRef(true)
+
+  // Initialize Lenis smooth wheel scrolling synchronized with GSAP ScrollTrigger once
+  useEffect(() => initLenisMotion(), [])
+
+  // Keep ScrollTrigger positions synced across view / mobile layout changes
+  useEffect(() => {
+    refreshScrollTriggers()
+  }, [currentView, activePaperKey, isMobileMode, loading])
 
   // Subtle 60fps compositor transition when switching views (clears transform on complete for sticky bars)
   useGSAP(
