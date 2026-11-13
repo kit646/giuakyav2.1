@@ -1,0 +1,770 @@
+{
+  "test_id": "test_6",
+  "test_number": 6,
+  "title": "Ready for A2 Key for Schools - Test 6",
+  "source_pdf": "Test 6.pdf",
+  "key_pdf": "Ready for A2 Key for Schools 8 test - KEY.pdf",
+  "papers": {
+    "reading_and_writing": {
+      "paper": "Paper 1: Reading and Writing",
+      "book_pages": "108-117",
+      "parts": [
+        {
+          "part": 1,
+          "title": "Reading - Part 1",
+          "question_range": "1-6",
+          "type": "multiple_choice_short_texts",
+          "instructions": "For each question, choose the correct answer.",
+          "pdf_pages": [
+            1,
+            2
+          ],
+          "page_images": [
+            "extracted_data/images/test_6/page_1.png",
+            "extracted_data/images/test_6/page_2.png"
+          ],
+          "questions": [
+            {
+              "question_number": 1,
+              "stimulus_type": "advert",
+              "stimulus_header": "TEEN SKI CLUB",
+              "stimulus_text": "Become a member this Saturday or Sunday and get a month for free!",
+              "question": null,
+              "options": {
+                "A": "You won't pay anything if you join for one month.",
+                "B": "You will pay more to join the club after Saturday.",
+                "C": "There's a special offer at the weekend."
+              },
+              "answer": "C",
+              "images": {
+                "stimulus": "extracted_data/images/test_6/reading_p1_q1_stimulus.png",
+                "full_question": "extracted_data/images/test_6/reading_p1_q1_full.png"
+              }
+            },
+            {
+              "question_number": 2,
+              "stimulus_type": "text_message",
+              "stimulus_header": null,
+              "stimulus_text": "Cora, I'm still in Mum's car because the traffic is really bad. I hope to get to the cinema in five minutes. Alison",
+              "question": null,
+              "options": {
+                "A": "Alison might be late for the film.",
+                "B": "Alison will meet Cora in 5 minutes.",
+                "C": "Alison is late because her mum is driving."
+              },
+              "answer": "A",
+              "images": {
+                "stimulus": "extracted_data/images/test_6/reading_p1_q2_stimulus.png",
+                "full_question": "extracted_data/images/test_6/reading_p1_q2_full.png"
+              }
+            },
+            {
+              "question_number": 3,
+              "stimulus_type": "note",
+              "stimulus_header": null,
+              "stimulus_text": "Andrea,\ndon't forget, I'm at the dentist this afternoon. Finish your French homework and I'll check it when I get back.\nDad",
+              "question": "What should Andrea do?",
+              "options": {
+                "A": "do her French homework before her father comes home",
+                "B": "check if she has some French homework",
+                "C": "remember her father's dentist appointment"
+              },
+              "answer": "A",
+              "images": {
+                "stimulus": "extracted_data/images/test_6/reading_p1_q3_stimulus.png",
+                "full_question": "extracted_data/images/test_6/reading_p1_q3_full.png"
+              }
+            },
+            {
+              "question_number": 4,
+              "stimulus_type": "note",
+              "stimulus_header": null,
+              "stimulus_text": "THE HOCKEY COACH IS OFF SICK TODAY. NEXT PRACTICE AT 4.30 P.M. AS USUAL NEXT THURSDAY.",
+              "question": null,
+              "options": {
+                "A": "The next hockey practice will be at a different time.",
+                "B": "The coach is not available next Thursday.",
+                "C": "There's no hockey practice until next Thursday."
+              },
+              "answer": "C",
+              "images": {
+                "stimulus": "extracted_data/images/test_6/reading_p1_q4_stimulus.png",
+                "full_question": "extracted_data/images/test_6/reading_p1_q4_full.png"
+              }
+            },
+            {
+              "question_number": 5,
+              "stimulus_type": "postcard",
+              "stimulus_header": null,
+              "stimulus_text": "Dear Grace,\nI'm having a great time on holiday in Spain. I miss home a bit, but at least it's really sunny here, and not cold and foggy!\nNathan",
+              "question": null,
+              "options": {
+                "A": "Nathan's hometown has better weather than Spain.",
+                "B": "The weather's good where Nathan is.",
+                "C": "Nathan is missing the cold and foggy weather."
+              },
+              "answer": "B",
+              "images": {
+                "stimulus": "extracted_data/images/test_6/reading_p1_q5_stimulus.png",
+                "full_question": "extracted_data/images/test_6/reading_p1_q5_full.png"
+              }
+            },
+            {
+              "question_number": 6,
+              "stimulus_type": "sign",
+              "stimulus_header": "Lakeside Park",
+              "stimulus_text": "Ball games not allowed\nBicycles on paths only\nPark closes at 6.40 p.m.",
+              "question": "In this park you can",
+              "options": {
+                "A": "play volleyball.",
+                "B": "stay until twenty to seven.",
+                "C": "cycle on the grass."
+              },
+              "answer": "B",
+              "images": {
+                "stimulus": "extracted_data/images/test_6/reading_p1_q6_stimulus.png",
+                "full_question": "extracted_data/images/test_6/reading_p1_q6_full.png"
+              }
+            }
+          ]
+        },
+        {
+          "part": 2,
+          "title": "Reading - Part 2",
+          "question_range": "7-13",
+          "type": "multiple_matching",
+          "note": "Pages 110-111 (Reading Part 2) and Pages 116-117 (Writing Parts 6-7) are omitted in Test 6.pdf scan; answer key from KEY.pdf is included.",
+          "answers_only": {
+            "7": "B",
+            "8": "A",
+            "9": "C",
+            "10": "B",
+            "11": "A",
+            "12": "C",
+            "13": "C"
+          }
+        },
+        {
+          "part": 3,
+          "title": "Reading - Part 3",
+          "question_range": "14-18",
+          "type": "reading_comprehension_multiple_choice",
+          "instructions": "For each question, choose the correct answer.",
+          "pdf_pages": [
+            3,
+            4
+          ],
+          "page_images": [
+            "extracted_data/images/test_6/page_3.png",
+            "extracted_data/images/test_6/page_4.png"
+          ],
+          "passage_title": "THE DAY I GOT MY DOG",
+          "passage_author": "by Natasha, age 12",
+          "passage_text": "I've loved animals since I was a little girl, but my parents work all day and I'm at school until 5 p.m. This is why every time I asked to get a pet, they said no. Things changed on a rainy day last March.\n\nI was coming back from school with my best friend Diana when we saw a rubbish bin move. There was a black bag inside and when she took it out and opened it, I saw a little dog. I think it was less than a month old because some of its teeth were still missing.\n\nThe dog looked sad and hungry, so I took it home. While I was waiting for my parents to get back, I gave the dog some meat and water. The dog drank the whole bowl of water but it didn't eat anything, then it lay down on the carpet in the living room and slept.\n\nWhen my parents got home, they were surprised. My father sat down on the sofa and the dog jumped on his legs: he touched its head and smiled. My mother went into the kitchen and came back with some meat: this time the dog ate it. Then she asked me to choose a name for it.\nShe also said that if I wanted to keep the dog I would have to look after it every day, because both my parents were busy at work until the evening. We have had Leela for 4 years now. She's part of my family and we all love her.",
+          "questions": [
+            {
+              "question_number": 14,
+              "question": "Why couldn't Natasha have a pet?",
+              "options": {
+                "A": "Her parents were too busy.",
+                "B": "She had too much homework.",
+                "C": "She was too young to have a pet."
+              },
+              "answer": "A"
+            },
+            {
+              "question_number": 15,
+              "question": "Where did Natasha find the dog?",
+              "options": {
+                "A": "near a rubbish bin",
+                "B": "on her way to school",
+                "C": "in a bag"
+              },
+              "answer": "C"
+            },
+            {
+              "question_number": 16,
+              "question": "Why did Natasha think the dog was very young?",
+              "options": {
+                "A": "It had small teeth.",
+                "B": "It had few teeth.",
+                "C": "It had no teeth."
+              },
+              "answer": "B"
+            },
+            {
+              "question_number": 17,
+              "question": "How did the dog feel when they got home?",
+              "options": {
+                "A": "hungry",
+                "B": "thirsty",
+                "C": "scared"
+              },
+              "answer": "B"
+            },
+            {
+              "question_number": 18,
+              "question": "What did Natasha's mother do when she saw the dog?",
+              "options": {
+                "A": "She asked Natasha what its name was.",
+                "B": "She gave it some food.",
+                "C": "She said they couldn't keep the dog."
+              },
+              "answer": "B"
+            }
+          ]
+        },
+        {
+          "part": 4,
+          "title": "Reading - Part 4",
+          "question_range": "19-24",
+          "type": "multiple_choice_cloze",
+          "instructions": "For each question, choose the correct answer.",
+          "pdf_pages": [
+            5
+          ],
+          "page_images": [
+            "extracted_data/images/test_6/page_5.png"
+          ],
+          "passage_title": "LEONARDO DA VINCI",
+          "passage_text": "Leonardo da Vinci was an Italian artist born in the 15th century. He is most famous (19) ___ his paintings. However, we don't know (20) ___ about his life. People think that Leonardo was one of the most intelligent (21) ___ of all time because he was interested in so many different things and he wanted to understand everything (22) ___ nature.\n\nLeonardo was born in a small town near Florence, where he studied art. He spent most of his life working for rich Italians. In the last years of his life, he lived in a beautiful home which the King of France gave (23) ___.\n\nHis best-known paintings are Mona Lisa and The Last Supper, but he was also an engineer and an inventor. He had ideas for a flying machine, a robot and a telephone but most of them were (24) ___ made.",
+          "questions": [
+            {
+              "question_number": 19,
+              "options": {
+                "A": "to",
+                "B": "by",
+                "C": "for"
+              },
+              "answer": "C"
+            },
+            {
+              "question_number": 20,
+              "options": {
+                "A": "many",
+                "B": "much",
+                "C": "a lot of"
+              },
+              "answer": "B"
+            },
+            {
+              "question_number": 21,
+              "options": {
+                "A": "person",
+                "B": "people",
+                "C": "man"
+              },
+              "answer": "B"
+            },
+            {
+              "question_number": 22,
+              "options": {
+                "A": "about",
+                "B": "by",
+                "C": "of"
+              },
+              "answer": "A"
+            },
+            {
+              "question_number": 23,
+              "options": {
+                "A": "him",
+                "B": "them",
+                "C": "it"
+              },
+              "answer": "A"
+            },
+            {
+              "question_number": 24,
+              "options": {
+                "A": "even",
+                "B": "ever",
+                "C": "never"
+              },
+              "answer": "C"
+            }
+          ]
+        },
+        {
+          "part": 5,
+          "title": "Reading - Part 5",
+          "question_range": "25-30",
+          "type": "open_cloze",
+          "instructions": "For each question, choose the correct answer. Write ONE word for each gap.",
+          "pdf_pages": [
+            6
+          ],
+          "page_images": [
+            "extracted_data/images/test_6/page_6.png"
+          ],
+          "example": {
+            "0": "from"
+          },
+          "email_header": {
+            "From": "Cassie",
+            "To": "Julia"
+          },
+          "passage_text": "Hi Julia,\n\nI've just come back (0) [from] my holiday in Canada. I must tell you about the amazing hotel (25) ___ we stayed in Quebec City.\n\nEvery year they have to build this hotel again because it's made out (26) ___ ice – can you believe it? It's very cold inside, of course, but there were warm sleeping bags (27) ___ every room.\n\nWe went to this hotel (28) ___ my mother's birthday. She loves cold weather and snow, (29) ___ Dad gave her this surprise present. Unfortunately, we (30) ___ stayed there one night, because it's very expensive, but I'll never forget it!\n\nBye for now,\nCassie",
+          "questions": [
+            {
+              "question_number": 25,
+              "answer": "where",
+              "accepted_answers": [
+                "where"
+              ]
+            },
+            {
+              "question_number": 26,
+              "answer": "of",
+              "accepted_answers": [
+                "of"
+              ]
+            },
+            {
+              "question_number": 27,
+              "answer": "in",
+              "accepted_answers": [
+                "in"
+              ]
+            },
+            {
+              "question_number": 28,
+              "answer": "for",
+              "accepted_answers": [
+                "for"
+              ]
+            },
+            {
+              "question_number": 29,
+              "answer": "so",
+              "accepted_answers": [
+                "so",
+                "and"
+              ]
+            },
+            {
+              "question_number": 30,
+              "answer": "only / just",
+              "accepted_answers": [
+                "only",
+                "just"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "listening": {
+      "paper": "Paper 2: Listening",
+      "book_pages": "118-123",
+      "parts": [
+        {
+          "part": 1,
+          "title": "Listening - Part 1",
+          "question_range": "1-5",
+          "type": "multiple_choice_pictures",
+          "instructions": "For each question, choose the correct picture.",
+          "audio": {
+            "track_number": 26,
+            "file_name": "A2 Key TK_26.mp3",
+            "relative_path": "audio/A2 Key TK_26.mp3"
+          },
+          "pdf_pages": [
+            7,
+            8
+          ],
+          "page_images": [
+            "extracted_data/images/test_6/page_7.png",
+            "extracted_data/images/test_6/page_8.png"
+          ],
+          "questions": [
+            {
+              "question_number": 1,
+              "question": "Which postcard do they choose?",
+              "options_descriptions": {
+                "A": "Postcard of mountains",
+                "B": "Postcard of a river with trees",
+                "C": "Postcard of a lake/coast"
+              },
+              "answer": "B",
+              "transcript": "A: Shall we send Amy a postcard? I really like this one with the river.\nB: But we're staying next to a lake, not a river!\nA: Hmm, there aren't any postcards with the lake. How about this one with the mountains?\nB: No, that looks too boring. Let's send her the first one you liked.",
+              "images": {
+                "question_and_options": "extracted_data/images/test_6/listening_p1_q1.png",
+                "options_row": "extracted_data/images/test_6/listening_p1_q1_options.png",
+                "option_A": "extracted_data/images/test_6/listening_p1_q1_opt_A.png",
+                "option_B": "extracted_data/images/test_6/listening_p1_q1_opt_B.png",
+                "option_C": "extracted_data/images/test_6/listening_p1_q1_opt_C.png"
+              }
+            },
+            {
+              "question_number": 2,
+              "question": "Where is the girl going next?",
+              "options_descriptions": {
+                "A": "To the library",
+                "B": "To the tennis court",
+                "C": "To the newsagent's / shop"
+              },
+              "answer": "A",
+              "transcript": "Dad: Are you going to tennis practice, Sue?\nSue: Yes, Dad, but I need to go to the library first. I have to return a couple of books.\nDad: Oh, could you get me the newspaper then?\nSue: OK, I'll get it on my way back from tennis.",
+              "images": {
+                "question_and_options": "extracted_data/images/test_6/listening_p1_q2.png",
+                "options_row": "extracted_data/images/test_6/listening_p1_q2_options.png",
+                "option_A": "extracted_data/images/test_6/listening_p1_q2_opt_A.png",
+                "option_B": "extracted_data/images/test_6/listening_p1_q2_opt_B.png",
+                "option_C": "extracted_data/images/test_6/listening_p1_q2_opt_C.png"
+              }
+            },
+            {
+              "question_number": 3,
+              "question": "What time is the art class tomorrow?",
+              "options_descriptions": {
+                "A": "Clock showing 3:15 (quarter past three)",
+                "B": "Clock showing 2:30 (half past two)",
+                "C": "Clock showing 2:15 (quarter past two)"
+              },
+              "answer": "A",
+              "transcript": "Boy: Hi, Joanna, are you going to the art class at half past two tomorrow?\nJoanna: Yes, but it starts later this week. The teacher won't be back from the school trip until a quarter past two.\nBoy: Oh yes, now I remember. Then I'll see you there at quarter past three, right?\nJoanna: OK, see you there.",
+              "images": {
+                "question_and_options": "extracted_data/images/test_6/listening_p1_q3.png",
+                "options_row": "extracted_data/images/test_6/listening_p1_q3_options.png",
+                "option_A": "extracted_data/images/test_6/listening_p1_q3_opt_A.png",
+                "option_B": "extracted_data/images/test_6/listening_p1_q3_opt_B.png",
+                "option_C": "extracted_data/images/test_6/listening_p1_q3_opt_C.png"
+              }
+            },
+            {
+              "question_number": 4,
+              "question": "What did Cathy's mother do on holiday?",
+              "options_descriptions": {
+                "A": "Relaxing in a deckchair in the sun",
+                "B": "Snowboarding",
+                "C": "Skiing"
+              },
+              "answer": "B",
+              "transcript": "Boy: How was your holiday, Cathy?\nCathy: Brilliant! I skied the whole time and my brother went snowboarding.\nBoy: But your brother is only 5 years old!\nCathy: Well, my mother was with him. She usually prefers relaxing in the sun while we ski, but this time she taught him to snowboard.",
+              "images": {
+                "question_and_options": "extracted_data/images/test_6/listening_p1_q4.png",
+                "options_row": "extracted_data/images/test_6/listening_p1_q4_options.png",
+                "option_A": "extracted_data/images/test_6/listening_p1_q4_opt_A.png",
+                "option_B": "extracted_data/images/test_6/listening_p1_q4_opt_B.png",
+                "option_C": "extracted_data/images/test_6/listening_p1_q4_opt_C.png"
+              }
+            },
+            {
+              "question_number": 5,
+              "question": "How did Samantha get home from school?",
+              "options_descriptions": {
+                "A": "By bus",
+                "B": "By scooter",
+                "C": "By car"
+              },
+              "answer": "C",
+              "transcript": "Samantha: Sorry I'm late, Mum...\nMum: What happened? Was there a problem with your new scooter?\nSamantha: I didn't take the scooter today. Unfortunately, I missed the bus back home, so Adam's father gave me a lift.\nMum: Oh, he drives so slowly! That's why it took you so long.",
+              "images": {
+                "question_and_options": "extracted_data/images/test_6/listening_p1_q5.png",
+                "options_row": "extracted_data/images/test_6/listening_p1_q5_options.png",
+                "option_A": "extracted_data/images/test_6/listening_p1_q5_opt_A.png",
+                "option_B": "extracted_data/images/test_6/listening_p1_q5_opt_B.png",
+                "option_C": "extracted_data/images/test_6/listening_p1_q5_opt_C.png"
+              }
+            }
+          ]
+        },
+        {
+          "part": 2,
+          "title": "Listening - Part 2",
+          "question_range": "6-10",
+          "type": "gap_fill_notes",
+          "instructions": "For each question, write the correct answer in the gap. Write one word or a number or a date or a time.",
+          "context": "You will hear a teacher telling his students about a sports centre for teenagers.",
+          "audio": {
+            "track_number": 27,
+            "file_name": "A2 Key TK_27.mp3",
+            "relative_path": "audio/A2 Key TK_27.mp3"
+          },
+          "pdf_pages": [
+            9
+          ],
+          "page_images": [
+            "extracted_data/images/test_6/page_9.png"
+          ],
+          "form_title": "GEORGETOWN SPORTS CAMP",
+          "example": {
+            "label": "Number of indoor activities",
+            "value": "five"
+          },
+          "questions": [
+            {
+              "question_number": 6,
+              "label": "Number of outdoor sports to choose from",
+              "prefix": "",
+              "suffix": "",
+              "answer": "nine",
+              "accepted_answers": [
+                "nine",
+                "9"
+              ]
+            },
+            {
+              "question_number": 7,
+              "label": "Type of shoes",
+              "prefix": "",
+              "suffix": "",
+              "answer": "trainers",
+              "accepted_answers": [
+                "trainers"
+              ]
+            },
+            {
+              "question_number": 8,
+              "label": "Lunch time starts at",
+              "prefix": "",
+              "suffix": "",
+              "answer": "12.15",
+              "accepted_answers": [
+                "12.15",
+                "12:15",
+                "quarter past twelve"
+              ]
+            },
+            {
+              "question_number": 9,
+              "label": "Food at snack bar",
+              "prefix": "",
+              "suffix": "",
+              "answer": "sandwiches",
+              "accepted_answers": [
+                "sandwiches"
+              ]
+            },
+            {
+              "question_number": 10,
+              "label": "Prize with 250 marks",
+              "prefix": "",
+              "suffix": "",
+              "answer": "surfboard",
+              "accepted_answers": [
+                "surfboard",
+                "a surfboard"
+              ]
+            }
+          ],
+          "transcript": "Welcome to Georgetown Sports Camp. I'd like to give you some information: during your time at the camp you will find fourteen different sports, five indoor activities and nine outdoor sports. If you want to do a sport, just write your name on the lists of the sports you would like to do.\nNow, clothes. For most sports you can just wear shorts and a T-shirt. As we do both indoor and outdoor sports, make sure you have a pair of trainers with you, too.\nLunch is served at the snack bar from quarter past twelve and quarter to two. You will find sandwiches and drinks to buy there, but if you want salad or fruit, you need to go to the little shop near the bus stop. Don't eat too much or you won't be able to run and jump!\nFor each sport you do, you will get a mark and each mark goes into your final score. If you get over 190 marks in total, you will get a tennis racket. The maximum score is 250 and those who get that score will win a surfboard.\nI hope everything is clear."
+        },
+        {
+          "part": 3,
+          "title": "Listening - Part 3",
+          "question_range": "11-15",
+          "type": "multiple_choice_conversation",
+          "instructions": "For each question, choose the correct answer.",
+          "context": "You will hear Colette and her father talking about some foreign friends.",
+          "audio": {
+            "track_number": 28,
+            "file_name": "A2 Key TK_28.mp3",
+            "relative_path": "audio/A2 Key TK_28.mp3"
+          },
+          "pdf_pages": [
+            10
+          ],
+          "page_images": [
+            "extracted_data/images/test_6/page_10.png"
+          ],
+          "questions": [
+            {
+              "question_number": 11,
+              "question": "How old is Colette?",
+              "options": {
+                "A": "12",
+                "B": "13",
+                "C": "14"
+              },
+              "answer": "B"
+            },
+            {
+              "question_number": 12,
+              "question": "What does Colette think they should do first?",
+              "options": {
+                "A": "see London by bus",
+                "B": "visit a theatre",
+                "C": "go to a park"
+              },
+              "answer": "A"
+            },
+            {
+              "question_number": 13,
+              "question": "Colette's father thinks museums",
+              "options": {
+                "A": "are quite boring.",
+                "B": "are popular with tourists.",
+                "C": "are an important part of a holiday."
+              },
+              "answer": "B"
+            },
+            {
+              "question_number": 14,
+              "question": "Colette and her father agree that the family should",
+              "options": {
+                "A": "visit the countryside.",
+                "B": "go windsurfing.",
+                "C": "do some outdoor activities."
+              },
+              "answer": "A"
+            },
+            {
+              "question_number": 15,
+              "question": "How will Colette and her father contact their guests?",
+              "options": {
+                "A": "by telephone",
+                "B": "by letter",
+                "C": "by email"
+              },
+              "answer": "C"
+            }
+          ],
+          "transcript": "Father: Sandy [Colette], do you remember the family we met on holiday in Austria...?\nColette: Yes, they have a boy, right? Karl. He's 13 like me...\nFather: That's right. Well, they're coming to England next week. They've never been here so I want to plan something fun for them. What do you think?\nColette: Well, they must spend a day in London! They could start the day by going on a tour bus around the city. Then they could go to the theatre or one of the many parks?\nFather: Do you think the boy will like that? How about going to a museum?\nColette: Actually, I found it a bit boring.\nFather: But everyone visits museums on holiday!\nColette: I think you should choose something outdoors, like a trip to the coast. Karl loves windsurfing.\nFather: I'm not sure his parents like windsurfing though. Maybe I could drive them all to the countryside.\nColette: Why not… It's very relaxing so I'm sure they'll like it.\nFather: Or maybe I should just call them and ask?\nColette: No. Let's write a list of things they could do and then email it to them. They can choose what they'd prefer to do.\nFather: Good idea!"
+        },
+        {
+          "part": 4,
+          "title": "Listening - Part 4",
+          "question_range": "16-20",
+          "type": "multiple_choice_short_extracts",
+          "instructions": "For each question, choose the correct answer.",
+          "audio": {
+            "track_number": 29,
+            "file_name": "A2 Key TK_29.mp3",
+            "relative_path": "audio/A2 Key TK_29.mp3"
+          },
+          "pdf_pages": [
+            11
+          ],
+          "page_images": [
+            "extracted_data/images/test_6/page_11.png"
+          ],
+          "questions": [
+            {
+              "question_number": 16,
+              "question": "You will hear a girl and her brother talking about a birthday party. What did the girl like most?",
+              "options": {
+                "A": "the cake",
+                "B": "the music",
+                "C": "the people"
+              },
+              "answer": "B",
+              "transcript": "Brother: So, did you enjoy Elizabeth's party?\nGirl: I did, but I think she should have invited more people from our school. I didn't know anybody there. Fortunately, I danced to my favourite music all the time.\nBrother: Well, what I really loved was the cake. Elizabeth's mum made it!\nGirl: I just had a little slice. You know I prefer eating sandwiches and chips at parties."
+            },
+            {
+              "question_number": 17,
+              "question": "You will hear two friends talking about a teacher. Why is she leaving the school?",
+              "options": {
+                "A": "She's going to live somewhere else.",
+                "B": "She's going to travel around the world.",
+                "C": "She's going to do some different work."
+              },
+              "answer": "A",
+              "transcript": "A: Have you heard about Ms Jenkins? She's leaving the school next week.\nB: Yes. I was really sad, but I understand she wants to live closer to her old parents. She's going to teach in a school near their house.\nA: I thought she was bored of teaching and had changed her job. After all, she can speak four languages. She can travel everywhere."
+            },
+            {
+              "question_number": 18,
+              "question": "You will hear two friends talking about a test. They agree that",
+              "options": {
+                "A": "it was very easy.",
+                "B": "it was longer than usual.",
+                "C": "it was very difficult."
+              },
+              "answer": "C",
+              "transcript": "Girl: How did you find the test, Ewan? It took me ages to finish it.\nEwan: It wasn't as long as some of the other ones. I studied a lot for it, but it was still really hard.\nGirl: Yeah, you're right. The ones we did in the first term were much easier.\nEwan: Let's hope the next one will be better!"
+            },
+            {
+              "question_number": 19,
+              "question": "You will hear two friends talking about some photos. Which one does the girl want to use for a competition?",
+              "options": {
+                "A": "the one with a butterfly",
+                "B": "the one with a tree",
+                "C": "the one with the beach"
+              },
+              "answer": "A",
+              "transcript": "Girl: Look, Ted. Do you like my photo for the competition?\nTed: I don't know. What's so special about a tree in the middle of a field? I think the one with the butterfly is much better.\nGirl: Yes, maybe you're right. It's more colourful. I chose black and white for the tree, but maybe it's a bit sad. Anyway, I'm sure Terry will win with her picture of the beach."
+            },
+            {
+              "question_number": 20,
+              "question": "You will hear two friends talking about afternoon courses. What is the boy interested in?",
+              "options": {
+                "A": "a painting course",
+                "B": "a theatre course",
+                "C": "a music course"
+              },
+              "answer": "B",
+              "transcript": "Girl: So, which course are you doing this year?\nBoy: Well, I really enjoyed learning to paint better last year, but this year I'd like a change. I love acting and I'd really like to be an actor one day.\nGirl: I know, but it's not that easy. Why don't you do the guitar course with me? I'm sure you'll like it.\nBoy: I'm already learning to play the piano. Maybe I'll learn the guitar next year."
+            }
+          ]
+        },
+        {
+          "part": 5,
+          "title": "Listening - Part 5",
+          "question_range": "21-25",
+          "type": "matching",
+          "instructions": "For each question, choose the correct answer.",
+          "context": "You will hear Michael talking to his mother about a fashion show at school. Which clothes did each of his classmates make?",
+          "audio": {
+            "track_number": 30,
+            "file_name": "A2 Key TK_30.mp3",
+            "relative_path": "audio/A2 Key TK_30.mp3"
+          },
+          "pdf_pages": [
+            12
+          ],
+          "page_images": [
+            "extracted_data/images/test_6/page_12.png"
+          ],
+          "example": {
+            "0": {
+              "item": "Michael",
+              "answer": "E",
+              "value": "jumper"
+            }
+          },
+          "left_column_title": "PEOPLE",
+          "right_column_title": "CLOTHES",
+          "options": {
+            "A": "coat",
+            "B": "skirt",
+            "C": "hoodie",
+            "D": "hat",
+            "E": "jumper",
+            "F": "tie",
+            "G": "trousers",
+            "H": "T-shirt"
+          },
+          "questions": [
+            {
+              "question_number": 21,
+              "item": "Martha",
+              "answer": "G"
+            },
+            {
+              "question_number": 22,
+              "item": "June",
+              "answer": "B"
+            },
+            {
+              "question_number": 23,
+              "item": "James",
+              "answer": "D"
+            },
+            {
+              "question_number": 24,
+              "item": "Steve",
+              "answer": "H"
+            },
+            {
+              "question_number": 25,
+              "item": "Walter",
+              "answer": "C"
+            }
+          ],
+          "transcript": "Mother: So how did the school fashion show go, Michael?\nMichael: Oh, it went really well. Everybody enjoyed making their own clothes.\nMother: So, whose was the best?\nMichael: Well, Martha's trousers were the most surprising. She used her father's old coat to make them, you know.\nMother: And what about June? Every time I see her, she's wearing a new pair of shoes!\nMichael: Yes, she is crazy about shoes. But, no, she made a pretty skirt out of an old dress.\nMother: And James loves wearing ties, doesn't he?\nMichael: Yes, but he didn't make one. He made a hat from plastic bottles. That was my favourite!\nMother: I'd like to see a photo of that!\nMichael: Actually, I took some photos. Look… here's one of Steve. He made a very funny T-shirt.\nMother: It's great! And did anyone like your jumper?\nMichael: I think so, but Walter's hoodie was much nicer than my jumper. He loves fashion. I'm sure he'll be famous one day."
+        }
+      ]
+    }
+  }
+}
