@@ -57,11 +57,6 @@ export default function App() {
   // Initialize Lenis smooth wheel scrolling synchronized with GSAP ScrollTrigger once
   useEffect(() => initLenisMotion(), [])
 
-  // Keep ScrollTrigger positions synced across view / mobile layout changes
-  useEffect(() => {
-    refreshScrollTriggers()
-  }, [currentView, activePaperKey, isMobileMode, loading])
-
   // Subtle 60fps compositor transition when switching views (clears transform on complete for sticky bars)
   useGSAP(
     () => {
@@ -99,6 +94,11 @@ export default function App() {
     return typeof window !== 'undefined' && window.innerWidth < 768 ? 'mobile' : 'desktop'
   })
   const isMobileMode = viewMode === 'mobile'
+
+  // Keep ScrollTrigger positions synced across view / mobile layout changes
+  useEffect(() => {
+    refreshScrollTriggers()
+  }, [currentView, activePaperKey, isMobileMode, loading])
 
   const handleToggleViewMode = () => {
     setViewMode((prev) => {
