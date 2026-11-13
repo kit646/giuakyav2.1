@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import {
   Award,
   CheckCircle2,
@@ -16,6 +16,13 @@ import {
 } from 'lucide-react'
 import confetti from 'canvas-confetti'
 import { getImageUrl } from '../services/dataService'
+import {
+  useGSAP,
+  animateEntrance,
+  animateStaggerCards,
+  animateProgressBars,
+  animateCounter,
+} from '../utils/motion'
 
 export default function ResultView({
   result,
@@ -29,6 +36,8 @@ export default function ResultView({
 }) {
   const [filter, setFilter] = useState('all') // 'all' | 'wrong' | 'correct'
   const [expandedTranscripts, setExpandedTranscripts] = useState({})
+  const scopeRef = useRef(null)
+  const scoreNumRef = useRef(null)
 
   const otherPaperKey = paperKey.includes('reading')
     ? (test?.papers?.listening ? 'listening' : null)
@@ -78,6 +87,50 @@ export default function ResultView({
     return true
   })
 
+  // 60fps Score Card + Counter + Part Progress Bars entrance
+  useGSAP(
+    () => {
+      animateEntrance(scopeRef.current, '.gsap-score-card', { y: 16, duration: 0.4 })
+      animateCounter(scoreNumRef.current, cambridgeScore, {
+        from: Math.max(0, cambridgeScore - 45),
+        duration: 0.85,
+        delay: 0.08,
+      })
+      animateEntrance(scopeRef.current, '.gsap-grade-badge', {
+        y: 8,
+        scale: 0.9,
+        duration: 0.42,
+        delay: 0.16,
+        ease: 'back.out(1.6)',
+      })
+      animateStaggerCards(scopeRef.current, '.gsap-stat-card', {
+        y: 12,
+        duration: 0.34,
+        each: 0.05,
+        delay: 0.1,
+      })
+      animateProgressBars(
+        scopeRef.current,
+        '.gsap-part-bar',
+        Array(partBreakdown.length).fill(1),
+        { duration: 0.65, delay: 0.18, stagger: 0.06 }
+      )
+    },
+    { scope: scopeRef, dependencies: [test?.test_id, paperKey, cambridgeScore], revertOnUpdate: true }
+  )
+
+  // Filter-aware stagger reveal for review question cards
+  useGSAP(
+    () => {
+      animateStaggerCards(scopeRef.current, '.gsap-review-card', {
+        y: 14,
+        duration: 0.32,
+        maxTotalStagger: 0.25,
+      })
+    },
+    { scope: scopeRef, dependencies: [filter], revertOnUpdate: true }
+  )
+
   const toggleTranscript = (qNum) => {
     setExpandedTranscripts(prev => ({
       ...prev,
@@ -100,7 +153,7 @@ export default function ResultView({
   }
 
   return (
-    <div className={isMobileMode
+    <div ref={scopeRef} className={isMobileMode
       ? 'w-full px-3 py-4 space-y-5 pb-24'
       : 'max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-7 pb-20'
     }>
@@ -176,7 +229,7 @@ export default function ResultView({
       </div>
 
       {/* Main Score Celebration Card */}
-      <div className={`bg-white rounded-3xl border border-slate-200 shadow-card text-center ${isMobileMode ? 'p-5 space-y-4' : 'p-6 sm:p-8 space-y-6'}`}>
+      <div className={`gsap-score-card bg-white rounded-3xl border border-slate-200 shadow-card text-center ${isMobileMode ? 'p-5 space-y-4' : 'p-6 sm:p-8 space-y-6'}`}>
         <div className="space-y-2">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-slate-100 text-slate-700 border border-slate-200">
             <Award className="w-4 h-4 text-sunny-500 shrink-0" />
@@ -194,11 +247,11 @@ export default function ResultView({
             Điểm Quy Đổi Cambridge Scale
           </div>
           <div className={isMobileMode ? 'text-4xl font-extrabold font-lexend text-brand-600 tracking-tight' : 'text-5xl sm:text-6xl font-extrabold font-lexend text-brand-600 tracking-tight'}>
-            {cambridgeScore}
+            <span ref={scoreNumRef}>{cambridgeScore}</span>
             <span className={isMobileMode ? 'text-xl font-semibold text-slate-500' : 'text-2xl sm:text-3xl font-semibold text-slate-500'}>/150</span>
           </div>
           <div className="mt-3">
-            <span className={`inline-block px-3.5 py-1 rounded-full text-xs sm:text-sm font-extrabold shadow-sm ${badge.color}`}>
+            <span className={`gsap-grade-badge inline-block px-3.5 py-1 rounded-full text-xs sm:text-sm font-extrabold shadow-sm ${badge.color}`}>
               {badge.title} ({badge.cefr})
             </span>
           </div>
@@ -210,28 +263,28 @@ export default function ResultView({
 
         {/* Quick Stats Metrics Row */}
         <div className={`grid gap-2.5 max-w-2xl mx-auto pt-4 border-t border-slate-100 ${isMobileMode ? 'grid-cols-2' : 'grid-cols-2 sm:grid-cols-4 sm:gap-4'}`}>
-          <div className="bg-fresh-50 border border-fresh-200 rounded-2xl p-3 text-center">
+          <div className="gsap-stat-card bg-fresh-50 border border-fresh-200 rounded-2xl p-3 text-center">
             <div className="text-xs text-fresh-700 font-semibold">Làm đúng ✅</div>
             <div className="text-xl font-bold font-lexend text-fresh-800 mt-0.5">
               {correctCount}/{totalQuestions}
             </div>
           </div>
 
-          <div className="bg-coral-50 border border-coral-200 rounded-2xl p-3 text-center">
+          <div className="gsap-stat-card bg-coral-50 border border-coral-200 rounded-2xl p-3 text-center">
             <div className="text-xs text-coral-700 font-semibold">Làm sai ❌</div>
             <div className="text-xl font-bold font-lexend text-coral-700 mt-0.5">
               {wrongAnsweredCount}
             </div>
           </div>
 
-          <div className="bg-amber-50 border border-amber-200 rounded-2xl p-3 text-center">
+          <div className="gsap-stat-card bg-amber-50 border border-amber-200 rounded-2xl p-3 text-center">
             <div className="text-xs text-amber-800 font-semibold">Bỏ trống ⚠️</div>
             <div className="text-xl font-bold font-lexend text-amber-700 mt-0.5">
               {unansweredCount}
             </div>
           </div>
 
-          <div className="bg-brand-50 border border-brand-200 rounded-2xl p-3 text-center">
+          <div className="gsap-stat-card bg-brand-50 border border-brand-200 rounded-2xl p-3 text-center">
             <div className="text-xs text-brand-700 font-semibold">Tỉ lệ đúng</div>
             <div className="text-xl font-bold font-lexend text-brand-700 mt-0.5">
               {percentage}%
@@ -312,7 +365,7 @@ export default function ResultView({
               </div>
               <div className="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
                 <div
-                  className={`${pb.correct === pb.total ? 'bg-fresh-500' : 'bg-brand-600'} h-full rounded-full transition-all duration-500`}
+                  className={`gsap-part-bar ${pb.correct === pb.total ? 'bg-fresh-500' : 'bg-brand-600'} h-full rounded-full`}
                   style={{ width: `${pb.percentage}%` }}
                 />
               </div>
@@ -405,7 +458,7 @@ export default function ResultView({
                 <div
                   id={`result-question-${q.questionNumber}`}
                   key={q.questionNumber}
-                  className={`scroll-mt-32 rounded-2xl border bg-white shadow-card transition-all space-y-3.5 ${
+                  className={`gsap-review-card scroll-mt-32 rounded-2xl border bg-white shadow-card transition-shadow duration-200 space-y-3.5 ${
                     isMobileMode ? 'p-4' : 'p-5 sm:p-6'
                   } ${
                     isCorrect

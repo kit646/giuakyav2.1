@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { BookOpen, Headphones, Award, Clock, ArrowRight, Play, CheckCircle2, RotateCcw, Sparkles, Flame, Check, Globe, Smartphone, Monitor, QrCode } from 'lucide-react'
 import MobileAccessModal from './MobileAccessModal'
+import { useGSAP, animateEntrance, animateStaggerCards } from '../utils/motion'
 
 export default function Dashboard({
   tests = [],
@@ -13,6 +14,27 @@ export default function Dashboard({
 }) {
   const [filter, setFilter] = useState('all') // 'all' | 'official' | 'online' | 'reading' | 'listening'
   const [showMobileModal, setShowMobileModal] = useState(false)
+  const scopeRef = useRef(null)
+
+  // Hero entrance animation on initial mount
+  useGSAP(
+    () => {
+      animateEntrance(scopeRef.current, '.gsap-hero', { y: 16, duration: 0.42 })
+    },
+    { scope: scopeRef }
+  )
+
+  // Fast, capped stagger reveal when test cards render or filter changes
+  useGSAP(
+    () => {
+      animateStaggerCards(scopeRef.current, '.gsap-test-card', {
+        y: 18,
+        duration: 0.36,
+        maxTotalStagger: 0.32,
+      })
+    },
+    { scope: scopeRef, dependencies: [filter, isMobileMode], revertOnUpdate: true }
+  )
 
   // Separate official tests and online practice tests
   const officialTests = [
@@ -49,10 +71,10 @@ export default function Dashboard({
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+    <div ref={scopeRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       
       {/* Hero Banner */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-brand-600 via-brand-700 to-indigo-800 text-white p-6 sm:p-10 shadow-xl shadow-brand-500/10">
+      <div className="gsap-hero relative overflow-hidden rounded-3xl bg-gradient-to-r from-brand-600 via-brand-700 to-indigo-800 text-white p-6 sm:p-10 shadow-xl shadow-brand-500/10">
         <div className="relative z-10 max-w-3xl space-y-4">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/15 backdrop-blur-md text-xs sm:text-sm font-semibold border border-white/20">
             <Sparkles className="w-4 h-4 text-sunny-400" />
@@ -239,7 +261,7 @@ export default function Dashboard({
           return (
             <div
               key={testId}
-              className={`rounded-2xl border bg-white p-6 shadow-card hover:shadow-card-hover transition-all flex flex-col justify-between ${
+              className={`gsap-test-card rounded-2xl border bg-white p-6 shadow-card hover:shadow-card-hover transition-[box-shadow,border-color] duration-200 flex flex-col justify-between ${
                 item.isSample 
                   ? 'border-sunny-300 ring-2 ring-sunny-400/20' 
                   : item.isOnline

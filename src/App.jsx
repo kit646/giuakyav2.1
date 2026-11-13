@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Navbar from './components/Navbar'
 import Dashboard from './components/Dashboard'
 import ReadingView from './components/ReadingView'
@@ -6,6 +6,7 @@ import ListeningView from './components/ListeningView'
 import ResultView from './components/ResultView'
 import ConfirmModal from './components/ConfirmModal'
 import { loadMasterData, gradePaper } from './services/dataService'
+import { gsap, useGSAP, prefersReducedMotion } from './utils/motion'
 import {
   getSettings,
   saveSettings,
@@ -43,6 +44,34 @@ export default function App() {
   const [submitConfirmOpen, setSubmitConfirmOpen] = useState(false)
   const [unansweredQuestions, setUnansweredQuestions] = useState([])
   const [exitExamConfirmOpen, setExitExamConfirmOpen] = useState(false)
+
+  const mainRef = useRef(null)
+  const isFirstViewRef = useRef(true)
+
+  // Subtle 60fps compositor transition when switching views (clears transform on complete for sticky bars)
+  useGSAP(
+    () => {
+      if (isFirstViewRef.current) {
+        isFirstViewRef.current = false
+        return
+      }
+      if (!mainRef.current || prefersReducedMotion()) return
+      gsap.set(mainRef.current, { willChange: 'transform, opacity' })
+      gsap.fromTo(
+        mainRef.current,
+        { y: 10, opacity: 0.92 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.24,
+          ease: 'power2.out',
+          force3D: true,
+          clearProps: 'transform,opacity,willChange',
+        }
+      )
+    },
+    { scope: mainRef, dependencies: [currentView, activePaperKey], revertOnUpdate: true }
+  )
 
   // Settings & user stats
   const [bilingualMode, setBilingualMode] = useState(true)
@@ -331,7 +360,7 @@ export default function App() {
       />
 
       {/* Main Content Area */}
-      <main className={isMobileMode ? 'flex-1 w-full max-w-lg mx-auto' : 'flex-1 w-full'}>
+      <main ref={mainRef} className={isMobileMode ? 'flex-1 w-full max-w-lg mx-auto' : 'flex-1 w-full'}>
         {currentView === 'dashboard' && (
           <Dashboard
             tests={[...(masterData.tests || []), ...(masterData.online_tests || [])]}

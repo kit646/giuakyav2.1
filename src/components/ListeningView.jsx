@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect, useMemo, useRef } from 'react'
 import { Headphones, BookOpen, Flag, CheckCircle2, XCircle, AlertTriangle, AlertCircle, Sparkles, Check, ArrowLeft, RotateCcw, ArrowRight } from 'lucide-react'
 import AudioPlayer from './AudioPlayer'
 import { getImageUrl } from '../services/dataService'
+import { useGSAP, animateStaggerCards } from '../utils/motion'
 
 function DebouncedInput({ value, onChange, placeholder, className, ariaLabel }) {
   const [localVal, setLocalVal] = useState(value || '')
@@ -74,6 +75,24 @@ export default function ListeningView({
 
   const [activePartIndex, setActivePartIndex] = useState(0)
   const currentPart = parts[activePartIndex] || parts[0]
+  const scopeRef = useRef(null)
+
+  // 60fps question card stagger when switching Listening Parts (keeps sticky AudioPlayer untouched)
+  useGSAP(
+    () => {
+      animateStaggerCards(scopeRef.current, '.gsap-listening-question', {
+        y: 12,
+        duration: 0.28,
+        each: 0.03,
+        maxTotalStagger: 0.22,
+      })
+    },
+    {
+      scope: scopeRef,
+      dependencies: [activePartIndex, reviewMode, test?.test_id],
+      revertOnUpdate: true,
+    }
+  )
 
   // Format time mm:ss for exam mode
   const formatTimer = (secs) => {
@@ -116,7 +135,7 @@ export default function ListeningView({
         />
       )}
 
-      <div className={isMobileMode ? 'w-full px-3 space-y-4' : 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6'}>
+      <div ref={scopeRef} className={isMobileMode ? 'w-full px-3 space-y-4' : 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6'}>
         
         {/* Top Control Bar: Parts Navigation & Submit */}
         <div className={`bg-white rounded-2xl border border-slate-200 p-4 shadow-card ${
@@ -352,7 +371,7 @@ export default function ListeningView({
                 return (
                   <div
                     key={qNum}
-                    className={`bg-white rounded-2xl border p-5 sm:p-6 shadow-card transition-all ${
+                    className={`gsap-listening-question bg-white rounded-2xl border p-5 sm:p-6 shadow-card transition-shadow duration-200 ${
                       reviewMode && qd
                         ? qd.isCorrect
                           ? 'border-fresh-400 ring-1 ring-fresh-200'

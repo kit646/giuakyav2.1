@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect, useMemo, useRef } from 'react'
 import { BookOpen, Headphones, Flag, CheckCircle2, XCircle, AlertTriangle, LayoutGrid, AlertCircle, ZoomIn, Check, ChevronDown, ChevronUp, CheckSquare, ArrowLeft, RotateCcw, ArrowRight } from 'lucide-react'
 import { getImageUrl } from '../services/dataService'
 import ImageModal from './ImageModal'
 import QuestionMatrixModal from './QuestionMatrixModal'
+import { useGSAP, animateEntrance, animateStaggerCards } from '../utils/motion'
 
 function DebouncedInput({ value, onChange, placeholder, className, ariaLabel }) {
   const [localVal, setLocalVal] = useState(value || '')
@@ -78,8 +79,30 @@ export default function ReadingView({
   const [modalImage, setModalImage] = useState(null)
   const [mobileReadingTab, setMobileReadingTab] = useState('passage')
   const [mobilePassageExpanded, setMobilePassageExpanded] = useState(true)
+  const scopeRef = useRef(null)
 
   const currentPart = parts[activePartIndex] || parts[0]
+
+  // 60fps Part/Tab transition without disrupting sticky tab bars
+  useGSAP(
+    () => {
+      animateEntrance(scopeRef.current, '#reading-passage-column:not(.hidden)', {
+        y: 12,
+        duration: 0.3,
+      })
+      animateStaggerCards(scopeRef.current, '#reading-questions-column:not(.hidden) .gsap-reading-question', {
+        y: 12,
+        duration: 0.28,
+        each: 0.03,
+        maxTotalStagger: 0.22,
+      })
+    },
+    {
+      scope: scopeRef,
+      dependencies: [activePartIndex, reviewMode, mobileReadingTab, test?.test_id, paperKey],
+      revertOnUpdate: true,
+    }
+  )
 
   // Automatically reset to 'passage' tab when user switches to a reading part
   useEffect(() => {
@@ -141,7 +164,7 @@ export default function ReadingView({
   }
 
   return (
-    <div className={isMobileMode
+    <div ref={scopeRef} className={isMobileMode
       ? 'w-full px-3 py-4 space-y-4 pb-20'
       : 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6'
     }>
@@ -646,7 +669,7 @@ export default function ReadingView({
                   <div
                     id={`reading-question-${qNum}`}
                     key={qNum}
-                    className={`scroll-mt-32 bg-white rounded-2xl border p-4 sm:p-5 shadow-card transition-all ${
+                    className={`gsap-reading-question scroll-mt-32 bg-white rounded-2xl border p-4 sm:p-5 shadow-card transition-shadow duration-200 ${
                       reviewMode && qd
                         ? qd.isCorrect
                           ? 'border-fresh-400 ring-1 ring-fresh-200'
