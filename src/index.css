@@ -2,11 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --color-brand-primary: #2563eb;
+  --color-brand-surface: #eff6ff;
+  --color-sunny: #f59e0b;
+  --color-fresh: #10b981;
+  --color-coral: #f43f5e;
+  --color-audio: #8b5cf6;
+  --surface-bg: #f8fafc;
+  --surface-card: #ffffff;
+  --text-primary: #0f172a;
+  --text-muted: #475569;
+  --motion-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
 @layer base {
   body {
-    @apply bg-slate-50 text-slate-900 font-vietnam antialiased;
+    background-color: var(--surface-bg);
+    color: var(--text-primary);
+    @apply font-vietnam antialiased;
   }
-  
+
   h1, h2, h3, h4, h5, h6 {
     @apply font-lexend;
   }
@@ -39,4 +55,13 @@
 
 .animate-amber-pulse {
   animation: amberPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Respect user preference for reduced motion across CSS animations */
+@media (prefers-reduced-motion: reduce) {
+  .animate-amber-pulse,
+  .animate-pulse,
+  .animate-spin {
+    animation: none !important;
+  }
 }

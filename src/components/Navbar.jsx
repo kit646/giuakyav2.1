@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, lazy, Suspense } from 'react'
 import { GraduationCap, Flame, Award, Languages, ArrowLeft, Smartphone, Monitor, QrCode } from 'lucide-react'
-import MobileAccessModal from './MobileAccessModal'
+
+const MobileAccessModal = lazy(() => import('./MobileAccessModal'))
 
 export default function Navbar({
   currentView,
@@ -50,7 +51,7 @@ export default function Navbar({
               type="button"
               onClick={onNavigateHome}
               className="flex items-center gap-2 text-left cursor-pointer group focus:outline-none focus:ring-2 focus:ring-brand-500 rounded-xl p-1 min-w-0"
-              aria-label="Về trang chủ A2 Key Master"
+              title="Về trang chủ A2 Key Master"
             >
               <div className={`${isMobileMode ? 'w-8 h-8 rounded-lg' : 'w-10 h-10 rounded-xl'} bg-brand-600 text-white flex items-center justify-center shadow-sm shrink-0 group-hover:scale-105 transition-transform`}>
                 <GraduationCap className={isMobileMode ? 'w-5 h-5' : 'w-6 h-6'} />
@@ -84,6 +85,7 @@ export default function Navbar({
                   )}
                 </div>
               </div>
+              <span className="sr-only"> — Về trang chủ</span>
             </button>
           </div>
 
@@ -111,7 +113,6 @@ export default function Navbar({
                   : 'bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200'
               }`}
               title={isMobileMode ? "Đang ở chế độ Điện thoại (Bấm để chuyển sang Máy tính)" : "Đang ở chế độ Máy tính (Bấm để chuyển sang Điện thoại)"}
-              aria-label="Chuyển đổi giao diện máy tính và điện thoại"
             >
               {isMobileMode ? (
                 <>
@@ -125,6 +126,7 @@ export default function Navbar({
                   <span className="sm:hidden">PC</span>
                 </>
               )}
+              <span className="sr-only"> — Chuyển đổi giao diện</span>
             </button>
 
             {/* Bilingual Toggle Button */}
@@ -138,11 +140,11 @@ export default function Navbar({
               }`}
               title="Bật/Tắt hiển thị lời giải nghĩa tiếng Việt"
               aria-pressed={bilingualMode}
-              aria-label={`Chế độ song ngữ: ${bilingualMode ? 'BẬT' : 'TẮT'}`}
             >
               <Languages className={`w-3.5 h-3.5 ${bilingualMode ? 'text-emerald-600' : 'text-slate-600'}`} />
               <span className="hidden md:inline">Song ngữ:</span>
               <span className="font-bold">{bilingualMode ? 'VI' : 'EN'}</span>
+              <span className="sr-only"> ({bilingualMode ? 'BẬT' : 'TẮT'})</span>
             </button>
 
             {/* Mobile / Tablet QR Access Button (Only visible on Desktop Mode) */}
@@ -152,11 +154,11 @@ export default function Navbar({
                 onClick={() => setShowMobileModal(true)}
                 className="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-200 transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-brand-500 shadow-2xs"
                 title="Mở luyện thi trên điện thoại hoặc máy tính bảng (Quét mã QR)"
-                aria-label="Mở luyện thi trên điện thoại"
               >
                 <Smartphone className="w-4 h-4 text-brand-600" />
                 <span>Mở trên ĐT</span>
                 <QrCode className="w-3.5 h-3.5 text-slate-500" />
+                <span className="sr-only"> qua mã QR</span>
               </button>
             )}
 
@@ -181,10 +183,14 @@ export default function Navbar({
       </header>
 
       {/* Mobile Access QR Modal */}
-      <MobileAccessModal
-        isOpen={showMobileModal}
-        onClose={() => setShowMobileModal(false)}
-      />
+      {showMobileModal && (
+        <Suspense fallback={null}>
+          <MobileAccessModal
+            isOpen={showMobileModal}
+            onClose={() => setShowMobileModal(false)}
+          />
+        </Suspense>
+      )}
     </>
   )
 }

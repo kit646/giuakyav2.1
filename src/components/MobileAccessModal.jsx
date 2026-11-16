@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import QRCode from 'qrcode'
 import { Smartphone, QrCode, Copy, Check, X, Wifi, ExternalLink, HelpCircle } from 'lucide-react'
 
 export default function MobileAccessModal({ isOpen, onClose }) {
@@ -9,6 +8,7 @@ export default function MobileAccessModal({ isOpen, onClose }) {
 
   useEffect(() => {
     if (!isOpen) return
+    let cancelled = false
 
     // Determine the phone-accessible LAN URL
     let url = 'http://192.168.0.4:5173/giuakyav2.1/'
@@ -27,21 +27,31 @@ export default function MobileAccessModal({ isOpen, onClose }) {
     }
     setMobileUrl(url)
 
-    // Generate offline QR Code using the qrcode library
-    QRCode.toDataURL(url, {
-      width: 240,
-      margin: 2,
-      color: {
-        dark: '#1e293b',
-        light: '#ffffff'
-      }
-    })
-      .then(url => setQrDataUrl(url))
-      .catch(err => {
+    // Dynamically import qrcode only when QR modal opens
+    import('qrcode')
+      .then(({ default: QRCode }) =>
+        QRCode.toDataURL(url, {
+          width: 240,
+          margin: 2,
+          color: {
+            dark: '#1e293b',
+            light: '#ffffff'
+          }
+        })
+      )
+      .then((dataUrl) => {
+        if (!cancelled) setQrDataUrl(dataUrl)
+      })
+      .catch((err) => {
+        if (cancelled) return
         console.error('Lỗi tạo mã QR:', err)
         // Fallback to online generator if needed
         setQrDataUrl(`https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=${encodeURIComponent(url)}`)
       })
+
+    return () => {
+      cancelled = true
+    }
   }, [isOpen])
 
   if (!isOpen) return null

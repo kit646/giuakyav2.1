@@ -1,11 +1,13 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, lazy, Suspense } from 'react'
 import Navbar from './components/Navbar'
 import Dashboard from './components/Dashboard'
-import ReadingView from './components/ReadingView'
-import ListeningView from './components/ListeningView'
-import ResultView from './components/ResultView'
 import ConfirmModal from './components/ConfirmModal'
-import { loadMasterData, gradePaper } from './services/dataService'
+import ViewSkeleton from './components/ViewSkeleton'
+import { loadMasterData, loadTestDetail, gradePaper } from './services/dataService'
+
+const ReadingView = lazy(() => import('./components/ReadingView'))
+const ListeningView = lazy(() => import('./components/ListeningView'))
+const ResultView = lazy(() => import('./components/ResultView'))
 import {
   gsap,
   useGSAP,
@@ -30,6 +32,7 @@ import { Loader2, AlertCircle, HelpCircle, Smartphone, Monitor } from 'lucide-re
 
 export default function App() {
   const [loading, setLoading] = useState(true)
+  const [loadingTest, setLoadingTest] = useState(false)
   const [error, setError] = useState(null)
   const [masterData, setMasterData] = useState(null)
   
@@ -123,7 +126,7 @@ export default function App() {
         setStats(getGlobalStats())
       } catch (err) {
         console.error('Failed to init app:', err)
-        setError('Không thể tải dữ liệu đề thi. Vui lòng kiểm tra lại file /extracted_data/all_tests.json.')
+        setError('Không thể tải dữ liệu đề thi. Vui lòng kiểm tra lại file /extracted_data/tests_index.json.')
       } finally {
         setLoading(false)
       }
@@ -153,9 +156,9 @@ export default function App() {
     }
   }, [examMode, reviewMode, currentView, timeLeft])
 
-  // Start a test (reading or listening)
-  const handleStartTest = (test, paperKey, mode = 'study') => {
-    setActiveTest(test)
+  // Start a test (lazy-fetches full test JSON on first open, then caches in memory)
+  const handleStartTest = async (test, paperKey, mode = 'study') => {
+    const targetView = paperKey === 'listening' ? 'listening' : 'reading'
     setActivePaperKey(paperKey)
     setExamMode(mode)
     setReviewMode(false)
@@ -173,13 +176,31 @@ export default function App() {
       setTimeLeft(0)
     }
 
-    if (paperKey === 'listening') {
-      setCurrentView('listening')
-    } else {
-      setCurrentView('reading')
+    const hasLoadedPaper =
+      test?.papers &&
+      typeof test.papers[paperKey] === 'object' &&
+      Array.isArray(test.papers[paperKey].parts)
+
+    setCurrentView(targetView)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+
+    if (hasLoadedPaper) {
+      setActiveTest(test)
+      return
     }
 
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+    setActiveTest(null)
+    setLoadingTest(true)
+    try {
+      const fullTest = await loadTestDetail(test)
+      setActiveTest(fullTest)
+    } catch (err) {
+      console.error('Failed to load test detail:', err)
+      setError(`Không thể tải nội dung đề thi (${test?.test_id || ''}). Vui lòng thử lại.`)
+      setCurrentView('dashboard')
+    } finally {
+      setLoadingTest(false)
+    }
   }
 
   // Switch between papers of the active test (e.g. Reading <-> Listening)
@@ -387,60 +408,70 @@ export default function App() {
           />
         )}
 
-        {currentView === 'reading' && activeTest && (
-          <ReadingView
-            test={activeTest}
-            paperKey={activePaperKey}
-            answers={answers}
-            flagged={flagged}
-            onAnswer={handleAnswer}
-            onToggleFlag={handleToggleFlag}
-            onSubmit={handleRequestSubmit}
-            bilingualMode={bilingualMode}
-            examMode={examMode}
-            timeLeft={timeLeft}
-            isMobileMode={isMobileMode}
-            onToggleViewMode={handleToggleViewMode}
-            onSwitchPaper={handleSwitchPaper}
-            reviewMode={reviewMode}
-            result={currentResult}
-            onBackToResult={handleBackToResult}
-            onRetakeTest={handleRetakeTest}
-          />
+        {loadingTest && (currentView === 'reading' || currentView === 'listening') && (
+          <ViewSkeleton isMobileMode={isMobileMode} currentView={currentView} />
         )}
 
-        {currentView === 'listening' && activeTest && (
-          <ListeningView
-            test={activeTest}
-            answers={answers}
-            flagged={flagged}
-            onAnswer={handleAnswer}
-            onToggleFlag={handleToggleFlag}
-            onSubmit={handleRequestSubmit}
-            bilingualMode={bilingualMode}
-            examMode={examMode}
-            timeLeft={timeLeft}
-            isMobileMode={isMobileMode}
-            onToggleViewMode={handleToggleViewMode}
-            onSwitchPaper={handleSwitchPaper}
-            reviewMode={reviewMode}
-            result={currentResult}
-            onBackToResult={handleBackToResult}
-            onRetakeTest={handleRetakeTest}
-          />
+        {!loadingTest && currentView === 'reading' && activeTest && (
+          <Suspense fallback={<ViewSkeleton isMobileMode={isMobileMode} currentView="reading" />}>
+            <ReadingView
+              test={activeTest}
+              paperKey={activePaperKey}
+              answers={answers}
+              flagged={flagged}
+              onAnswer={handleAnswer}
+              onToggleFlag={handleToggleFlag}
+              onSubmit={handleRequestSubmit}
+              bilingualMode={bilingualMode}
+              examMode={examMode}
+              timeLeft={timeLeft}
+              isMobileMode={isMobileMode}
+              onToggleViewMode={handleToggleViewMode}
+              onSwitchPaper={handleSwitchPaper}
+              reviewMode={reviewMode}
+              result={currentResult}
+              onBackToResult={handleBackToResult}
+              onRetakeTest={handleRetakeTest}
+            />
+          </Suspense>
+        )}
+
+        {!loadingTest && currentView === 'listening' && activeTest && (
+          <Suspense fallback={<ViewSkeleton isMobileMode={isMobileMode} currentView="listening" />}>
+            <ListeningView
+              test={activeTest}
+              answers={answers}
+              flagged={flagged}
+              onAnswer={handleAnswer}
+              onToggleFlag={handleToggleFlag}
+              onSubmit={handleRequestSubmit}
+              bilingualMode={bilingualMode}
+              examMode={examMode}
+              timeLeft={timeLeft}
+              isMobileMode={isMobileMode}
+              onToggleViewMode={handleToggleViewMode}
+              onSwitchPaper={handleSwitchPaper}
+              reviewMode={reviewMode}
+              result={currentResult}
+              onBackToResult={handleBackToResult}
+              onRetakeTest={handleRetakeTest}
+            />
+          </Suspense>
         )}
 
         {currentView === 'result' && (
-          <ResultView
-            result={currentResult}
-            test={activeTest}
-            paperKey={activePaperKey}
-            onRetakeTest={handleRetakeTest}
-            onNavigateHome={handleNavigateHome}
-            onStartOtherPaper={handleSwitchPaper}
-            onReviewInTest={handleReviewInTest}
-            isMobileMode={isMobileMode}
-          />
+          <Suspense fallback={<ViewSkeleton isMobileMode={isMobileMode} currentView="result" />}>
+            <ResultView
+              result={currentResult}
+              test={activeTest}
+              paperKey={activePaperKey}
+              onRetakeTest={handleRetakeTest}
+              onNavigateHome={handleNavigateHome}
+              onStartOtherPaper={handleSwitchPaper}
+              onReviewInTest={handleReviewInTest}
+              isMobileMode={isMobileMode}
+            />
+          </Suspense>
         )}
       </main>
 
@@ -494,7 +525,6 @@ export default function App() {
           onClick={handleToggleViewMode}
           className="flex items-center gap-2 px-3.5 py-2 rounded-2xl bg-slate-900/90 hover:bg-slate-900 text-white shadow-xl shadow-slate-900/25 backdrop-blur-md border border-slate-700/50 text-xs font-bold transition-all cursor-pointer hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-brand-500"
           title={isMobileMode ? "Bấm để đổi sang giao diện Máy tính" : "Bấm để đổi sang giao diện Điện thoại"}
-          aria-label="Chuyển đổi giao diện Điện thoại và Máy tính"
         >
           {isMobileMode ? (
             <>
@@ -509,13 +539,14 @@ export default function App() {
               <span className="text-emerald-300">Điện thoại 📱</span>
             </>
           )}
+          <span className="sr-only"> — Chuyển đổi giao diện Điện thoại và Máy tính</span>
         </button>
       </div>
 
       {/* Footer */}
-      <footer className="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500 font-medium">
+      <footer className="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-600 font-medium">
         <p>A2 Key Master — Nền tảng ôn thi tiếng Anh Cambridge A2 Key for Schools (KET) dành cho học sinh.</p>
-        <p className="mt-1 text-slate-400">Dữ liệu trích xuất từ giáo trình <em>Ready for A2 Key for Schools</em> (Valentina Chen, ELI Publishing) & Đề mẫu giữa kỳ.</p>
+        <p className="mt-1 text-slate-600">Dữ liệu trích xuất từ giáo trình <em>Ready for A2 Key for Schools</em> (Valentina Chen, ELI Publishing) & Đề mẫu giữa kỳ.</p>
       </footer>
     </div>
   )

@@ -1,34 +1,108 @@
-// Data service for loading tests and grading Cambridge A2 Key
+// Data service for loading tests index, lazy test details, images, and grading Cambridge A2 Key
 
 let cachedMasterData = null
+const testDetailCache = new Map()
+const pendingTestRequests = new Map()
+
+const getBasePath = () =>
+  import.meta.env.BASE_URL.endsWith('/')
+    ? import.meta.env.BASE_URL
+    : `${import.meta.env.BASE_URL}/`
 
 export const loadMasterData = async () => {
   if (cachedMasterData) return cachedMasterData
+  const base = getBasePath()
   try {
-    const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`
-    const res = await fetch(`${base}extracted_data/all_tests.json`)
+    const res = await fetch(`${base}extracted_data/tests_index.json`)
     if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`)
     const data = await res.json()
     cachedMasterData = data
     return data
   } catch (err) {
-    console.error('Failed to load tests data from extracted_data/all_tests.json', err)
-    throw err
+    console.warn('Falling back to all_tests.json because tests_index.json failed:', err)
+    const res = await fetch(`${base}extracted_data/all_tests.json`)
+    if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`)
+    const data = await res.json()
+    cachedMasterData = data
+    // Warm detail cache from full payload if fallback was used
+    ;[...(data.tests || []), ...(data.online_tests || []), data.sample_test]
+      .filter(Boolean)
+      .forEach((t) => {
+        if (t.test_id) testDetailCache.set(t.test_id, t)
+      })
+    return data
   }
+}
+
+export const loadTestDetail = async (testOrId) => {
+  const testId = typeof testOrId === 'string' ? testOrId : testOrId?.test_id
+  if (!testId) throw new Error('Missing test_id')
+
+  if (testDetailCache.has(testId)) {
+    return testDetailCache.get(testId)
+  }
+
+  // If caller already passed a full test object (has .parts in a paper), cache & return it
+  if (typeof testOrId === 'object' && testOrId?.papers) {
+    const firstPaper = Object.values(testOrId.papers).find(
+      (p) => p && typeof p === 'object' && Array.isArray(p.parts)
+    )
+    if (firstPaper) {
+      testDetailCache.set(testId, testOrId)
+      return testOrId
+    }
+  }
+
+  if (pendingTestRequests.has(testId)) {
+    return pendingTestRequests.get(testId)
+  }
+
+  const base = getBasePath()
+  const promise = fetch(`${base}extracted_data/tests/${encodeURIComponent(testId)}.json`)
+    .then(async (res) => {
+      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`)
+      const detail = await res.json()
+      testDetailCache.set(testId, detail)
+      return detail
+    })
+    .finally(() => {
+      pendingTestRequests.delete(testId)
+    })
+
+  pendingTestRequests.set(testId, promise)
+  return promise
 }
 
 export const getAudioUrl = (relativePath) => {
   if (!relativePath) return ''
-  const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`
+  const base = getBasePath()
   const clean = relativePath.startsWith('/') ? relativePath.slice(1) : relativePath
   return `${base}${clean}`
 }
 
+/**
+ * Returns WebP URL for extracted PNG test images (with PNG fallback helper below).
+ */
 export const getImageUrl = (imagePath) => {
   if (!imagePath) return ''
-  const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`
+  const base = getBasePath()
+  const clean = imagePath.startsWith('/') ? imagePath.slice(1) : imagePath
+  const webpPath = clean.replace(/^(extracted_data\/images\/.+)\.png$/i, '$1.webp')
+  return `${base}${webpPath}`
+}
+
+export const getOriginalImageUrl = (imagePath) => {
+  if (!imagePath) return ''
+  const base = getBasePath()
   const clean = imagePath.startsWith('/') ? imagePath.slice(1) : imagePath
   return `${base}${clean}`
+}
+
+export const handleImageErrorFallback = (originalImagePath) => (event) => {
+  const img = event.currentTarget
+  if (!originalImagePath || img.dataset.fallbackApplied === '1') return
+  img.dataset.fallbackApplied = '1'
+  img.src = getOriginalImageUrl(originalImagePath)
 }
 
 // Convert raw score to Cambridge Scale Score (100 - 150)

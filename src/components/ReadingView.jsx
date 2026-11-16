@@ -1,14 +1,15 @@
-import React, { useState, useEffect, useMemo, useRef } from 'react'
+import React, { useState, useEffect, useMemo, useRef, lazy, Suspense } from 'react'
 import { BookOpen, Headphones, Flag, CheckCircle2, XCircle, AlertTriangle, LayoutGrid, AlertCircle, ZoomIn, Check, ChevronDown, ChevronUp, CheckSquare, ArrowLeft, RotateCcw, ArrowRight } from 'lucide-react'
-import { getImageUrl } from '../services/dataService'
+import { getImageUrl, handleImageErrorFallback } from '../services/dataService'
 import ImageModal from './ImageModal'
-import QuestionMatrixModal from './QuestionMatrixModal'
 import {
   useGSAP,
   animateEntrance,
   initScrollRevealBatch,
   refreshScrollTriggers,
 } from '../utils/motion'
+
+const QuestionMatrixModal = lazy(() => import('./QuestionMatrixModal'))
 
 function DebouncedInput({ value, onChange, placeholder, className, ariaLabel }) {
   const [localVal, setLocalVal] = useState(value || '')
@@ -185,15 +186,19 @@ export default function ReadingView({
       )}
 
       {/* Question Matrix Drawer/Modal */}
-      <QuestionMatrixModal
-        isOpen={isMatrixOpen}
-        onClose={() => setIsMatrixOpen(false)}
-        parts={parts}
-        answers={answers}
-        flagged={flagged}
-        onSelectQuestion={handleSelectQuestionFromMatrix}
-        onSubmit={onSubmit}
-      />
+      {isMatrixOpen && (
+        <Suspense fallback={null}>
+          <QuestionMatrixModal
+            isOpen={isMatrixOpen}
+            onClose={() => setIsMatrixOpen(false)}
+            parts={parts}
+            answers={answers}
+            flagged={flagged}
+            onSelectQuestion={handleSelectQuestionFromMatrix}
+            onSubmit={onSubmit}
+          />
+        </Suspense>
+      )}
 
       {/* Top Bar: Title, Part Tabs, Matrix & Submit */}
       <div className={`bg-white rounded-2xl border border-slate-200 p-4 shadow-card ${
@@ -270,11 +275,11 @@ export default function ReadingView({
             onClick={() => setIsMatrixOpen(true)}
             className="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-1.5 transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-brand-500"
             title="Mở bảng câu hỏi"
-            aria-label={`Mở bảng câu hỏi (Đã làm ${answeredCount} trên ${totalQuestionsInPaper})`}
           >
             <LayoutGrid className="w-4 h-4 text-slate-600" />
             <span className="hidden sm:inline">Bảng câu hỏi ({answeredCount}/{totalQuestionsInPaper})</span>
             <span className="sm:hidden">{answeredCount}/{totalQuestionsInPaper}</span>
+            <span className="sr-only"> — Mở bảng tổng quan câu hỏi</span>
           </button>
 
           {!reviewMode && examMode === 'exam' && timeLeft !== undefined && (
@@ -591,6 +596,7 @@ export default function ReadingView({
                                     alt={`Biển báo câu ${qNum}`}
                                     loading="lazy"
                                     decoding="async"
+                                    onError={handleImageErrorFallback(q.images?.stimulus)}
                                     className="max-h-48 object-contain rounded"
                                   />
                                   <div className="absolute inset-0 bg-slate-900/10 opacity-0 group-hover:opacity-100 rounded-lg flex items-center justify-center transition-opacity">
@@ -769,6 +775,9 @@ export default function ReadingView({
                             <img
                               src={stimImg}
                               alt={`Biển báo câu ${qNum}`}
+                              loading="lazy"
+                              decoding="async"
+                              onError={handleImageErrorFallback(q.images?.stimulus)}
                               className="max-h-44 object-contain rounded"
                             />
                           </div>

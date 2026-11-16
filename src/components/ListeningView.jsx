@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react'
 import { Headphones, BookOpen, Flag, CheckCircle2, XCircle, AlertTriangle, AlertCircle, Sparkles, Check, ArrowLeft, RotateCcw, ArrowRight } from 'lucide-react'
 import AudioPlayer from './AudioPlayer'
-import { getImageUrl } from '../services/dataService'
+import { getImageUrl, handleImageErrorFallback } from '../services/dataService'
 import {
   useGSAP,
   initScrollRevealBatch,
@@ -506,6 +506,7 @@ export default function ListeningView({
                                       alt={`Hình minh họa lựa chọn ${optKey}`}
                                       loading="lazy"
                                       decoding="async"
+                                      onError={handleImageErrorFallback(q.images?.[`option_${optKey}`])}
                                       className="max-h-full max-w-full object-contain"
                                     />
                                   </div>
@@ -549,6 +550,7 @@ export default function ListeningView({
                                 alt={`Câu hỏi ${qNum} kèm các hình lựa chọn`}
                                 loading="lazy"
                                 decoding="async"
+                                onError={handleImageErrorFallback(q.images.question_and_options)}
                                 className="max-h-56 object-contain rounded"
                               />
                             </div>

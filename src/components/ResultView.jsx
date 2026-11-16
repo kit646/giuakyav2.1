@@ -14,8 +14,7 @@ import {
   FileSearch,
   MapPin
 } from 'lucide-react'
-import confetti from 'canvas-confetti'
-import { getImageUrl } from '../services/dataService'
+import { getImageUrl, handleImageErrorFallback } from '../services/dataService'
 import {
   useGSAP,
   animateEntrance,
@@ -46,17 +45,22 @@ export default function ResultView({
     ? (test?.papers?.listening ? 'listening' : null)
     : (test?.papers?.reading_and_writing ? 'reading_and_writing' : test?.papers?.reading ? 'reading' : null)
 
-  // Trigger celebration confetti on high score & auto-expand transcripts for wrong questions
+  // Trigger celebration confetti dynamically on high score & auto-expand transcripts for wrong questions
   useEffect(() => {
+    let cancelled = false
     if (result) {
       if (result.cambridgeScore >= 120) {
-        try {
-          confetti({
-            particleCount: 80,
-            spread: 70,
-            origin: { y: 0.6 }
+        import('canvas-confetti')
+          .then(({ default: confetti }) => {
+            if (!cancelled) {
+              confetti({
+                particleCount: 80,
+                spread: 70,
+                origin: { y: 0.6 }
+              })
+            }
           })
-        } catch (e) {}
+          .catch(() => {})
       }
       const initialExpanded = {}
       ;(result.questionDetails || []).forEach((q) => {
@@ -65,6 +69,9 @@ export default function ResultView({
         }
       })
       setExpandedTranscripts(initialExpanded)
+    }
+    return () => {
+      cancelled = true
     }
   }, [result])
 
@@ -539,6 +546,9 @@ export default function ResultView({
                         <img
                           src={stimulusImg}
                           alt={`Biển báo câu ${q.questionNumber}`}
+                          loading="lazy"
+                          decoding="async"
+                          onError={handleImageErrorFallback(q.images?.stimulus)}
                           className="max-h-44 object-contain rounded-lg mx-auto bg-white p-2 border border-slate-200"
                         />
                       ) : (
@@ -578,6 +588,9 @@ export default function ResultView({
                               <img
                                 src={optImg}
                                 alt={`Hình ${optKey}`}
+                                loading="lazy"
+                                decoding="async"
+                                onError={handleImageErrorFallback(q.images?.[`option_${optKey}`])}
                                 className="max-h-full max-w-full object-contain"
                               />
                             </div>
