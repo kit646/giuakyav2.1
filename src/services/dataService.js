@@ -358,7 +358,27 @@ const extractClozeSentenceContext = (passageText, qNum) => {
   }
 }
 
+// Common Cambridge A2 Key synonym groups so paraphrase answers match passage/transcript evidence
+const A2_SYNONYMS = {
+  instrument: ['guitar', 'piano', 'violin', 'drums', 'flute', 'music', 'songs'],
+  musical: ['guitar', 'piano', 'violin', 'drums', 'music', 'songs', 'band', 'concert'],
+  weeks: ['days', 'twelve', 'fortnight'],
+  week: ['days', 'seven', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'],
+  scared: ['worried', 'afraid', 'nervous', 'frightened'],
+  alone: ['myself', 'himself', 'herself', 'own'],
+  talking: ['friends', 'chatted', 'spoke', 'said', 'conversation'],
+  somebody: ['girl', 'boy', 'friend', 'person', 'someone', 'ida'],
+  soon: ['next', 'tomorrow', 'month', 'week'],
+  meet: ['visit', 'see'],
+  sports: ['football', 'tennis', 'swimming', 'riding', 'basketball', 'volleyball', 'hockey'],
+  cheap: ['less', 'discount', 'half', 'free', 'offer', 'save'],
+  ill: ['sick', 'hospital', 'doctor', 'well', 'cold', 'fever'],
+  travel: ['journey', 'flight', 'plane', 'train', 'bus', 'trip'],
+  journey: ['flight', 'plane', 'train', 'bus', 'trip', 'travel'],
+}
+
 // Extract best matching evidence sentence(s) from passage or transcript
+// Supports separate [questionText, answerText] weighting so answer keywords & paraphrases beat generic stem words
 const findBestEvidenceSentence = (sourceText, queryTexts = [], personLetter = null, personName = null) => {
   if (!sourceText) return null
   let targetBlock = String(sourceText)
@@ -388,19 +408,39 @@ const findBestEvidenceSentence = (sourceText, queryTexts = [], personLetter = nu
 
   if (sentences.length === 0) return targetBlock.slice(0, 260)
 
-  const keywords = extractKeywords(queryTexts.join(' '))
-  if (keywords.length === 0) return sentences.slice(0, 2).join(' ')
+  const questionKw = extractKeywords(queryTexts[0] || '')
+  const answerKw = extractKeywords(queryTexts.slice(1).join(' '))
+  if (questionKw.length === 0 && answerKw.length === 0) return sentences.slice(0, 2).join(' ')
 
   let bestScore = -1
   let bestIdx = 0
 
   sentences.forEach((sent, idx) => {
     const lowerSent = sent.toLowerCase()
+    const sentWords = new Set(lowerSent.replace(/[^a-z0-9\s]/g, ' ').split(/\s+/))
     let score = 0
-    keywords.forEach((kw) => {
-      if (lowerSent.includes(kw)) score += 2
-      else if (kw.length >= 5 && lowerSent.includes(kw.slice(0, 4))) score += 1
+
+    // Answer keywords + A2 synonyms carry much higher weight than question-stem words
+    answerKw.forEach((kw) => {
+      if (sentWords.has(kw) || lowerSent.includes(kw)) score += 6
+      else if (kw.length >= 5 && lowerSent.includes(kw.slice(0, 4))) score += 3
+
+      const syns = A2_SYNONYMS[kw]
+      if (syns && syns.some(syn => sentWords.has(syn) || lowerSent.includes(syn))) {
+        score += 5
+      }
     })
+
+    questionKw.forEach((kw) => {
+      if (sentWords.has(kw) || lowerSent.includes(kw)) score += 1.5
+      else if (kw.length >= 5 && lowerSent.includes(kw.slice(0, 4))) score += 0.75
+
+      const syns = A2_SYNONYMS[kw]
+      if (syns && syns.some(syn => sentWords.has(syn) || lowerSent.includes(syn))) {
+        score += 1.5
+      }
+    })
+
     if (score > bestScore) {
       bestScore = score
       bestIdx = idx
@@ -548,7 +588,7 @@ export const gradePaper = (paperData, userAnswers = {}) => {
             } else if (isClozePart && userOptionText && correctOptionText) {
               errorAnalysis = `Tại chỗ trống (${qNum}), từ "${userOptionText}" (${userKeyUpper}) không phù hợp về ngữ pháp/cụm từ cố định. Từ đúng phải là "${correctOptionText}" (${correctKeyUpper}).`
             } else {
-              errorAnalysis = `Bạn đã chọn phương án ${userAnswerDisplay} (chưa đúng). Đáp án chính xác theo nội dung bài là ${correctAnswerDisplay}.`
+              errorAnalysis = `Bạn đã chọn phương án ${userAnswerDisplay} (chưa đúng). Đáp án chính xác theo nội dung bài là ${correctAnswerDisplay}.${q.key_pdf_note ? ` (Ghi chú: ${q.key_pdf_note})` : ''}`
             }
           }
         }
