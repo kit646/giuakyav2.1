@@ -1,7 +1,5 @@
-import React, { useState, lazy, Suspense } from 'react'
-import { GraduationCap, Flame, Award, Languages, ArrowLeft, Smartphone, Monitor, QrCode } from 'lucide-react'
-
-const MobileAccessModal = lazy(() => import('./MobileAccessModal'))
+import React from 'react'
+import { GraduationCap, Flame, Award, Languages, ArrowLeft, Smartphone, Monitor } from 'lucide-react'
 
 export default function Navbar({
   currentView,
@@ -19,14 +17,12 @@ export default function Navbar({
   onSwitchPaper
 }) {
   const isTakingTest = currentView === 'reading' || currentView === 'listening'
-  const [showMobileModal, setShowMobileModal] = useState(false)
   const hasBothPapers = Boolean(activeTest && (activeTest.papers?.reading_and_writing || activeTest.papers?.reading) && activeTest.papers?.listening)
   const otherPaperKey = activePaperKey === 'listening'
     ? (activeTest?.papers?.reading ? 'reading' : 'reading_and_writing')
     : 'listening'
 
   return (
-    <>
       <header className={`sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-xs transition-all ${
         isMobileMode ? 'h-14 px-3' : 'h-16 px-4 sm:px-6 lg:px-8'
       }`}>
@@ -147,21 +143,6 @@ export default function Navbar({
               <span className="sr-only"> ({bilingualMode ? 'BẬT' : 'TẮT'})</span>
             </button>
 
-            {/* Mobile / Tablet QR Access Button (Only visible on Desktop Mode) */}
-            {!isMobileMode && (
-              <button
-                type="button"
-                onClick={() => setShowMobileModal(true)}
-                className="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-200 transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-brand-500 shadow-2xs"
-                title="Mở luyện thi trên điện thoại hoặc máy tính bảng (Quét mã QR)"
-              >
-                <Smartphone className="w-4 h-4 text-brand-600" />
-                <span>Mở trên ĐT</span>
-                <QrCode className="w-3.5 h-3.5 text-slate-500" />
-                <span className="sr-only"> qua mã QR</span>
-              </button>
-            )}
-
             {/* Streak Badge (hidden on mobile) */}
             {!isMobileMode && (
               <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 bg-sunny-50 text-sunny-800 border border-sunny-200 rounded-xl text-xs font-semibold">
@@ -181,16 +162,5 @@ export default function Navbar({
 
         </div>
       </header>
-
-      {/* Mobile Access QR Modal */}
-      {showMobileModal && (
-        <Suspense fallback={null}>
-          <MobileAccessModal
-            isOpen={showMobileModal}
-            onClose={() => setShowMobileModal(false)}
-          />
-        </Suspense>
-      )}
-    </>
   )
 }

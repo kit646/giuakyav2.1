@@ -35,9 +35,6 @@ export default defineConfig({
           if (normalizedId.includes('/node_modules/lucide-react/')) {
             return 'vendor-lucide'
           }
-          if (normalizedId.includes('/node_modules/qrcode/')) {
-            return 'vendor-qrcode'
-          }
           if (normalizedId.includes('/node_modules/canvas-confetti/')) {
             return 'vendor-confetti'
           }
