@@ -57,6 +57,64 @@ export const clearAnswers = (testId, paperKey) => {
   }
 }
 
+export const clearFlaggedQuestions = (testId, paperKey) => {
+  try {
+    const key = `${KEYS.FLAGGED_PREFIX}${testId}_${paperKey}`
+    localStorage.removeItem(key)
+  } catch (e) {
+    console.error('Failed to clear flagged questions', e)
+  }
+}
+
+export const clearPaperResult = (testId, paperKey) => {
+  try {
+    const key = `${KEYS.RESULTS_PREFIX}${testId}_${paperKey}`
+    localStorage.removeItem(key)
+  } catch (e) {
+    console.error('Failed to clear paper result', e)
+  }
+}
+
+/**
+ * Reset all saved answers, flags, and (optionally) graded result for one paper or a whole test.
+ */
+export const clearTestProgress = (test, { includeResults = true } = {}) => {
+  if (!test?.test_id) return
+  const paperKeys = Object.keys(test.papers || {})
+  const candidateKeys = paperKeys.length > 0 ? paperKeys : ['reading_and_writing', 'reading', 'listening']
+  candidateKeys.forEach((pk) => {
+    clearAnswers(test.test_id, pk)
+    clearFlaggedQuestions(test.test_id, pk)
+    if (includeResults) {
+      clearPaperResult(test.test_id, pk)
+    }
+  })
+}
+
+export const getAllSavedAnswerCounts = () => {
+  try {
+    const counts = {}
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i)
+      if (k && k.startsWith(KEYS.ANSWERS_PREFIX)) {
+        const id = k.replace(KEYS.ANSWERS_PREFIX, '')
+        try {
+          const parsed = JSON.parse(localStorage.getItem(k) || '{}')
+          const nonEmpty = Object.values(parsed).filter(
+            (v) => v !== undefined && String(v).trim() !== ''
+          ).length
+          if (nonEmpty > 0) {
+            counts[id] = nonEmpty
+          }
+        } catch (_) {}
+      }
+    }
+    return counts
+  } catch (e) {
+    return {}
+  }
+}
+
 export const getFlaggedQuestions = (testId, paperKey) => {
   try {
     const key = `${KEYS.FLAGGED_PREFIX}${testId}_${paperKey}`

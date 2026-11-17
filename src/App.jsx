@@ -21,11 +21,14 @@ import {
   getSavedAnswers,
   saveAnswer as persistAnswer,
   clearAnswers as persistClearAnswers,
+  clearFlaggedQuestions as persistClearFlagged,
+  clearTestProgress as persistClearTestProgress,
   getFlaggedQuestions,
   toggleFlagQuestion as persistToggleFlag,
   saveResult as persistResult,
   getResult as fetchResult,
   getAllTestProgress,
+  getAllSavedAnswerCounts,
   getGlobalStats
 } from './services/storage'
 import { Loader2, AlertCircle, HelpCircle, Smartphone, Monitor } from 'lucide-react'
@@ -53,6 +56,8 @@ export default function App() {
   const [submitConfirmOpen, setSubmitConfirmOpen] = useState(false)
   const [unansweredQuestions, setUnansweredQuestions] = useState([])
   const [exitExamConfirmOpen, setExitExamConfirmOpen] = useState(false)
+  const [resetConfirmTarget, setResetConfirmTarget] = useState(null) // { type: 'active-paper' } | { type: 'dashboard-test', test }
+  const [paperResetVersion, setPaperResetVersion] = useState(0)
 
   const mainRef = useRef(null)
   const isFirstViewRef = useRef(true)
@@ -89,6 +94,7 @@ export default function App() {
   const [bilingualMode, setBilingualMode] = useState(true)
   const [stats, setStats] = useState(getGlobalStats())
   const [progress, setProgress] = useState({})
+  const [savedCounts, setSavedCounts] = useState({})
 
   // View Mode: 'desktop' | 'mobile' (Auto-detected or user toggled)
   const [viewMode, setViewMode] = useState(() => {
@@ -123,6 +129,7 @@ export default function App() {
         setBilingualMode(settings.bilingual !== false)
         
         setProgress(getAllTestProgress())
+        setSavedCounts(getAllSavedAnswerCounts())
         setStats(getGlobalStats())
       } catch (err) {
         console.error('Failed to init app:', err)
@@ -309,10 +316,51 @@ export default function App() {
   const handleRetakeTest = () => {
     if (!activeTest || !activePaperKey) return
     persistClearAnswers(activeTest.test_id, activePaperKey)
+    persistClearFlagged(activeTest.test_id, activePaperKey)
     setAnswers({})
     setFlagged({})
     setReviewMode(false)
+    setSavedCounts(getAllSavedAnswerCounts())
+    setPaperResetVersion((v) => v + 1)
     handleStartTest(activeTest, activePaperKey, examMode)
+  }
+
+  // Request undo/reset all answers & flags for current active paper
+  const handleRequestResetActivePaper = () => {
+    if (!activeTest || !activePaperKey) return
+    setResetConfirmTarget({ type: 'active-paper' })
+  }
+
+  // Request undo/reset all saved progress & results for a specific test card on Dashboard
+  const handleRequestResetDashboardTest = (testItem) => {
+    if (!testItem?.test_id) return
+    setResetConfirmTarget({ type: 'dashboard-test', test: testItem })
+  }
+
+  // Execute confirmed undo/reset
+  const handleConfirmReset = () => {
+    if (!resetConfirmTarget) return
+
+    if (resetConfirmTarget.type === 'active-paper' && activeTest && activePaperKey) {
+      persistClearAnswers(activeTest.test_id, activePaperKey)
+      persistClearFlagged(activeTest.test_id, activePaperKey)
+      setAnswers({})
+      setFlagged({})
+      setReviewMode(false)
+      if (examMode === 'exam') {
+        setTimeLeft(activePaperKey === 'listening' ? 30 * 60 : 45 * 60)
+      }
+      setPaperResetVersion((v) => v + 1)
+      setProgress(getAllTestProgress())
+      setSavedCounts(getAllSavedAnswerCounts())
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    } else if (resetConfirmTarget.type === 'dashboard-test' && resetConfirmTarget.test) {
+      persistClearTestProgress(resetConfirmTarget.test, { includeResults: true })
+      setProgress(getAllTestProgress())
+      setSavedCounts(getAllSavedAnswerCounts())
+    }
+
+    setResetConfirmTarget(null)
   }
 
   // Request navigate back to Dashboard
@@ -331,6 +379,7 @@ export default function App() {
     setActivePaperKey('')
     setReviewMode(false)
     setProgress(getAllTestProgress())
+    setSavedCounts(getAllSavedAnswerCounts())
     setStats(getGlobalStats())
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
@@ -401,8 +450,10 @@ export default function App() {
             tests={[...(masterData.tests || []), ...(masterData.online_tests || [])]}
             sampleTest={masterData.sample_test}
             progress={progress}
+            savedCounts={savedCounts}
             stats={stats}
             onStartTest={handleStartTest}
+            onResetTest={handleRequestResetDashboardTest}
             isMobileMode={isMobileMode}
             onToggleViewMode={handleToggleViewMode}
           />
@@ -432,6 +483,8 @@ export default function App() {
               result={currentResult}
               onBackToResult={handleBackToResult}
               onRetakeTest={handleRetakeTest}
+              onResetPaper={handleRequestResetActivePaper}
+              resetVersion={paperResetVersion}
             />
           </Suspense>
         )}
@@ -455,6 +508,8 @@ export default function App() {
               result={currentResult}
               onBackToResult={handleBackToResult}
               onRetakeTest={handleRetakeTest}
+              onResetPaper={handleRequestResetActivePaper}
+              resetVersion={paperResetVersion}
             />
           </Suspense>
         )}
@@ -515,6 +570,47 @@ export default function App() {
               Tiến độ bài làm đã được lưu vào máy, nhưng đồng hồ đếm ngược sẽ dừng lại. Bạn có chắc muốn quay về trang chủ không?
             </p>
           </div>
+        }
+      />
+
+      {/* Undo / Reset All Answers Confirmation Modal */}
+      <ConfirmModal
+        isOpen={Boolean(resetConfirmTarget)}
+        onClose={() => setResetConfirmTarget(null)}
+        onConfirm={handleConfirmReset}
+        title={
+          resetConfirmTarget?.type === 'dashboard-test'
+            ? 'Hoàn tác & xóa bài làm của đề này?'
+            : 'Hoàn tác & làm lại tất cả câu hỏi?'
+        }
+        variant="danger"
+        confirmText="Xóa đáp án & làm lại"
+        cancelText="Giữ lại bài làm"
+        description={
+          resetConfirmTarget?.type === 'dashboard-test' ? (
+            <div>
+              <p>
+                Bạn có chắc muốn xóa toàn bộ đáp án đã lưu và điểm đã làm cho đề{' '}
+                <strong className="text-slate-900">{resetConfirmTarget.test?.title}</strong> để làm lại từ đầu không?
+              </p>
+              <p className="mt-1 text-slate-500 text-xs">
+                Thao tác này chỉ xóa tiến độ của riêng đề này (bao gồm cả Reading & Listening nếu có) và không ảnh hưởng tới các đề khác.
+              </p>
+            </div>
+          ) : (
+            <div>
+              <p>
+                Tất cả đáp án đã chọn/điền và các câu đang ghim trong{' '}
+                <strong className="text-slate-900">
+                  {activeTest?.title} ({activePaperKey === 'listening' ? 'Listening' : 'Reading & Writing'})
+                </strong>{' '}
+                sẽ được đặt lại về <strong className="text-coral-600">0 câu</strong>.
+              </p>
+              <p className="mt-1 text-slate-500 text-xs">
+                Sau khi xác nhận, bạn có thể làm lại toàn bộ đề từ đầu như mới.
+              </p>
+            </div>
+          )
         }
       />
 

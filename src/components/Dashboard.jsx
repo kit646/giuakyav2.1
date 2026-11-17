@@ -13,8 +13,10 @@ export default function Dashboard({
   tests = [],
   sampleTest = null,
   progress = {},
+  savedCounts = {},
   stats = {},
   onStartTest,
+  onResetTest,
   isMobileMode = false,
   onToggleViewMode
 }) {
@@ -265,6 +267,11 @@ export default function Dashboard({
 
           const readingStats = getTestStats(testId, readingPaperKey)
           const listeningStats = getTestStats(testId, 'listening')
+          const readingSavedCount = hasReading ? (savedCounts[`${testId}_${readingPaperKey}`] || 0) : 0
+          const listeningSavedCount = hasListening ? (savedCounts[`${testId}_listening`] || 0) : 0
+          const hasAnyProgress = Boolean(
+            readingStats || listeningStats || readingSavedCount > 0 || listeningSavedCount > 0
+          )
 
           return (
             <div
@@ -318,6 +325,10 @@ export default function Dashboard({
                           <Check className="w-3.5 h-3.5" />
                           {readingStats.cambridgeScore}/150
                         </span>
+                      ) : readingSavedCount > 0 ? (
+                        <span className="font-bold text-brand-600">
+                          Đang làm ({readingSavedCount} câu)
+                        </span>
                       ) : (
                         <span className="text-slate-500 font-medium">Chưa làm</span>
                       )}
@@ -335,6 +346,10 @@ export default function Dashboard({
                         <span className="font-bold text-fresh-600 flex items-center gap-1">
                           <Check className="w-3.5 h-3.5" />
                           {listeningStats.cambridgeScore}/150
+                        </span>
+                      ) : listeningSavedCount > 0 ? (
+                        <span className="font-bold text-audio-600">
+                          Đang làm ({listeningSavedCount} câu)
                         </span>
                       ) : (
                         <span className="text-slate-500 font-medium">Chưa làm</span>
@@ -430,6 +445,28 @@ export default function Dashboard({
                     <Clock className="w-4 h-4 text-sunny-400" />
                     <span>Thi Thử Tính Giờ ({hasListening ? 'Listening 30p' : 'Reading 60p'})</span>
                     <span className="sr-only"> cho đề {item.title}</span>
+                  </button>
+                )}
+                {/* UNDO / RESET ALL QUESTIONS FOR THIS TEST */}
+                {onResetTest && (
+                  <button
+                    type="button"
+                    disabled={!hasAnyProgress}
+                    onClick={() => onResetTest(item)}
+                    title={
+                      hasAnyProgress
+                        ? `Hoàn tác và xóa toàn bộ bài làm của đề ${item.title}`
+                        : `Đề ${item.title} chưa có câu trả lời nào được lưu`
+                    }
+                    className={`w-full flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl text-xs font-bold border transition-colors focus:outline-none focus:ring-2 focus:ring-coral-400 ${
+                      hasAnyProgress
+                        ? 'bg-coral-50 hover:bg-coral-100 text-coral-700 border-coral-200 cursor-pointer'
+                        : 'bg-slate-50 text-slate-400 border-slate-200/80 cursor-not-allowed'
+                    }`}
+                  >
+                    <RotateCcw className="w-3.5 h-3.5 shrink-0" />
+                    <span>Hoàn tác & làm lại đề</span>
+                    <span className="sr-only"> {item.title}</span>
                   </button>
                 )}
               </div>

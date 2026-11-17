@@ -60,7 +60,9 @@ export default function ListeningView({
   reviewMode = false,
   result = null,
   onBackToResult,
-  onRetakeTest
+  onRetakeTest,
+  onResetPaper,
+  resetVersion = 0
 }) {
   const paper = test.papers ? test.papers.listening : null
   const parts = paper?.parts || []
@@ -99,6 +101,13 @@ export default function ListeningView({
     }
   )
 
+  // Automatically return to Part 1 when user resets all questions
+  useEffect(() => {
+    if (resetVersion > 0) {
+      setActivePartIndex(0)
+    }
+  }, [resetVersion])
+
   // Format time mm:ss for exam mode
   const formatTimer = (secs) => {
     const m = Math.floor(secs / 60)
@@ -108,7 +117,10 @@ export default function ListeningView({
 
   // Count total answered in listening
   const totalQuestions = parts.reduce((acc, p) => acc + (p.questions?.length || 0), 0)
-  const answeredCount = Object.keys(answers).length
+  const answeredCount = Object.values(answers).filter(
+    (v) => v !== undefined && String(v).trim() !== ''
+  ).length
+  const hasProgressToReset = answeredCount > 0 || Object.values(flagged).some(Boolean)
 
   // Global hotkeys: [ / ] for switching Parts
   useEffect(() => {
@@ -248,14 +260,37 @@ export default function ListeningView({
                 )}
               </>
             ) : (
-              <button
-                type="button"
-                onClick={onSubmit}
-                className="w-full md:w-auto px-5 py-2.5 bg-fresh-600 hover:bg-fresh-700 text-white font-bold text-sm rounded-xl shadow-md shadow-fresh-600/20 transition-all cursor-pointer flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-fresh-500"
-              >
-                <CheckCircle2 className="w-4 h-4" />
-                <span>Nộp Bài & Chấm Điểm</span>
-              </button>
+              <div className="flex flex-wrap items-center gap-2 w-full md:w-auto justify-end">
+                {onResetPaper && (
+                  <button
+                    type="button"
+                    onClick={onResetPaper}
+                    disabled={!hasProgressToReset}
+                    title={
+                      hasProgressToReset
+                        ? 'Hoàn tác và xóa toàn bộ đáp án đã chọn để làm lại tất cả câu hỏi'
+                        : 'Bạn chưa chọn đáp án nào để hoàn tác'
+                    }
+                    className={`px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-1.5 border transition-colors focus:outline-none focus:ring-2 focus:ring-coral-400 ${
+                      hasProgressToReset
+                        ? 'bg-coral-50 hover:bg-coral-100 text-coral-700 border-coral-200 cursor-pointer'
+                        : 'bg-slate-50 text-slate-400 border-slate-200 cursor-not-allowed'
+                    }`}
+                  >
+                    <RotateCcw className="w-4 h-4 shrink-0" />
+                    <span>Làm lại tất cả</span>
+                  </button>
+                )}
+
+                <button
+                  type="button"
+                  onClick={onSubmit}
+                  className="flex-1 md:flex-initial px-5 py-2.5 bg-fresh-600 hover:bg-fresh-700 text-white font-bold text-sm rounded-xl shadow-md shadow-fresh-600/20 transition-all cursor-pointer flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-fresh-500"
+                >
+                  <CheckCircle2 className="w-4 h-4" />
+                  <span>Nộp Bài & Chấm Điểm</span>
+                </button>
+              </div>
             )}
           </div>
 
