@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react'
 import { Headphones, BookOpen, Flag, CheckCircle2, XCircle, AlertTriangle, AlertCircle, Sparkles, Check, ArrowLeft, RotateCcw, ArrowRight } from 'lucide-react'
 import AudioPlayer from './AudioPlayer'
+import FloatingExamControls from './FloatingExamControls'
 import { getImageUrl, handleImageErrorFallback } from '../services/dataService'
 import {
   useGSAP,
@@ -885,6 +886,27 @@ export default function ListeningView({
         )}
 
       </div>
+
+      {/* Smart Scroll-Up Floating Controls Dock */}
+      <FloatingExamControls
+        variant="listening"
+        parts={parts}
+        activePartIndex={activePartIndex}
+        onSelectPart={setActivePartIndex}
+        answers={answers}
+        answeredCount={answeredCount}
+        totalQuestions={totalQuestions}
+        hasOtherPaper={hasReading}
+        otherPaperKey={readingPaperKey}
+        onSwitchPaper={onSwitchPaper}
+        onResetPaper={onResetPaper}
+        hasProgressToReset={hasProgressToReset}
+        onSubmit={onSubmit}
+        reviewMode={reviewMode}
+        onBackToResult={onBackToResult}
+        onRetakeTest={onRetakeTest}
+        isMobileMode={isMobileMode}
+      />
 
     </div>
   )

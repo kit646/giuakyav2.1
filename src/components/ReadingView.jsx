@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo, useRef, lazy, Suspense } from 'rea
 import { BookOpen, Headphones, Flag, CheckCircle2, XCircle, AlertTriangle, LayoutGrid, AlertCircle, ZoomIn, Check, ChevronDown, ChevronUp, CheckSquare, ArrowLeft, RotateCcw, ArrowRight } from 'lucide-react'
 import { getImageUrl, handleImageErrorFallback } from '../services/dataService'
 import ImageModal from './ImageModal'
+import FloatingExamControls from './FloatingExamControls'
 import {
   useGSAP,
   animateEntrance,
@@ -983,6 +984,28 @@ export default function ReadingView({
 
         </div>
       )}
+
+      {/* Smart Scroll-Up Floating Controls Dock */}
+      <FloatingExamControls
+        variant="reading"
+        parts={parts}
+        activePartIndex={activePartIndex}
+        onSelectPart={setActivePartIndex}
+        answers={answers}
+        answeredCount={answeredCount}
+        totalQuestions={totalQuestionsInPaper}
+        hasOtherPaper={Boolean(test.papers?.listening)}
+        otherPaperKey="listening"
+        onSwitchPaper={onSwitchPaper}
+        onOpenMatrix={() => setIsMatrixOpen(true)}
+        onResetPaper={onResetPaper}
+        hasProgressToReset={hasProgressToReset}
+        onSubmit={onSubmit}
+        reviewMode={reviewMode}
+        onBackToResult={onBackToResult}
+        onRetakeTest={onRetakeTest}
+        isMobileMode={isMobileMode}
+      />
 
     </div>
   )
