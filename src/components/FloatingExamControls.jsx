@@ -291,7 +291,8 @@ export default function FloatingExamControls({
       onPointerDown={handleActiveBump}
       onMouseMove={handleActiveBump}
       onFocusCapture={handleActiveBump}
-      className={`fixed inset-x-0 z-[35] transition-[transform,opacity] duration-200 ease-out motion-reduce:transition-none print:hidden ${
+      style={{ marginTop: 0 }}
+      className={`fixed inset-x-0 !mt-0 z-[35] transition-[transform,opacity] duration-200 ease-out motion-reduce:transition-none print:hidden ${
         isMobileMode ? 'top-14' : 'top-16'
       } ${
         visible
@@ -299,19 +300,15 @@ export default function FloatingExamControls({
           : 'opacity-0 -translate-y-full pointer-events-none'
       }`}
     >
-      {isMobileMode ? (
-        <div className="w-full max-w-lg mx-auto px-3">
-          <div className="w-full bg-white/95 backdrop-blur-md border-x border-b border-slate-200 shadow-floating rounded-b-2xl px-2.5 py-2 overflow-hidden">
-            {innerContent}
-          </div>
+      <div className={isMobileMode ? 'w-full max-w-lg mx-auto px-3' : 'w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'}>
+        <div
+          className={`w-full bg-white/95 backdrop-blur-md border-x border-b border-slate-200 shadow-floating rounded-b-2xl overflow-hidden ${
+            isMobileMode ? 'px-2.5 py-2' : 'px-4 py-2'
+          }`}
+        >
+          {innerContent}
         </div>
-      ) : (
-        <div className="w-full bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-md">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
-            {innerContent}
-          </div>
-        </div>
-      )}
+      </div>
     </div>
   )
 }

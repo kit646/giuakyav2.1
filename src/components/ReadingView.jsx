@@ -184,6 +184,7 @@ export default function ReadingView({
   }
 
   return (
+    <>
     <div ref={scopeRef} className={isMobileMode
       ? 'w-full px-3 py-4 space-y-4 pb-20'
       : 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6'
@@ -984,29 +985,29 @@ export default function ReadingView({
 
         </div>
       )}
-
-      {/* Smart Scroll-Up Floating Controls Dock */}
-      <FloatingExamControls
-        variant="reading"
-        parts={parts}
-        activePartIndex={activePartIndex}
-        onSelectPart={setActivePartIndex}
-        answers={answers}
-        answeredCount={answeredCount}
-        totalQuestions={totalQuestionsInPaper}
-        hasOtherPaper={Boolean(test.papers?.listening)}
-        otherPaperKey="listening"
-        onSwitchPaper={onSwitchPaper}
-        onOpenMatrix={() => setIsMatrixOpen(true)}
-        onResetPaper={onResetPaper}
-        hasProgressToReset={hasProgressToReset}
-        onSubmit={onSubmit}
-        reviewMode={reviewMode}
-        onBackToResult={onBackToResult}
-        onRetakeTest={onRetakeTest}
-        isMobileMode={isMobileMode}
-      />
-
     </div>
+
+    {/* Smart Scroll-Up Floating Controls Dock (outside space-y-* container) */}
+    <FloatingExamControls
+      variant="reading"
+      parts={parts}
+      activePartIndex={activePartIndex}
+      onSelectPart={setActivePartIndex}
+      answers={answers}
+      answeredCount={answeredCount}
+      totalQuestions={totalQuestionsInPaper}
+      hasOtherPaper={Boolean(test.papers?.listening)}
+      otherPaperKey="listening"
+      onSwitchPaper={onSwitchPaper}
+      onOpenMatrix={() => setIsMatrixOpen(true)}
+      onResetPaper={onResetPaper}
+      hasProgressToReset={hasProgressToReset}
+      onSubmit={onSubmit}
+      reviewMode={reviewMode}
+      onBackToResult={onBackToResult}
+      onRetakeTest={onRetakeTest}
+      isMobileMode={isMobileMode}
+    />
+    </>
   )
 }

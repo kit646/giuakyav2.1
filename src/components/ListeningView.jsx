@@ -141,6 +141,7 @@ export default function ListeningView({
   }, [parts.length])
 
   return (
+    <>
     <div className="space-y-6 pb-12">
       
       {/* Sticky Audio Player for Current Part */}
@@ -886,28 +887,28 @@ export default function ListeningView({
         )}
 
       </div>
-
-      {/* Smart Scroll-Up Floating Controls Dock */}
-      <FloatingExamControls
-        variant="listening"
-        parts={parts}
-        activePartIndex={activePartIndex}
-        onSelectPart={setActivePartIndex}
-        answers={answers}
-        answeredCount={answeredCount}
-        totalQuestions={totalQuestions}
-        hasOtherPaper={hasReading}
-        otherPaperKey={readingPaperKey}
-        onSwitchPaper={onSwitchPaper}
-        onResetPaper={onResetPaper}
-        hasProgressToReset={hasProgressToReset}
-        onSubmit={onSubmit}
-        reviewMode={reviewMode}
-        onBackToResult={onBackToResult}
-        onRetakeTest={onRetakeTest}
-        isMobileMode={isMobileMode}
-      />
-
     </div>
+
+    {/* Smart Scroll-Up Floating Controls Dock (outside space-y-* container) */}
+    <FloatingExamControls
+      variant="listening"
+      parts={parts}
+      activePartIndex={activePartIndex}
+      onSelectPart={setActivePartIndex}
+      answers={answers}
+      answeredCount={answeredCount}
+      totalQuestions={totalQuestions}
+      hasOtherPaper={hasReading}
+      otherPaperKey={readingPaperKey}
+      onSwitchPaper={onSwitchPaper}
+      onResetPaper={onResetPaper}
+      hasProgressToReset={hasProgressToReset}
+      onSubmit={onSubmit}
+      reviewMode={reviewMode}
+      onBackToResult={onBackToResult}
+      onRetakeTest={onRetakeTest}
+      isMobileMode={isMobileMode}
+    />
+    </>
   )
 }
