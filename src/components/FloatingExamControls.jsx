@@ -8,13 +8,13 @@ import {
   ArrowLeft,
 } from 'lucide-react'
 
-const AUTO_HIDE_MS = 4500
+const AUTO_HIDE_MS = 2800
 const MIN_SCROLL_Y = 220
 
 /**
- * Smart floating exam dock: reveals smoothly when the user scrolls up slightly
- * mid-test and auto-hides after a few seconds (or on downward scroll), allowing
- * quick Part switching, paper switching, reset, or submit without scrolling all the way up.
+ * Top floating exam dock: drops smoothly from below Navbar when scrolling up
+ * slightly mid-test and always auto-hides after a short delay (2.8s) or on
+ * downward scroll so it never stays blocking content.
  */
 export default function FloatingExamControls({
   variant = 'reading', // 'reading' | 'listening'
@@ -39,7 +39,6 @@ export default function FloatingExamControls({
   const [visible, setVisible] = useState(false)
   const lastScrollYRef = useRef(0)
   const hideTimerRef = useRef(null)
-  const isInteractingRef = useRef(false)
 
   const clearHideTimer = useCallback(() => {
     if (hideTimerRef.current) {
@@ -50,7 +49,6 @@ export default function FloatingExamControls({
 
   const scheduleHide = useCallback(() => {
     clearHideTimer()
-    if (isInteractingRef.current) return
     hideTimerRef.current = setTimeout(() => {
       setVisible(false)
     }, AUTO_HIDE_MS)
@@ -71,11 +69,11 @@ export default function FloatingExamControls({
         return
       }
 
-      // Reveal when scrolling up slightly (> 6px) past the top control bar
+      // Reveal briefly at top when user scrolls up slightly (> 6px)
       if (delta < -6) {
         setVisible(true)
         scheduleHide()
-      } else if (delta > 16 && !isInteractingRef.current) {
+      } else if (delta > 12) {
         clearHideTimer()
         setVisible(false)
       }
@@ -88,14 +86,11 @@ export default function FloatingExamControls({
     }
   }, [clearHideTimer, scheduleHide])
 
-  const handleInteractionStart = () => {
-    isInteractingRef.current = true
-    clearHideTimer()
-  }
-
-  const handleInteractionEnd = () => {
-    isInteractingRef.current = false
-    if (visible) scheduleHide()
+  // Refresh the short timeout only on active pointer/keyboard movement inside the bar
+  const handleActiveBump = () => {
+    if (visible) {
+      scheduleHide()
+    }
   }
 
   const handlePickPart = (idx) => {
@@ -116,21 +111,20 @@ export default function FloatingExamControls({
   return (
     <div
       aria-hidden={!visible}
-      onMouseEnter={handleInteractionStart}
-      onMouseLeave={handleInteractionEnd}
-      onFocusCapture={handleInteractionStart}
-      onBlurCapture={handleInteractionEnd}
-      className={`fixed z-40 transition-[transform,opacity] duration-200 ease-out motion-reduce:transition-none print:hidden ${
+      onPointerDown={handleActiveBump}
+      onMouseMove={handleActiveBump}
+      onFocusCapture={handleActiveBump}
+      className={`fixed z-[35] transition-[transform,opacity] duration-200 ease-out motion-reduce:transition-none print:hidden ${
         isMobileMode
-          ? 'inset-x-3 bottom-16'
-          : 'bottom-16 lg:bottom-5 left-1/2 -translate-x-1/2 w-[calc(100%-1.5rem)] max-w-3xl'
+          ? 'inset-x-3 top-[62px]'
+          : 'top-[72px] left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-4xl'
       } ${
         visible
           ? 'opacity-100 translate-y-0 pointer-events-auto'
-          : 'opacity-0 translate-y-6 pointer-events-none'
+          : 'opacity-0 -translate-y-4 pointer-events-none'
       }`}
     >
-      <div className="bg-white/95 backdrop-blur-md border border-slate-200/90 shadow-floating rounded-2xl p-2.5 sm:p-3 space-y-2">
+      <div className="bg-white/95 backdrop-blur-md border border-brand-200/80 shadow-floating rounded-2xl p-2.5 sm:p-3 space-y-2">
         {/* Top Row: Skill switcher, progress, and quick actions */}
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
