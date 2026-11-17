@@ -8,13 +8,13 @@ import {
   ArrowLeft,
 } from 'lucide-react'
 
-const AUTO_HIDE_MS = 2800
-const MIN_SCROLL_Y = 220
+const AUTO_HIDE_MS = 2500
+const MIN_SCROLL_Y = 200
 
 /**
- * Top floating exam dock: drops smoothly from below Navbar when scrolling up
- * slightly mid-test and always auto-hides after a short delay (2.8s) or on
- * downward scroll so it never stays blocking content.
+ * Smart top quick-bar: slides down smoothly right beneath Navbar when the user
+ * scrolls up slightly mid-test, matches the exact width of Mobile (max-w-lg) or
+ * Desktop (max-w-7xl) containers, and auto-hides after 2.5s or downward scroll.
  */
 export default function FloatingExamControls({
   variant = 'reading', // 'reading' | 'listening'
@@ -86,7 +86,6 @@ export default function FloatingExamControls({
     }
   }, [clearHideTimer, scheduleHide])
 
-  // Refresh the short timeout only on active pointer/keyboard movement inside the bar
   const handleActiveBump = () => {
     if (visible) {
       scheduleHide()
@@ -107,6 +106,48 @@ export default function FloatingExamControls({
     ? 'bg-audio-600 text-white shadow-sm'
     : 'bg-brand-600 text-white shadow-sm'
   const countColor = isListening ? 'text-audio-700' : 'text-brand-600'
+  const actionLabelClass = isMobileMode ? 'sr-only' : 'hidden xl:inline'
+
+  const partTabsNode = (
+    <div
+      className={`flex items-center overflow-x-auto ${
+        isMobileMode ? 'gap-1.5 pb-0.5 w-full order-3' : 'gap-1 order-2'
+      }`}
+      role="tablist"
+      aria-label="Chuyển nhanh giữa các Part"
+    >
+      {parts.map((p, idx) => {
+        const isSelected = activePartIndex === idx
+        const partQuestions = p.questions || []
+        const partAnswered = partQuestions.filter((q) => {
+          const val = answers[q.question_number || q.number]
+          return val !== undefined && String(val).trim() !== ''
+        }).length
+        const isDone = partQuestions.length > 0 && partAnswered === partQuestions.length
+
+        return (
+          <button
+            key={p.part}
+            type="button"
+            role="tab"
+            tabIndex={visible ? 0 : -1}
+            aria-selected={isSelected}
+            onClick={() => handlePickPart(idx)}
+            className={`px-2.5 py-1 rounded-xl text-xs font-bold shrink-0 transition-colors cursor-pointer flex items-center gap-1.5 ${
+              isSelected
+                ? activePartStyle
+                : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+            }`}
+          >
+            <span>Part {p.part}</span>
+            {isDone && (
+              <span className={`w-1.5 h-1.5 rounded-full ${isSelected ? 'bg-white' : 'bg-fresh-500'}`} />
+            )}
+          </button>
+        )
+      })}
+    </div>
+  )
 
   return (
     <div
@@ -114,22 +155,25 @@ export default function FloatingExamControls({
       onPointerDown={handleActiveBump}
       onMouseMove={handleActiveBump}
       onFocusCapture={handleActiveBump}
-      className={`fixed z-[35] transition-[transform,opacity] duration-200 ease-out motion-reduce:transition-none print:hidden ${
-        isMobileMode
-          ? 'inset-x-3 top-[62px]'
-          : 'top-[72px] left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-4xl'
+      className={`fixed inset-x-0 z-[35] transition-[transform,opacity] duration-200 ease-out motion-reduce:transition-none print:hidden ${
+        isMobileMode ? 'top-14' : 'top-16'
       } ${
         visible
           ? 'opacity-100 translate-y-0 pointer-events-auto'
           : 'opacity-0 -translate-y-4 pointer-events-none'
       }`}
     >
-      <div className="bg-white/95 backdrop-blur-md border border-brand-200/80 shadow-floating rounded-2xl p-2.5 sm:p-3 space-y-2">
-        {/* Top Row: Skill switcher, progress, and quick actions */}
-        <div className="flex flex-wrap items-center justify-between gap-2">
-          <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+      {/* Match exact container width & horizontal padding of Mobile (max-w-lg) and Desktop (max-w-7xl) */}
+      <div className={isMobileMode ? 'w-full max-w-lg mx-auto px-3 pt-1.5' : 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-2'}>
+        <div
+          className={`bg-white/95 backdrop-blur-md border border-slate-200 shadow-floating rounded-2xl flex flex-wrap items-center justify-between ${
+            isMobileMode ? 'p-2.5 gap-2' : 'px-4 py-2.5 gap-2.5'
+          }`}
+        >
+          {/* Skill Switcher & Progress */}
+          <div className="flex items-center gap-2 min-w-0 order-1">
             {hasOtherPaper && onSwitchPaper && (
-              <div className="inline-flex items-center bg-slate-100 p-0.5 rounded-xl border border-slate-200 text-[11px] sm:text-xs font-bold">
+              <div className="inline-flex items-center bg-slate-100 p-0.5 rounded-xl border border-slate-200 text-[11px] sm:text-xs font-bold shrink-0">
                 {isListening ? (
                   <>
                     <button
@@ -139,18 +183,18 @@ export default function FloatingExamControls({
                       className="px-2 py-1 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-white transition-colors flex items-center gap-1 cursor-pointer"
                     >
                       <BookOpen className="w-3.5 h-3.5 text-brand-600" />
-                      <span>Sang Reading</span>
+                      <span>{isMobileMode ? 'Đọc' : 'Sang Reading'}</span>
                     </button>
                     <span className="px-2 py-1 rounded-lg bg-audio-600 text-white flex items-center gap-1">
                       <Headphones className="w-3.5 h-3.5" />
-                      <span>Listening</span>
+                      <span>{isMobileMode ? 'Nghe' : 'Listening'}</span>
                     </span>
                   </>
                 ) : (
                   <>
                     <span className="px-2 py-1 rounded-lg bg-brand-600 text-white flex items-center gap-1">
                       <BookOpen className="w-3.5 h-3.5" />
-                      <span>Reading</span>
+                      <span>{isMobileMode ? 'Đọc' : 'Reading'}</span>
                     </span>
                     <button
                       type="button"
@@ -159,29 +203,34 @@ export default function FloatingExamControls({
                       className="px-2 py-1 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-white transition-colors flex items-center gap-1 cursor-pointer"
                     >
                       <Headphones className="w-3.5 h-3.5 text-audio-600" />
-                      <span>Sang Listening</span>
+                      <span>{isMobileMode ? 'Nghe' : 'Sang Listening'}</span>
                     </button>
                   </>
                 )}
               </div>
             )}
 
-            <span className="text-xs text-slate-600 font-medium px-1">
-              Đã làm <strong className={countColor}>{answeredCount}/{totalQuestions}</strong>
+            <span className="text-xs text-slate-600 font-semibold whitespace-nowrap">
+              <strong className={countColor}>{answeredCount}/{totalQuestions}</strong>
+              {!isMobileMode && ' câu'}
             </span>
           </div>
 
-          <div className="flex flex-wrap items-center gap-1.5">
+          {/* Part Tabs (inline middle on Desktop, second row on Mobile via order-3) */}
+          {!isMobileMode && partTabsNode}
+
+          {/* Quick Action Buttons */}
+          <div className={`flex items-center gap-1.5 shrink-0 ${isMobileMode ? 'order-2' : 'order-3'}`}>
             {onOpenMatrix && (
               <button
                 type="button"
                 tabIndex={visible ? 0 : -1}
                 onClick={onOpenMatrix}
-                className="px-2.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold flex items-center gap-1 cursor-pointer transition-colors"
+                className="px-2 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold flex items-center gap-1 cursor-pointer transition-colors"
                 title="Mở bảng câu hỏi"
               >
                 <LayoutGrid className="w-3.5 h-3.5 text-slate-600" />
-                <span className="hidden sm:inline">Bảng câu hỏi</span>
+                <span className={actionLabelClass}>Bảng câu hỏi</span>
               </button>
             )}
 
@@ -192,10 +241,10 @@ export default function FloatingExamControls({
                     type="button"
                     tabIndex={visible ? 0 : -1}
                     onClick={onBackToResult}
-                    className="px-3 py-1.5 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl flex items-center gap-1 cursor-pointer transition-colors"
+                    className="px-2.5 py-1.5 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl flex items-center gap-1 cursor-pointer transition-colors"
                   >
                     <ArrowLeft className="w-3.5 h-3.5" />
-                    <span>Về bảng điểm</span>
+                    <span>{isMobileMode ? 'Bảng điểm' : 'Về bảng điểm'}</span>
                   </button>
                 )}
                 {onRetakeTest && (
@@ -203,14 +252,15 @@ export default function FloatingExamControls({
                     type="button"
                     tabIndex={visible ? 0 : -1}
                     onClick={onRetakeTest}
-                    className={`px-2.5 py-1.5 rounded-xl text-xs font-bold border flex items-center gap-1 cursor-pointer transition-colors ${
+                    title="Làm lại đề"
+                    className={`px-2 py-1.5 rounded-xl text-xs font-bold border flex items-center gap-1 cursor-pointer transition-colors ${
                       isListening
                         ? 'bg-audio-50 hover:bg-audio-100 text-audio-700 border-audio-200'
                         : 'bg-brand-50 hover:bg-brand-100 text-brand-700 border-brand-200'
                     }`}
                   >
                     <RotateCcw className="w-3.5 h-3.5" />
-                    <span>Làm lại đề</span>
+                    <span className={actionLabelClass}>Làm lại đề</span>
                   </button>
                 )}
               </>
@@ -223,14 +273,14 @@ export default function FloatingExamControls({
                     onClick={onResetPaper}
                     disabled={!hasProgressToReset}
                     title={hasProgressToReset ? 'Làm lại tất cả câu hỏi' : 'Chưa có câu nào để hoàn tác'}
-                    className={`px-2.5 py-1.5 rounded-xl text-xs font-bold border flex items-center gap-1 transition-colors ${
+                    className={`px-2 py-1.5 rounded-xl text-xs font-bold border flex items-center gap-1 transition-colors ${
                       hasProgressToReset
                         ? 'bg-coral-50 hover:bg-coral-100 text-coral-700 border-coral-200 cursor-pointer'
                         : 'bg-slate-50 text-slate-400 border-slate-200 cursor-not-allowed'
                     }`}
                   >
                     <RotateCcw className="w-3.5 h-3.5" />
-                    <span className="hidden sm:inline">Làm lại tất cả</span>
+                    <span className={actionLabelClass}>Làm lại tất cả</span>
                   </button>
                 )}
 
@@ -239,7 +289,7 @@ export default function FloatingExamControls({
                     type="button"
                     tabIndex={visible ? 0 : -1}
                     onClick={onSubmit}
-                    className="px-3 py-1.5 bg-fresh-600 hover:bg-fresh-700 text-white font-bold text-xs rounded-xl shadow-sm flex items-center gap-1 cursor-pointer transition-colors"
+                    className="px-2.5 sm:px-3 py-1.5 bg-fresh-600 hover:bg-fresh-700 text-white font-bold text-xs rounded-xl shadow-sm flex items-center gap-1 cursor-pointer transition-colors"
                   >
                     <CheckCircle2 className="w-3.5 h-3.5" />
                     <span>Nộp bài</span>
@@ -248,40 +298,9 @@ export default function FloatingExamControls({
               </>
             )}
           </div>
-        </div>
 
-        {/* Bottom Row: Part Tabs */}
-        <div className="flex items-center gap-1.5 overflow-x-auto pb-0.5" role="tablist" aria-label="Chuyển nhanh giữa các Part">
-          {parts.map((p, idx) => {
-            const isSelected = activePartIndex === idx
-            const partQuestions = p.questions || []
-            const partAnswered = partQuestions.filter((q) => {
-              const val = answers[q.question_number || q.number]
-              return val !== undefined && String(val).trim() !== ''
-            }).length
-            const isDone = partQuestions.length > 0 && partAnswered === partQuestions.length
-
-            return (
-              <button
-                key={p.part}
-                type="button"
-                role="tab"
-                tabIndex={visible ? 0 : -1}
-                aria-selected={isSelected}
-                onClick={() => handlePickPart(idx)}
-                className={`px-2.5 sm:px-3 py-1 rounded-xl text-xs font-bold shrink-0 transition-colors cursor-pointer flex items-center gap-1.5 ${
-                  isSelected
-                    ? activePartStyle
-                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-                }`}
-              >
-                <span>Part {p.part}</span>
-                {isDone && (
-                  <span className={`w-1.5 h-1.5 rounded-full ${isSelected ? 'bg-white' : 'bg-fresh-500'}`} />
-                )}
-              </button>
-            )
-          })}
+          {/* Mobile Row 2 */}
+          {isMobileMode && partTabsNode}
         </div>
       </div>
     </div>
