@@ -472,7 +472,10 @@ export default function ResultView({
               const userKeyUpper = String(q.userAnswer || '').trim().toUpperCase()
               const correctKeyUpper = String(q.correctAnswer || '').trim().toUpperCase()
               const hasOptionImages = Boolean(q.images?.option_A && q.images?.option_B && q.images?.option_C)
-              const stimulusImg = q.images?.stimulus ? getImageUrl(q.images.stimulus) : null
+              const stimulusRaw = q.images?.stimulus || (q.stimulusText ? q.image : null)
+              const stimulusImg = stimulusRaw ? getImageUrl(stimulusRaw) : null
+              const combinedPictureRaw = !hasOptionImages && !stimulusRaw ? (q.images?.question_and_options || q.image) : null
+              const combinedPictureImg = combinedPictureRaw ? getImageUrl(combinedPictureRaw) : null
 
               return (
                 <div
@@ -548,7 +551,7 @@ export default function ResultView({
                           alt={`Biển báo câu ${q.questionNumber}`}
                           loading="lazy"
                           decoding="async"
-                          onError={handleImageErrorFallback(q.images?.stimulus)}
+                          onError={handleImageErrorFallback(stimulusRaw)}
                           className="max-h-44 object-contain rounded-lg mx-auto bg-white p-2 border border-slate-200"
                         />
                       ) : (
@@ -563,6 +566,20 @@ export default function ResultView({
                   <div className="text-sm sm:text-base font-bold text-slate-900 leading-snug">
                     {q.prompt}
                   </div>
+
+                  {/* Combined Picture Fallback (e.g. Online Listening Part 1) */}
+                  {combinedPictureImg && (
+                    <div className="flex justify-center bg-slate-50 p-2 rounded-xl border border-slate-200">
+                      <img
+                        src={combinedPictureImg}
+                        alt={`Hình minh họa câu ${q.questionNumber}`}
+                        loading="lazy"
+                        decoding="async"
+                        onError={handleImageErrorFallback(combinedPictureRaw)}
+                        className="max-h-52 object-contain rounded"
+                      />
+                    </div>
+                  )}
 
                   {/* 4A. Listening Part 1 Picture Options */}
                   {hasOptionImages && (

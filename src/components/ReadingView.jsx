@@ -97,6 +97,14 @@ export default function ReadingView({
   const scopeRef = useRef(null)
 
   const currentPart = parts[activePartIndex] || parts[0]
+  const isClozePart =
+    currentPart?.type === 'multiple_choice_cloze' ||
+    currentPart?.type === 'open_cloze' ||
+    currentPart?.part === 4 ||
+    currentPart?.part === 5
+  const isOpenClozePart =
+    currentPart?.type === 'open_cloze' ||
+    (currentPart?.part === 5 && currentPart?.type !== 'multiple_choice_cloze')
 
   // 60fps gentle scroll-reveal & tab switch without disrupting sticky headers
   useGSAP(
@@ -521,8 +529,8 @@ export default function ReadingView({
               {/* Resolve reading material (single passage, notice stimuli, or empty) */}
               {(() => {
                 const passageObj = currentPart.passage 
-                  ? (typeof currentPart.passage === 'object' ? currentPart.passage : { title: currentPart.passage_title || '', text: currentPart.passage })
-                  : (currentPart.passage_text ? { title: currentPart.passage_title || '', text: currentPart.passage_text, author: currentPart.passage_author, email_header: currentPart.email_header, example: currentPart.example } : null)
+                  ? (typeof currentPart.passage === 'object' ? currentPart.passage : { title: currentPart.passage_title || '', subtitle: currentPart.passage_subtitle || '', text: currentPart.passage })
+                  : (currentPart.passage_text ? { title: currentPart.passage_title || '', subtitle: currentPart.passage_subtitle || '', text: currentPart.passage_text, author: currentPart.passage_author, email_header: currentPart.email_header, example: currentPart.example } : null)
 
                 if (passageObj && passageObj.text) {
                   return (
@@ -531,6 +539,11 @@ export default function ReadingView({
                         <h3 className="text-lg font-bold text-brand-900 border-b border-slate-100 pb-2">
                           {passageObj.title}
                         </h3>
+                      )}
+                      {passageObj.subtitle && (
+                        <p className="text-sm font-semibold text-slate-600 italic -mt-2">
+                          {passageObj.subtitle}
+                        </p>
                       )}
                       {passageObj.author && (
                         <p className="text-xs font-semibold text-slate-500 italic -mt-2">
@@ -554,9 +567,9 @@ export default function ReadingView({
                         </div>
                       )}
                       <div className={`text-base text-slate-800 whitespace-pre-line font-vietnam selection:bg-brand-100 ${
-                        reviewMode && (currentPart.part === 4 || currentPart.part === 5) ? 'leading-[2.2]' : 'leading-relaxed'
+                        reviewMode && isClozePart ? 'leading-[2.2]' : 'leading-relaxed'
                       }`}>
-                        {reviewMode && (currentPart.part === 4 || currentPart.part === 5)
+                        {reviewMode && isClozePart
                           ? String(passageObj.text).split(/(\(\s*\d+\s*\)\s*_+)/g).map((chunk, i) => {
                               const m = chunk.match(/\(\s*(\d+)\s*\)/)
                               if (m) {
@@ -614,7 +627,8 @@ export default function ReadingView({
                       <div className="space-y-4">
                         {(currentPart.questions || []).map((q) => {
                           const qNum = q.question_number || q.number
-                          const stimImg = q.images?.stimulus ? getImageUrl(q.images.stimulus) : null
+                          const stimRaw = q.images?.stimulus || q.image
+                          const stimImg = stimRaw ? getImageUrl(stimRaw) : null
 
                           return (
                             <div key={qNum} className="border border-slate-200 rounded-xl p-4 bg-slate-50/70 space-y-2">
@@ -642,7 +656,7 @@ export default function ReadingView({
                                     alt={`Biển báo câu ${qNum}`}
                                     loading="lazy"
                                     decoding="async"
-                                    onError={handleImageErrorFallback(q.images?.stimulus)}
+                                    onError={handleImageErrorFallback(stimRaw)}
                                     className="max-h-48 object-contain rounded"
                                   />
                                   <div className="absolute inset-0 bg-slate-900/10 opacity-0 group-hover:opacity-100 rounded-lg flex items-center justify-center transition-opacity">
@@ -652,8 +666,11 @@ export default function ReadingView({
                                   </div>
                                 </div>
                               ) : (
-                                <div className="bg-white p-4 rounded-lg border-2 border-slate-300 font-mono text-sm font-bold text-center tracking-wide text-slate-800 uppercase shadow-xs">
-                                  {q.stimulus_text || q.text || q.prompt}
+                                <div className="bg-white p-4 rounded-lg border-2 border-slate-300 font-mono text-sm font-bold text-center tracking-wide text-slate-800 uppercase shadow-xs space-y-1">
+                                  {q.stimulus_header && (
+                                    <div className="text-brand-800 font-extrabold">{q.stimulus_header}</div>
+                                  )}
+                                  <div>{q.stimulus_text || q.text || q.prompt}</div>
                                 </div>
                               )}
 
@@ -722,7 +739,8 @@ export default function ReadingView({
                 const qd = reviewMode ? questionDetailsMap[qNum] : null
                 const userKeyUpper = String(userAns || '').trim().toUpperCase()
                 const correctKeyUpper = String(qd?.correctAnswer || q.answer || '').trim().toUpperCase()
-                const stimImg = q.images?.stimulus ? getImageUrl(q.images.stimulus) : null
+                const stimRaw = q.images?.stimulus || q.image
+                const stimImg = stimRaw ? getImageUrl(stimRaw) : null
 
                 return (
                   <div
@@ -823,13 +841,16 @@ export default function ReadingView({
                               alt={`Biển báo câu ${qNum}`}
                               loading="lazy"
                               decoding="async"
-                              onError={handleImageErrorFallback(q.images?.stimulus)}
+                              onError={handleImageErrorFallback(stimRaw)}
                               className="max-h-44 object-contain rounded"
                             />
                           </div>
                         ) : (
-                          <div className="bg-white p-3 rounded-lg border border-slate-300 font-mono text-xs font-bold text-center tracking-wide text-slate-800 uppercase">
-                            {q.stimulus_text || q.text}
+                          <div className="bg-white p-3 rounded-lg border border-slate-300 font-mono text-xs font-bold text-center tracking-wide text-slate-800 uppercase space-y-1">
+                            {q.stimulus_header && (
+                              <div className="text-brand-800 font-extrabold">{q.stimulus_header}</div>
+                            )}
+                            <div>{q.stimulus_text || q.text}</div>
                           </div>
                         )}
                       </div>
@@ -837,7 +858,7 @@ export default function ReadingView({
 
                     {/* Question Text Prompt */}
                     <div className="text-base font-semibold text-slate-900 mb-4 leading-snug">
-                      {q.question || q.prompt || (currentPart.part === 5 ? `Chỗ trống (${qNum}) — Hãy điền MỘT từ thích hợp:` : currentPart.part === 4 ? `Chỗ trống (${qNum}) — Chọn từ thích hợp điền vào đoạn văn:` : 'Chọn đáp án đúng nhất:')}
+                      {q.question || q.prompt || (isOpenClozePart ? `Chỗ trống (${qNum}) — Hãy điền MỘT từ thích hợp:` : isClozePart ? `Chỗ trống (${qNum}) — Chọn từ thích hợp điền vào đoạn văn:` : 'Chọn đáp án đúng nhất:')}
                     </div>
 
                     {/* Multiple Choice Options (A, B, C) */}
@@ -978,11 +999,11 @@ export default function ReadingView({
                     )}
 
                     {/* Bilingual Hint */}
-                    {!reviewMode && bilingualMode && (
+                    {!reviewMode && bilingualMode && (currentPart.part === 1 || isClozePart) && (
                       <div className="mt-3 text-xs text-slate-600 italic bg-slate-50 p-2.5 rounded-lg border border-slate-100 font-medium">
                         {currentPart.part === 1 && `(Dịch câu hỏi ${qNum}: Biển báo này có nghĩa gì đối với người đọc?)`}
-                        {currentPart.part === 4 && `(Dịch câu hỏi ${qNum}: Chọn giới từ hoặc liên từ phù hợp với ngữ cảnh của câu)`}
-                        {currentPart.part === 5 && `(Gợi ý: Điền các từ chức năng như mạo từ, giới từ, đại từ hoặc trợ động từ)`}
+                        {isClozePart && !isOpenClozePart && `(Dịch câu hỏi ${qNum}: Chọn từ vựng hoặc liên từ phù hợp với ngữ cảnh của câu)`}
+                        {isOpenClozePart && `(Gợi ý: Điền các từ chức năng như mạo từ, giới từ, đại từ hoặc trợ động từ)`}
                       </div>
                     )}
                   </div>

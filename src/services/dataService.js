@@ -481,6 +481,7 @@ export const gradePaper = (paperData, userAnswers = {}) => {
 
     // Resolve matching options if any (e.g. Listening Part 5 A-H)
     const matchingOptions = part.matching_options || (part.type === 'matching' ? part.options : null)
+    const isMultipleMatchingPart = part.type === 'multiple_matching' || (part.part === 2 && part.type !== 'reading_comprehension_multiple_choice')
 
     // Handle normal questions array
     if (part.questions && part.questions.length > 0) {
@@ -533,7 +534,7 @@ export const gradePaper = (paperData, userAnswers = {}) => {
         let evidenceQuote = null
         if (clozeContext) {
           evidenceQuote = clozeContext.fullSentence
-        } else if (part.part === 2 && passageText && isMultipleChoiceOrMatching) {
+        } else if (isMultipleMatchingPart && passageText && isMultipleChoiceOrMatching) {
           // Reading Part 2: Matching 3 people (A, B, C)
           evidenceQuote = findBestEvidenceSentence(
             passageText,
@@ -583,7 +584,7 @@ export const gradePaper = (paperData, userAnswers = {}) => {
           } else {
             // Multiple Choice / Matching error diagnosis
             errorType = 'wrong_choice'
-            if (part.part === 2 && passageText && userOptionText && correctOptionText) {
+            if (isMultipleMatchingPart && passageText && userOptionText && correctOptionText) {
               errorAnalysis = `Bạn đã chọn ${userKeyUpper} (${userOptionText}), nhưng thông tin trong câu hỏi thuộc về đoạn văn của ${correctKeyUpper} (${correctOptionText}).`
             } else if (isClozePart && userOptionText && correctOptionText) {
               errorAnalysis = `Tại chỗ trống (${qNum}), từ "${userOptionText}" (${userKeyUpper}) không phù hợp về ngữ pháp/cụm từ cố định. Từ đúng phải là "${correctOptionText}" (${correctKeyUpper}).`

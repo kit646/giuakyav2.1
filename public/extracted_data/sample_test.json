@@ -30,7 +30,11 @@
                 "C": "Ben has got a lot of homework and doesn't want any dinner."
               },
               "answer": "B",
-              "image": "extracted_data/images/sample_reading_p1_q1.png"
+              "image": "extracted_data/images/sample_reading_p1_q1.png",
+              "question": "Câu hỏi 1: Thông báo này có ý nghĩa gì đối với người đọc?",
+              "images": {
+                "stimulus": "extracted_data/images/sample_reading_p1_q1.png"
+              }
             },
             {
               "question_number": 2,
@@ -43,7 +47,10 @@
                 "C": "she wants to share the cost of a present."
               },
               "answer": "C",
-              "image": "extracted_data/images/sample_reading_p1_q2.png"
+              "image": "extracted_data/images/sample_reading_p1_q2.png",
+              "images": {
+                "stimulus": "extracted_data/images/sample_reading_p1_q2.png"
+              }
             },
             {
               "question_number": 3,
@@ -56,7 +63,10 @@
                 "C": "meet him at the pool."
               },
               "answer": "B",
-              "image": "extracted_data/images/sample_reading_p1_q3.png"
+              "image": "extracted_data/images/sample_reading_p1_q3.png",
+              "images": {
+                "stimulus": "extracted_data/images/sample_reading_p1_q3.png"
+              }
             },
             {
               "question_number": 4,
@@ -69,7 +79,11 @@
                 "C": "Guests don't have to pay for children's meals."
               },
               "answer": "C",
-              "image": "extracted_data/images/sample_reading_p1_q4.png"
+              "image": "extracted_data/images/sample_reading_p1_q4.png",
+              "question": "Câu hỏi 4: Thông báo này có ý nghĩa gì đối với người đọc?",
+              "images": {
+                "stimulus": "extracted_data/images/sample_reading_p1_q4.png"
+              }
             },
             {
               "question_number": 5,
@@ -82,7 +96,11 @@
                 "C": "This lesson begins a bit later today."
               },
               "answer": "A",
-              "image": "extracted_data/images/sample_reading_p1_q5.png"
+              "image": "extracted_data/images/sample_reading_p1_q5.png",
+              "question": "Câu hỏi 5: Thông báo này có ý nghĩa gì đối với người đọc?",
+              "images": {
+                "stimulus": "extracted_data/images/sample_reading_p1_q5.png"
+              }
             }
           ]
         },
@@ -101,8 +119,8 @@
               "question": "How old was Marc when he started cooking?",
               "options": {
                 "A": "Four",
-                "B": "six",
-                "C": "seven"
+                "B": "Six",
+                "C": "Seven"
               },
               "answer": "B"
             },
@@ -146,7 +164,12 @@
               },
               "answer": "B"
             }
-          ]
+          ],
+          "passage": {
+            "title": "Young chef",
+            "text": "Marc, when did you start cooking?\nI started helping my mum in the kitchen when I was six. I made her coffee – it was terrible! I was seven when I made my first meal – a pizza with four different kinds of cheese.\n\nDo you have a favourite recipe?\nIt's hard because I have so many. The easy ones are fun – things with pasta, tomatoes and onions. My favourites are the ones that include fish. There are so many different things you can do!\n\nWhat do your parents think of your cooking?\nWhen I won my first competition, my mum and dad understood that I was a real chef. They're glad that they don't have to make dinner every night, and they enjoy my food – usually! But, you can't make everyone happy all the time.\n\nWhat's the best way to get good at cooking?\nFirst, I threw away some of what I made because it was no good – that's how you learn. Then, I did it differently the next time. You need to practise, so if you know a chef, ask if you can help them in the kitchen sometimes.\n\nFinally, what's it like being on TV?\nIt's interesting. I'm actually a very quiet person, so I'm amazed that I really enjoy myself making the shows. They're watched by millions, but I still find it strange when people I don't know say hello to me in the street.",
+            "subtitle": "14-year-old Marc Weiner has his own cooking show on TV."
+          }
         },
         {
           "part": 3,
@@ -155,7 +178,7 @@
           "type": "multiple_choice_cloze",
           "instructions": "For each question, choose the correct answer. (5 Questions)",
           "passage_title": "Alek Wek",
-          "passage_text": "Alek Wek was born in South Sudan in 1977. She had a (11) ___ life there because there was a war. At the (12) ___ of 14, she left her family in Sudan and moved to London to live with her sister.\n\nAlek learned English very quickly. She was a good student, and she also worked hard after school to (13) ___ money which she sent home to her mother. When she was 18 she went to college and studied fashion, technology and business.\n\nShe was very (14) [printed as 15] ___ and one day a person from a model agency saw her in the street and asked her to work for them. It wasn't (15) [printed as 16] ___ before she became a rich and famous model. Now she works to help people in South Sudan.",
+          "passage_text": "Alek Wek was born in South Sudan in 1977. She had a (11) ___ life there because there was a war. At the (12) ___ of 14, she left her family in Sudan and moved to London to live with her sister.\n\nAlek learned English very quickly. She was a good student, and she also worked hard after school to (13) ___ money which she sent home to her mother. When she was 18 she went to college and studied fashion, technology and business.\n\nShe was very (14) ___ and one day a person from a model agency saw her in the street and asked her to work for them. It wasn't (15) ___ before she became a rich and famous model. Now she works to help people in South Sudan.",
           "note": "In the Sample Reading PDF, the last two gaps in the text are numbered (15) and (16) by typo, corresponding to questions 14 and 15 below.",
           "questions": [
             {
@@ -165,7 +188,8 @@
                 "B": "heavy",
                 "C": "wrong"
               },
-              "answer": "A"
+              "answer": "A",
+              "question": "Chỗ trống (11) — Chọn từ thích hợp điền vào đoạn văn:"
             },
             {
               "question_number": 12,
@@ -174,7 +198,8 @@
                 "B": "year",
                 "C": "time"
               },
-              "answer": "A"
+              "answer": "A",
+              "question": "Chỗ trống (12) — Chọn từ thích hợp điền vào đoạn văn:"
             },
             {
               "question_number": 13,
@@ -183,7 +208,8 @@
                 "B": "win",
                 "C": "pay"
               },
-              "answer": "A"
+              "answer": "A",
+              "question": "Chỗ trống (13) — Chọn từ thích hợp điền vào đoạn văn:"
             },
             {
               "question_number": 14,
@@ -193,7 +219,8 @@
                 "B": "favourite",
                 "C": "beautiful"
               },
-              "answer": "C"
+              "answer": "C",
+              "question": "Chỗ trống (14) — Chọn từ thích hợp điền vào đoạn văn:"
             },
             {
               "question_number": 15,
@@ -203,9 +230,14 @@
                 "B": "long",
                 "C": "wide"
               },
-              "answer": "B"
+              "answer": "B",
+              "question": "Chỗ trống (15) — Chọn từ thích hợp điền vào đoạn văn:"
             }
-          ]
+          ],
+          "passage": {
+            "title": "Alek Wek",
+            "text": "Alek Wek was born in South Sudan in 1977. She had a (11) ___ life there because there was a war. At the (12) ___ of 14, she left her family in Sudan and moved to London to live with her sister.\n\nAlek learned English very quickly. She was a good student, and she also worked hard after school to (13) ___ money which she sent home to her mother. When she was 18 she went to college and studied fashion, technology and business.\n\nShe was very (14) ___ and one day a person from a model agency saw her in the street and asked her to work for them. It wasn't (15) ___ before she became a rich and famous model. Now she works to help people in South Sudan."
+          }
         },
         {
           "part": 4,
@@ -213,21 +245,23 @@
           "question_range": "16-20",
           "type": "open_cloze",
           "instructions": "Complete gaps using ONE word. (5 Questions)",
-          "passage_text": "Dad, I have sports after school today and I forgot my trainers. Can you bring (16) ___ to school for me, please? Mrs. Letts, the receptionist, says please leave the trainers with her. Also [printed: Answer] I forgot my snack, and I haven't got (17) ___ money. Can you bring a snack - or some money - as well, please?\n\nAgain?! OK, Matt. I'll drive to school. I'll leave (18) ___ trainers and some money at the reception. (19) ___ you want those new pencils for your art class? (20) ___ are on your bed.",
+          "passage_text": "Dad, I have sports after school today and I forgot my trainers. Can you bring (16) ___ to school for me, please? Mrs. Letts, the receptionist, says please leave the trainers with her. Also, I forgot my snack, and I haven't got (17) ___ money. Can you bring a snack - or some money - as well, please?\n\nAgain?! OK, Matt. I'll drive to school. I'll leave (18) ___ trainers and some money at the reception. (19) ___ you want those new pencils for your art class? (20) ___ are on your bed.",
           "questions": [
             {
               "question_number": 16,
               "answer": "them",
               "accepted_answers": [
                 "them"
-              ]
+              ],
+              "question": "Chỗ trống (16) — Điền MỘT từ thích hợp vào chỗ trống:"
             },
             {
               "question_number": 17,
               "answer": "any",
               "accepted_answers": [
                 "any"
-              ]
+              ],
+              "question": "Chỗ trống (17) — Điền MỘT từ thích hợp vào chỗ trống:"
             },
             {
               "question_number": 18,
@@ -235,7 +269,8 @@
               "accepted_answers": [
                 "your",
                 "the"
-              ]
+              ],
+              "question": "Chỗ trống (18) — Điền MỘT từ thích hợp vào chỗ trống:"
             },
             {
               "question_number": 19,
@@ -243,7 +278,8 @@
               "accepted_answers": [
                 "Do",
                 "do"
-              ]
+              ],
+              "question": "Chỗ trống (19) — Điền MỘT từ thích hợp vào chỗ trống:"
             },
             {
               "question_number": 20,
@@ -251,9 +287,15 @@
               "accepted_answers": [
                 "They",
                 "they"
-              ]
+              ],
+              "question": "Chỗ trống (20) — Điền MỘT từ thích hợp vào chỗ trống:"
             }
-          ]
+          ],
+          "passage": {
+            "title": "Tin nhắn giữa Matt và Bố (Messages)",
+            "text": "Dad, I have sports after school today and I forgot my trainers. Can you bring (16) ___ to school for me, please? Mrs. Letts, the receptionist, says please leave the trainers with her. Also, I forgot my snack, and I haven't got (17) ___ money. Can you bring a snack - or some money - as well, please?\n\nAgain?! OK, Matt. I'll drive to school. I'll leave (18) ___ trainers and some money at the reception. (19) ___ you want those new pencils for your art class? (20) ___ are on your bed."
+          },
+          "passage_title": "Tin nhắn giữa Matt và Bố (Messages)"
         }
       ]
     },
@@ -281,7 +323,13 @@
               },
               "answer": "A",
               "transcript": "Boy: When are you going to Japan? Is it in March?\nHolly: No, I'm going after that. In August.\nBoy: Oh, lovely. What clothes are you taking?\nHolly: Well, it won't be cold and I'll be back before the autumn.\nBoy: Summer will be lovely in Japan.\nHolly: I know, I can't wait!",
-              "image": "extracted_data/images/sample_listening_p1_q1.png"
+              "image": "extracted_data/images/sample_listening_p1_q1.png",
+              "images": {
+                "question_and_options": "extracted_data/images/sample_listening_p1_q1.png",
+                "option_A": "extracted_data/images/sample_listening_p1_q1_opt_A.png",
+                "option_B": "extracted_data/images/sample_listening_p1_q1_opt_B.png",
+                "option_C": "extracted_data/images/sample_listening_p1_q1_opt_C.png"
+              }
             },
             {
               "question_number": 2,
@@ -293,7 +341,13 @@
               },
               "answer": "B",
               "transcript": "Frances: Hello?\nDennis: Hi, Frances. It's me. Would you like to come to the new dance class with me on Sunday evening?\nFrances: I'd love to but I can't. We've got friends coming for dinner. Do you remember Sally?\nDennis: Yes, her parents are actors, aren't they?\nFrances: That's right.",
-              "image": "extracted_data/images/sample_listening_p1_q2.png"
+              "image": "extracted_data/images/sample_listening_p1_q2.png",
+              "images": {
+                "question_and_options": "extracted_data/images/sample_listening_p1_q2.png",
+                "option_A": "extracted_data/images/sample_listening_p1_q2_opt_A.png",
+                "option_B": "extracted_data/images/sample_listening_p1_q2_opt_B.png",
+                "option_C": "extracted_data/images/sample_listening_p1_q2_opt_C.png"
+              }
             },
             {
               "question_number": 3,
@@ -306,7 +360,13 @@
               "answer": "B",
               "note": "In the audio transcript, Lynn says 'The class finishes at 4.30, doesn't it? I have to go at 4.' Clock B shows 4:00.",
               "transcript": "Lynn: What's the time, Diego?\nDiego: It's half past three.\nLynn: Why?\nDiego: I have to leave early today. Mum and I are visiting Aunty Jane. She's in hospital.\nDiego: Oh, dear.\nLynn: The class finishes at 4.30, doesn't it? I have to go at 4.\nDiego: OK. I'll tell you when it's time to go. You don't want to be late for visiting hours.",
-              "image": "extracted_data/images/sample_listening_p1_q3.png"
+              "image": "extracted_data/images/sample_listening_p1_q3.png",
+              "images": {
+                "question_and_options": "extracted_data/images/sample_listening_p1_q3.png",
+                "option_A": "extracted_data/images/sample_listening_p1_q3_opt_A.png",
+                "option_B": "extracted_data/images/sample_listening_p1_q3_opt_B.png",
+                "option_C": "extracted_data/images/sample_listening_p1_q3_opt_C.png"
+              }
             },
             {
               "question_number": 4,
@@ -319,7 +379,13 @@
               "answer": "B",
               "note": "In the audio transcript, the book they choose costs £14.30 (Picture B).",
               "transcript": "A: But this one is £14.30.\nB: Yes, and the other is more expensive than that. It's £15.50.\nA: OK, let's get the cheaper one. Oh, I only have... there, 14 pounds.\nB: It's OK, I've got 30p.",
-              "image": "extracted_data/images/sample_listening_p1_q4.png"
+              "image": "extracted_data/images/sample_listening_p1_q4.png",
+              "images": {
+                "question_and_options": "extracted_data/images/sample_listening_p1_q4.png",
+                "option_A": "extracted_data/images/sample_listening_p1_q4_opt_A.png",
+                "option_B": "extracted_data/images/sample_listening_p1_q4_opt_B.png",
+                "option_C": "extracted_data/images/sample_listening_p1_q4_opt_C.png"
+              }
             },
             {
               "question_number": 5,
@@ -331,7 +397,13 @@
               },
               "answer": "A",
               "transcript": "Girl: Will someone meet you when you get there, Lee?\nLee: Yes, of course. It's a long way home. I think Mum's working, but Dad can pick me up.\nGirl: Oh, that's alright then.\nLee: And the best thing is that we're visiting Grandad on the way home.",
-              "image": "extracted_data/images/sample_listening_p1_q5.png"
+              "image": "extracted_data/images/sample_listening_p1_q5.png",
+              "images": {
+                "question_and_options": "extracted_data/images/sample_listening_p1_q5.png",
+                "option_A": "extracted_data/images/sample_listening_p1_q5_opt_A.png",
+                "option_B": "extracted_data/images/sample_listening_p1_q5_opt_B.png",
+                "option_C": "extracted_data/images/sample_listening_p1_q5_opt_C.png"
+              }
             }
           ],
           "audio": {
@@ -369,27 +441,42 @@
             {
               "question_number": 6,
               "item": "swimming pool",
-              "answer": "D"
+              "answer": "D",
+              "person": "swimming pool",
+              "question": "Places: swimming pool",
+              "prompt": "Places: swimming pool"
             },
             {
               "question_number": 7,
               "item": "cafe",
-              "answer": "E"
+              "answer": "E",
+              "person": "cafe",
+              "question": "Places: cafe",
+              "prompt": "Places: cafe"
             },
             {
               "question_number": 8,
               "item": "cinema",
-              "answer": "G"
+              "answer": "G",
+              "person": "cinema",
+              "question": "Places: cinema",
+              "prompt": "Places: cinema"
             },
             {
               "question_number": 9,
               "item": "park",
-              "answer": "C"
+              "answer": "C",
+              "person": "park",
+              "question": "Places: park",
+              "prompt": "Places: park"
             },
             {
               "question_number": 10,
               "item": "home",
-              "answer": "H"
+              "answer": "H",
+              "person": "home",
+              "question": "Places: home",
+              "prompt": "Places: home"
             }
           ],
           "transcript": "Girl: Hey Luis! How about doing something this afternoon? Would you like to play tennis at the local court?\nLuis: I'd love to, but it's going to rain.\nGirl: Well, let's do something indoors. The pool is open at weekends.\nLuis: No way! Last time I went there the water was green! I'm sure they haven't cleaned it yet!\nGirl: There's always the cafe in Elm Square. Let's go for a coffee.\nLuis: That's not a good idea on a Saturday! It's full of people! It will take ages to get a seat!\nGirl: Hey! I heard there's a good film at the cinema.\nLuis: Sorry, I can't do that this week. It's £8 a ticket and I've got no money left.\nGirl: OK. Well, that leaves the park, but I'm not sure it's warm enough to spend so much time outside.\nLuis: You're right, it's freezing! I suppose we'll just have to stay at home, even though there's nothing to do here!",
@@ -397,6 +484,16 @@
             "track_number": 2,
             "file_name": "sample_listening_part2.mp3",
             "relative_path": "audio/sample_listening_part2.mp3"
+          },
+          "matching_options": {
+            "A": "wet",
+            "B": "noisy",
+            "C": "cold",
+            "D": "dirty",
+            "E": "busy",
+            "F": "warm",
+            "G": "expensive",
+            "H": "boring"
           }
         },
         {
@@ -487,7 +584,9 @@
               "answer": "August",
               "accepted_answers": [
                 "August"
-              ]
+              ],
+              "prompt": "Dates of course: 20th June – 15th [16]",
+              "question": "Dates of course: 20th June – 15th [16]"
             },
             {
               "question_number": 17,
@@ -499,7 +598,9 @@
                 "25",
                 "twenty-five",
                 "twenty five"
-              ]
+              ],
+              "prompt": "Students must not be older than: [17] years old",
+              "question": "Students must not be older than: [17] years old"
             },
             {
               "question_number": 18,
@@ -509,7 +610,9 @@
               "answer": "assistant",
               "accepted_answers": [
                 "assistant"
-              ]
+              ],
+              "prompt": "Any student can work as: an [18]",
+              "question": "Any student can work as: an [18]"
             },
             {
               "question_number": 19,
@@ -519,7 +622,9 @@
               "answer": "English",
               "accepted_answers": [
                 "English"
-              ]
+              ],
+              "prompt": "Students have to be good at: [19]",
+              "question": "Students have to be good at: [19]"
             },
             {
               "question_number": 20,
@@ -529,7 +634,9 @@
               "answer": "jessyjones",
               "accepted_answers": [
                 "jessyjones"
-              ]
+              ],
+              "prompt": "Send an email to: [20] @mail.com",
+              "question": "Send an email to: [20] @mail.com"
             }
           ],
           "transcript": "Most students in this college study in Brighton Summer School during the summer holidays and really enjoy it. So I'm going to tell you a bit about their summer school.\nCourses start on the twentieth of June so you can choose any date that suits you until August the 15th. Most students choose courses in the middle of July as the weather's better then.\nCourses are available for students who are between eighteen and twenty five years old.\nBut to work there as an assistant during your studies, you have to be at least twenty-two. You don't need to be good at sports or other languages, but they need you to speak good English. That's because all classes will be in English. Each day you'll get some homework and during your time there you'll need to do two group projects, one each week.\nIf you're interested, you need to email me at jessyjones@mail.com — that's J-E-DOUBLE-S-Y-J-O-N-E-S — telling me why you'd like to go.",

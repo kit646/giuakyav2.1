@@ -412,7 +412,7 @@ export default function ListeningView({
                 // Dynamic type determination
                 const matchingOptions = currentPart.matching_options || currentPart.options
                 const isMatching = currentPart.type === 'matching' || q.type === 'matching' || Boolean(matchingOptions && Object.keys(matchingOptions).length > 0)
-                const isPictureQuestion = Boolean(q.images?.option_A || q.images?.question_and_options || currentPart.type === 'multiple_choice_pictures' || (currentPart.part === 1 && q.images))
+                const isPictureQuestion = Boolean(q.images?.option_A || q.images?.question_and_options || q.image || currentPart.type === 'multiple_choice_pictures' || (currentPart.part === 1 && q.images))
                 const isMultipleChoice = !isMatching && !isPictureQuestion && Boolean(q.options && typeof q.options === 'object' && Object.keys(q.options).length > 0)
                 const isGapFill = !isMatching && !isPictureQuestion && !isMultipleChoice
 
@@ -584,15 +584,15 @@ export default function ListeningView({
                               )
                             })}
                           </div>
-                        ) : q.images?.question_and_options ? (
+                        ) : (q.images?.question_and_options || q.image) ? (
                           <div className="space-y-3">
                             <div className="flex justify-center bg-slate-50 p-2 rounded-xl border border-slate-200">
                               <img
-                                src={getImageUrl(q.images.question_and_options)}
+                                src={getImageUrl(q.images?.question_and_options || q.image)}
                                 alt={`Câu hỏi ${qNum} kèm các hình lựa chọn`}
                                 loading="lazy"
                                 decoding="async"
-                                onError={handleImageErrorFallback(q.images.question_and_options)}
+                                onError={handleImageErrorFallback(q.images?.question_and_options || q.image)}
                                 className="max-h-56 object-contain rounded"
                               />
                             </div>
