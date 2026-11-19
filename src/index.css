@@ -17,6 +17,11 @@
 }
 
 @layer base {
+  *, *::before, *::after, button {
+    -webkit-user-select: text;
+    user-select: text;
+  }
+
   body {
     background-color: var(--surface-bg);
     color: var(--text-primary);

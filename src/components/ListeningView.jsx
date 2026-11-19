@@ -9,6 +9,13 @@ import {
   refreshScrollTriggers,
 } from '../utils/motion'
 
+const hasSelectionInside = (el) => {
+  if (typeof window === 'undefined' || !window.getSelection) return false
+  const sel = window.getSelection()
+  if (!sel || sel.isCollapsed || !String(sel.toString()).trim()) return false
+  return Boolean(el && (el.contains(sel.anchorNode) || el.contains(sel.focusNode)))
+}
+
 function DebouncedInput({ value, onChange, placeholder, className, ariaLabel }) {
   const [localVal, setLocalVal] = useState(value || '')
 
@@ -516,15 +523,25 @@ export default function ListeningView({
                               const optDesc = q.options_descriptions ? q.options_descriptions[optKey] : ''
 
                               return (
-                                <button
+                                <div
                                   key={optKey}
-                                  type="button"
                                   role="radio"
+                                  tabIndex={reviewMode ? -1 : 0}
                                   aria-checked={isSelected}
-                                  disabled={reviewMode}
+                                  aria-disabled={reviewMode}
                                   aria-label={`Lựa chọn ${optKey}${optDesc ? `: ${optDesc}` : ''}`}
-                                  onClick={() => !reviewMode && onAnswer(qNum, optKey)}
-                                  className={`rounded-2xl border p-2 sm:p-3 flex flex-col items-center justify-between gap-2 transition-all ${
+                                  onClick={(e) => {
+                                    if (!reviewMode && !hasSelectionInside(e.currentTarget)) {
+                                      onAnswer(qNum, optKey)
+                                    }
+                                  }}
+                                  onKeyDown={(e) => {
+                                    if (!reviewMode && (e.key === 'Enter' || e.key === ' ')) {
+                                      e.preventDefault()
+                                      onAnswer(qNum, optKey)
+                                    }
+                                  }}
+                                  className={`rounded-2xl border p-2 sm:p-3 flex flex-col items-center justify-between gap-2 transition-all select-text ${
                                     reviewMode
                                       ? isCorrectOpt
                                         ? 'bg-fresh-50 border-fresh-500 ring-2 ring-fresh-500/30 shadow-md'
@@ -575,7 +592,7 @@ export default function ListeningView({
                                       </span>
                                     )}
                                   </div>
-                                </button>
+                                </div>
                               )
                             })}
                           </div>
@@ -596,14 +613,24 @@ export default function ListeningView({
                                 const isCorrectOpt = reviewMode && optKey === correctKeyUpper
                                 const isUserWrongOpt = reviewMode && !qd?.isCorrect && optKey === userKeyUpper
                                 return (
-                                  <button
+                                  <div
                                     key={optKey}
-                                    type="button"
                                     role="radio"
-                                    disabled={reviewMode}
+                                    tabIndex={reviewMode ? -1 : 0}
+                                    aria-disabled={reviewMode}
                                     aria-checked={userAns === optKey}
-                                    onClick={() => !reviewMode && onAnswer(qNum, optKey)}
-                                    className={`py-3 rounded-xl border font-lexend font-bold text-sm transition-all ${
+                                    onClick={(e) => {
+                                      if (!reviewMode && !hasSelectionInside(e.currentTarget)) {
+                                        onAnswer(qNum, optKey)
+                                      }
+                                    }}
+                                    onKeyDown={(e) => {
+                                      if (!reviewMode && (e.key === 'Enter' || e.key === ' ')) {
+                                        e.preventDefault()
+                                        onAnswer(qNum, optKey)
+                                      }
+                                    }}
+                                    className={`py-3 rounded-xl border font-lexend font-bold text-sm text-center transition-all select-text ${
                                       reviewMode
                                         ? isCorrectOpt
                                           ? 'bg-fresh-600 text-white border-fresh-600 shadow-md'
@@ -616,7 +643,7 @@ export default function ListeningView({
                                     }`}
                                   >
                                     {reviewMode && isCorrectOpt ? `✓ Đáp án ${optKey}` : reviewMode && isUserWrongOpt ? `✗ Bạn chọn ${optKey}` : `Chọn ${optKey}`}
-                                  </button>
+                                  </div>
                                 )
                               })}
                             </div>
@@ -627,14 +654,24 @@ export default function ListeningView({
                               const isCorrectOpt = reviewMode && optKey === correctKeyUpper
                               const isUserWrongOpt = reviewMode && !qd?.isCorrect && optKey === userKeyUpper
                               return (
-                                <button
+                                <div
                                   key={optKey}
-                                  type="button"
                                   role="radio"
-                                  disabled={reviewMode}
+                                  tabIndex={reviewMode ? -1 : 0}
+                                  aria-disabled={reviewMode}
                                   aria-checked={userAns === optKey}
-                                  onClick={() => !reviewMode && onAnswer(qNum, optKey)}
-                                  className={`p-4 rounded-xl border text-center transition-all ${
+                                  onClick={(e) => {
+                                    if (!reviewMode && !hasSelectionInside(e.currentTarget)) {
+                                      onAnswer(qNum, optKey)
+                                    }
+                                  }}
+                                  onKeyDown={(e) => {
+                                    if (!reviewMode && (e.key === 'Enter' || e.key === ' ')) {
+                                      e.preventDefault()
+                                      onAnswer(qNum, optKey)
+                                    }
+                                  }}
+                                  className={`p-4 rounded-xl border text-center transition-all select-text ${
                                     reviewMode
                                       ? isCorrectOpt
                                         ? 'bg-fresh-50 border-fresh-500 text-fresh-950 font-bold'
@@ -648,7 +685,7 @@ export default function ListeningView({
                                 >
                                   <div className="font-bold text-lg">{optKey}</div>
                                   <div className="text-xs text-slate-600 mt-1">{q.options_descriptions?.[optKey] || `Hình ${optKey}`}</div>
-                                </button>
+                                </div>
                               )
                             })}
                           </div>
@@ -669,15 +706,25 @@ export default function ListeningView({
                             const isCorrectOpt = reviewMode && letterUpper === correctKeyUpper
                             const isUserWrongOpt = reviewMode && !qd?.isCorrect && letterUpper === userKeyUpper
                             return (
-                              <button
+                              <div
                                 key={letter}
-                                type="button"
                                 role="radio"
-                                disabled={reviewMode}
+                                tabIndex={reviewMode ? -1 : 0}
+                                aria-disabled={reviewMode}
                                 aria-checked={isSelected}
                                 aria-label={`Ghép với ${letter}${labelText ? `: ${labelText}` : ''}`}
-                                onClick={() => !reviewMode && onAnswer(qNum, letter)}
-                                className={`min-h-11 px-3 py-2 rounded-xl font-bold font-lexend text-xs sm:text-sm transition-all flex items-center gap-2 ${
+                                onClick={(e) => {
+                                  if (!reviewMode && !hasSelectionInside(e.currentTarget)) {
+                                    onAnswer(qNum, letter)
+                                  }
+                                }}
+                                onKeyDown={(e) => {
+                                  if (!reviewMode && (e.key === 'Enter' || e.key === ' ')) {
+                                    e.preventDefault()
+                                    onAnswer(qNum, letter)
+                                  }
+                                }}
+                                className={`min-h-11 px-3 py-2 rounded-xl font-bold font-lexend text-xs sm:text-sm transition-all flex items-center gap-2 select-text ${
                                   reviewMode
                                     ? isCorrectOpt
                                       ? 'bg-fresh-600 text-white shadow-md ring-2 ring-fresh-400'
@@ -701,7 +748,7 @@ export default function ListeningView({
                                     {labelText}
                                   </span>
                                 )}
-                              </button>
+                              </div>
                             )
                           })}
                         </div>
@@ -718,14 +765,24 @@ export default function ListeningView({
                           const isUserSelected = reviewMode && !qd?.isUnanswered && optUpper === userKeyUpper
                           const isUserWrongOpt = reviewMode && !qd?.isCorrect && isUserSelected
                           return (
-                            <button
+                            <div
                               key={optKey}
-                              type="button"
                               role="radio"
-                              disabled={reviewMode}
+                              tabIndex={reviewMode ? -1 : 0}
+                              aria-disabled={reviewMode}
                               aria-checked={isSelected}
-                              onClick={() => !reviewMode && onAnswer(qNum, optKey)}
-                              className={`w-full text-left p-3.5 rounded-xl border flex flex-col gap-1.5 transition-all ${
+                              onClick={(e) => {
+                                if (!reviewMode && !hasSelectionInside(e.currentTarget)) {
+                                  onAnswer(qNum, optKey)
+                                }
+                              }}
+                              onKeyDown={(e) => {
+                                if (!reviewMode && (e.key === 'Enter' || e.key === ' ')) {
+                                  e.preventDefault()
+                                  onAnswer(qNum, optKey)
+                                }
+                              }}
+                              className={`w-full text-left p-3.5 rounded-xl border flex flex-col gap-1.5 transition-all select-text ${
                                 reviewMode
                                   ? isCorrectOpt
                                     ? 'bg-fresh-50 border-fresh-500 text-fresh-950 font-bold ring-1 ring-fresh-400'
@@ -770,7 +827,7 @@ export default function ListeningView({
                                   {optText}
                                 </span>
                               </div>
-                            </button>
+                            </div>
                           )
                         })}
                       </div>

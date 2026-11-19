@@ -12,6 +12,13 @@ import {
 
 const QuestionMatrixModal = lazy(() => import('./QuestionMatrixModal'))
 
+const hasSelectionInside = (el) => {
+  if (typeof window === 'undefined' || !window.getSelection) return false
+  const sel = window.getSelection()
+  if (!sel || sel.isCollapsed || !String(sel.toString()).trim()) return false
+  return Boolean(el && (el.contains(sel.anchorNode) || el.contains(sel.focusNode)))
+}
+
 function DebouncedInput({ value, onChange, placeholder, className, ariaLabel }) {
   const [localVal, setLocalVal] = useState(value || '')
 
@@ -558,20 +565,31 @@ export default function ReadingView({
                                 const qd = questionDetailsMap[gapNum]
                                 if (qd) {
                                   const correctWord = qd.correctOptionText || qd.correctAnswer
+                                  const goToGapQuestion = () => {
+                                    if (isMobileMode) {
+                                      setMobileReadingTab('questions')
+                                    }
+                                    setTimeout(() => {
+                                      const el = document.getElementById(`reading-question-${gapNum}`)
+                                      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                                    }, 80)
+                                  }
                                   return (
-                                    <button
+                                    <span
                                       key={i}
-                                      type="button"
-                                      onClick={() => {
-                                        if (isMobileMode) {
-                                          setMobileReadingTab('questions')
-                                        }
-                                        setTimeout(() => {
-                                          const el = document.getElementById(`reading-question-${gapNum}`)
-                                          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
-                                        }, 80)
+                                      role="button"
+                                      tabIndex={0}
+                                      onClick={(e) => {
+                                        if (hasSelectionInside(e.currentTarget)) return
+                                        goToGapQuestion()
                                       }}
-                                      className={`inline-block align-baseline px-2 py-0.5 mx-0.5 rounded-md text-xs sm:text-sm font-extrabold border transition-transform hover:scale-105 cursor-pointer ${
+                                      onKeyDown={(e) => {
+                                        if (e.key === 'Enter' || e.key === ' ') {
+                                          e.preventDefault()
+                                          goToGapQuestion()
+                                        }
+                                      }}
+                                      className={`inline-block align-baseline px-2 py-0.5 mx-0.5 rounded-md text-xs sm:text-sm font-extrabold border transition-transform hover:scale-105 cursor-pointer select-text ${
                                         qd.isCorrect
                                           ? 'bg-fresh-100 border-fresh-500 text-fresh-900'
                                           : 'bg-coral-50 border-coral-500 text-coral-800'
@@ -579,7 +597,7 @@ export default function ReadingView({
                                       title="Bấm để xem giải thích câu này"
                                     >
                                       ({gapNum}) {qd.isCorrect ? `✓ ${correctWord}` : `${correctWord} ✗`}
-                                    </button>
+                                    </span>
                                   )
                                 }
                               }
@@ -842,14 +860,24 @@ export default function ReadingView({
                           const isUserWrongOption = reviewMode && !qd?.isCorrect && isUserSelected
 
                           return (
-                            <button
+                            <div
                               key={optKey}
-                              type="button"
                               role="radio"
+                              tabIndex={reviewMode ? -1 : 0}
                               aria-checked={isSelected}
-                              disabled={reviewMode}
-                              onClick={() => !reviewMode && onAnswer(qNum, optKey)}
-                              className={`w-full text-left p-3.5 rounded-xl border flex flex-col gap-1.5 transition-all ${
+                              aria-disabled={reviewMode}
+                              onClick={(e) => {
+                                if (!reviewMode && !hasSelectionInside(e.currentTarget)) {
+                                  onAnswer(qNum, optKey)
+                                }
+                              }}
+                              onKeyDown={(e) => {
+                                if (!reviewMode && (e.key === 'Enter' || e.key === ' ')) {
+                                  e.preventDefault()
+                                  onAnswer(qNum, optKey)
+                                }
+                              }}
+                              className={`w-full text-left p-3.5 rounded-xl border flex flex-col gap-1.5 transition-all select-text ${
                                 reviewMode
                                   ? isCorrectOption
                                     ? 'bg-fresh-50 border-fresh-500 text-fresh-950 ring-1 ring-fresh-400 font-bold'
@@ -894,7 +922,7 @@ export default function ReadingView({
                                   {optText}
                                 </span>
                               </div>
-                            </button>
+                            </div>
                           )
                         })}
                       </div>
