@@ -1,5 +1,5 @@
 import React from 'react'
-import { GraduationCap, Flame, Award, Languages, ArrowLeft, Smartphone, Monitor } from 'lucide-react'
+import { GraduationCap, Flame, Award, Languages, ArrowLeft, Smartphone, Monitor, Cloud, RefreshCw } from 'lucide-react'
 
 export default function Navbar({
   currentView,
@@ -14,7 +14,9 @@ export default function Navbar({
   examMode,
   isMobileMode,
   onToggleViewMode,
-  onSwitchPaper
+  onSwitchPaper,
+  onOpenSyncModal,
+  syncState
 }) {
   const isTakingTest = currentView === 'reading' || currentView === 'listening'
   const hasBothPapers = Boolean(activeTest && (activeTest.papers?.reading_and_writing || activeTest.papers?.reading) && activeTest.papers?.listening)
@@ -97,6 +99,60 @@ export default function Navbar({
                 <span className={`w-2 h-2 rounded-full ${examMode === 'exam' ? 'bg-sunny-500 animate-pulse' : 'bg-brand-500'}`} />
                 <span className="hidden md:inline">{examMode === 'exam' ? 'Thi Thử (Tính giờ)' : 'Luyện Tập Tự Do'}</span>
               </div>
+            )}
+
+            {/* Cloud Sync Button (GitHub Token) */}
+            {onOpenSyncModal && (
+              <button
+                type="button"
+                onClick={onOpenSyncModal}
+                className={`relative inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer shadow-2xs focus:outline-none focus:ring-2 focus:ring-brand-500 ${
+                  syncState?.error
+                    ? 'bg-coral-50 text-coral-800 border border-coral-300 hover:bg-coral-100'
+                    : syncState?.connected
+                      ? 'bg-brand-50 text-brand-800 border border-brand-200 hover:bg-brand-100'
+                      : 'bg-slate-100 text-slate-700 border border-slate-200 hover:bg-slate-200'
+                }`}
+                title={
+                  syncState?.syncing
+                    ? 'Đang đồng bộ dữ liệu với GitHub Cloud...'
+                    : syncState?.error
+                      ? 'Đồng bộ gặp lỗi — Bấm để kiểm tra GitHub Token'
+                      : syncState?.connected
+                        ? `Đã kết nối GitHub (@${syncState.githubUser || 'Cloud'}) — Bấm để đồng bộ`
+                        : 'Kết nối GitHub Token để đồng bộ giữa Laptop & Điện thoại'
+                }
+              >
+                {syncState?.syncing ? (
+                  <RefreshCw className="w-3.5 h-3.5 animate-spin text-brand-600" />
+                ) : (
+                  <Cloud
+                    className={`w-3.5 h-3.5 ${
+                      syncState?.error
+                        ? 'text-coral-600'
+                        : syncState?.connected
+                          ? 'text-brand-600'
+                          : 'text-slate-600'
+                    }`}
+                  />
+                )}
+                <span className={isMobileMode ? 'sr-only' : 'hidden md:inline'}>
+                  {syncState?.syncing ? 'Đang đồng bộ...' : 'Đồng bộ'}
+                </span>
+                <span className="sr-only"> dữ liệu qua GitHub Token</span>
+                {(syncState?.connected || syncState?.error) && (
+                  <span
+                    className={`w-2 h-2 rounded-full ${
+                      syncState?.error
+                        ? 'bg-coral-500'
+                        : syncState?.syncing
+                          ? 'bg-sunny-500 animate-pulse'
+                          : 'bg-emerald-500'
+                    }`}
+                    aria-hidden="true"
+                  />
+                )}
+              </button>
             )}
 
             {/* BUTTON 1: Switch between Desktop Mode and Mobile Mode */}

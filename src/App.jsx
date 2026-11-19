@@ -8,6 +8,7 @@ import { loadMasterData, loadTestDetail, gradePaper } from './services/dataServi
 const ReadingView = lazy(() => import('./components/ReadingView'))
 const ListeningView = lazy(() => import('./components/ListeningView'))
 const ResultView = lazy(() => import('./components/ResultView'))
+const GitHubSyncModal = lazy(() => import('./components/GitHubSyncModal'))
 import {
   gsap,
   useGSAP,
@@ -29,7 +30,9 @@ import {
   getResult as fetchResult,
   getAllTestProgress,
   getAllSavedAnswerCounts,
-  getGlobalStats
+  getGlobalStats,
+  getSyncConfig,
+  syncWithGitHubGist
 } from './services/storage'
 import { Loader2, AlertCircle, HelpCircle, Smartphone, Monitor } from 'lucide-react'
 
@@ -95,6 +98,109 @@ export default function App() {
   const [stats, setStats] = useState(getGlobalStats())
   const [progress, setProgress] = useState({})
   const [savedCounts, setSavedCounts] = useState({})
+
+  // GitHub Token Cloud Sync state & refs
+  const [syncModalOpen, setSyncModalOpen] = useState(false)
+  const [syncConfig, setSyncConfig] = useState(() => getSyncConfig())
+  const [syncStatus, setSyncStatus] = useState({ syncing: false, error: null })
+  const isSyncingRef = useRef(false)
+  const syncTimerRef = useRef(null)
+  const lastAutoSyncTriggerRef = useRef(0)
+  const activePaperStateRef = useRef({
+    activeTest: null,
+    activePaperKey: '',
+    currentView: 'dashboard',
+    reviewMode: false,
+  })
+  activePaperStateRef.current = { activeTest, activePaperKey, currentView, reviewMode }
+
+  const refreshStateFromStorage = () => {
+    setProgress(getAllTestProgress())
+    setSavedCounts(getAllSavedAnswerCounts())
+    setStats(getGlobalStats())
+    setBilingualMode(getSettings().bilingual !== false)
+
+    const {
+      activeTest: curTest,
+      activePaperKey: curPaperKey,
+      currentView: curView,
+      reviewMode: curReviewMode,
+    } = activePaperStateRef.current
+
+    if (curTest && curPaperKey) {
+      setAnswers(getSavedAnswers(curTest.test_id, curPaperKey))
+      setFlagged(getFlaggedQuestions(curTest.test_id, curPaperKey))
+      if (curView === 'result' || curReviewMode) {
+        const updatedResult = fetchResult(curTest.test_id, curPaperKey)
+        if (updatedResult) {
+          setCurrentResult(updatedResult)
+        }
+      }
+    }
+  }
+
+  const triggerBackgroundSync = async (mode = 'merge') => {
+    const cfg = getSyncConfig()
+    if (!cfg.token || !cfg.autoSync || isSyncingRef.current) return
+
+    isSyncingRef.current = true
+    lastAutoSyncTriggerRef.current = Date.now()
+    setSyncStatus({ syncing: true, error: null })
+
+    try {
+      const result = await syncWithGitHubGist({ mode })
+      setSyncConfig(result.config || getSyncConfig())
+      refreshStateFromStorage()
+      setSyncStatus({ syncing: false, error: null })
+    } catch (err) {
+      console.warn('Background GitHub sync failed:', err)
+      setSyncStatus({
+        syncing: false,
+        error: err?.message || 'Lỗi đồng bộ GitHub Gist.',
+      })
+    } finally {
+      isSyncingRef.current = false
+    }
+  }
+
+  const scheduleAutoSync = () => {
+    const cfg = getSyncConfig()
+    if (!cfg.token || !cfg.autoSync) return
+
+    if (syncTimerRef.current) {
+      clearTimeout(syncTimerRef.current)
+    }
+    syncTimerRef.current = setTimeout(() => {
+      syncTimerRef.current = null
+      triggerBackgroundSync('merge')
+    }, 2500)
+  }
+
+  // Run initial cloud sync on mount and re-sync when switching back from another device/tab
+  useEffect(() => {
+    const cfg = getSyncConfig()
+    if (cfg.token && cfg.autoSync) {
+      triggerBackgroundSync('merge')
+    }
+
+    const handleFocusOrVisible = () => {
+      if (document.visibilityState && document.visibilityState !== 'visible') return
+      const latestCfg = getSyncConfig()
+      if (!latestCfg.token || !latestCfg.autoSync) return
+      if (Date.now() - lastAutoSyncTriggerRef.current < 15000) return
+      triggerBackgroundSync('merge')
+    }
+
+    window.addEventListener('focus', handleFocusOrVisible)
+    document.addEventListener('visibilitychange', handleFocusOrVisible)
+    return () => {
+      window.removeEventListener('focus', handleFocusOrVisible)
+      document.removeEventListener('visibilitychange', handleFocusOrVisible)
+      if (syncTimerRef.current) {
+        clearTimeout(syncTimerRef.current)
+      }
+    }
+  }, [])
 
   // View Mode: 'desktop' | 'mobile' (Auto-detected or user toggled)
   const [viewMode, setViewMode] = useState(() => {
@@ -218,24 +324,20 @@ export default function App() {
 
   // Handle student selecting or typing an answer
   const handleAnswer = (qNum, val) => {
-    setAnswers((prev) => {
-      const next = { ...prev, [qNum]: val }
-      if (activeTest && activePaperKey) {
-        persistAnswer(activeTest.test_id, activePaperKey, qNum, val)
-      }
-      return next
-    })
+    if (activeTest && activePaperKey) {
+      persistAnswer(activeTest.test_id, activePaperKey, qNum, val)
+      scheduleAutoSync()
+    }
+    setAnswers((prev) => ({ ...prev, [qNum]: val }))
   }
 
   // Toggle flag on a question
   const handleToggleFlag = (qNum) => {
-    setFlagged((prev) => {
-      const next = { ...prev, [qNum]: !prev[qNum] }
-      if (activeTest && activePaperKey) {
-        persistToggleFlag(activeTest.test_id, activePaperKey, qNum)
-      }
-      return next
-    })
+    if (activeTest && activePaperKey) {
+      persistToggleFlag(activeTest.test_id, activePaperKey, qNum)
+      scheduleAutoSync()
+    }
+    setFlagged((prev) => ({ ...prev, [qNum]: !prev[qNum] }))
   }
 
   // Request test submission (checks for unanswered questions)
@@ -284,6 +386,7 @@ export default function App() {
 
     const result = gradePaper(paper, answers)
     persistResult(activeTest.test_id, activePaperKey, result)
+    scheduleAutoSync()
 
     setCurrentResult(result)
     setReviewMode(false)
@@ -317,6 +420,7 @@ export default function App() {
     if (!activeTest || !activePaperKey) return
     persistClearAnswers(activeTest.test_id, activePaperKey)
     persistClearFlagged(activeTest.test_id, activePaperKey)
+    scheduleAutoSync()
     setAnswers({})
     setFlagged({})
     setReviewMode(false)
@@ -353,11 +457,14 @@ export default function App() {
       setPaperResetVersion((v) => v + 1)
       setProgress(getAllTestProgress())
       setSavedCounts(getAllSavedAnswerCounts())
+      scheduleAutoSync()
       window.scrollTo({ top: 0, behavior: 'smooth' })
     } else if (resetConfirmTarget.type === 'dashboard-test' && resetConfirmTarget.test) {
       persistClearTestProgress(resetConfirmTarget.test, { includeResults: true })
       setProgress(getAllTestProgress())
       setSavedCounts(getAllSavedAnswerCounts())
+      setStats(getGlobalStats())
+      scheduleAutoSync()
     }
 
     setResetConfirmTarget(null)
@@ -391,6 +498,7 @@ export default function App() {
       saveSettings({ ...getSettings(), bilingual: next })
       return next
     })
+    scheduleAutoSync()
   }
 
   // Loading state
@@ -441,6 +549,14 @@ export default function App() {
         isMobileMode={isMobileMode}
         onToggleViewMode={handleToggleViewMode}
         onSwitchPaper={handleSwitchPaper}
+        onOpenSyncModal={() => setSyncModalOpen(true)}
+        syncState={{
+          connected: Boolean(syncConfig.token),
+          syncing: syncStatus.syncing,
+          error: Boolean(syncStatus.error),
+          lastSyncedAt: syncConfig.lastSyncedAt,
+          githubUser: syncConfig.githubUser,
+        }}
       />
 
       {/* Main Content Area */}
@@ -613,6 +729,30 @@ export default function App() {
           )
         }
       />
+
+      {/* GitHub Token Cloud Sync Modal (Lazy-loaded) */}
+      <Suspense fallback={null}>
+        {syncModalOpen && (
+          <GitHubSyncModal
+            isOpen={syncModalOpen}
+            onClose={() => setSyncModalOpen(false)}
+            syncStatus={syncStatus}
+            onConfigChange={(nextCfg) => setSyncConfig(nextCfg)}
+            onSyncComplete={(result) => {
+              if (syncTimerRef.current) {
+                clearTimeout(syncTimerRef.current)
+                syncTimerRef.current = null
+              }
+              lastAutoSyncTriggerRef.current = Date.now()
+              if (result?.config) {
+                setSyncConfig(result.config)
+              }
+              setSyncStatus({ syncing: false, error: null })
+              refreshStateFromStorage()
+            }}
+          />
+        )}
+      </Suspense>
 
       {/* Floating View Switcher Button (Desktop <-> Mobile) */}
       <div className="fixed bottom-4 right-4 z-50 print:hidden">
