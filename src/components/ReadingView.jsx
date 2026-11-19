@@ -12,11 +12,10 @@ import {
 
 const QuestionMatrixModal = lazy(() => import('./QuestionMatrixModal'))
 
-const hasSelectionInside = (el) => {
+const hasActiveTextSelection = () => {
   if (typeof window === 'undefined' || !window.getSelection) return false
   const sel = window.getSelection()
-  if (!sel || sel.isCollapsed || !String(sel.toString()).trim()) return false
-  return Boolean(el && (el.contains(sel.anchorNode) || el.contains(sel.focusNode)))
+  return Boolean(sel && !sel.isCollapsed && String(sel.toString()).trim().length > 0)
 }
 
 function DebouncedInput({ value, onChange, placeholder, className, ariaLabel }) {
@@ -577,17 +576,9 @@ export default function ReadingView({
                                   return (
                                     <span
                                       key={i}
-                                      role="button"
-                                      tabIndex={0}
-                                      onClick={(e) => {
-                                        if (hasSelectionInside(e.currentTarget)) return
+                                      onClick={() => {
+                                        if (hasActiveTextSelection()) return
                                         goToGapQuestion()
-                                      }}
-                                      onKeyDown={(e) => {
-                                        if (e.key === 'Enter' || e.key === ' ') {
-                                          e.preventDefault()
-                                          goToGapQuestion()
-                                        }
                                       }}
                                       className={`inline-block align-baseline px-2 py-0.5 mx-0.5 rounded-md text-xs sm:text-sm font-extrabold border transition-transform hover:scale-105 cursor-pointer select-text ${
                                         qd.isCorrect
@@ -862,18 +853,8 @@ export default function ReadingView({
                           return (
                             <div
                               key={optKey}
-                              role="radio"
-                              tabIndex={reviewMode ? -1 : 0}
-                              aria-checked={isSelected}
-                              aria-disabled={reviewMode}
-                              onClick={(e) => {
-                                if (!reviewMode && !hasSelectionInside(e.currentTarget)) {
-                                  onAnswer(qNum, optKey)
-                                }
-                              }}
-                              onKeyDown={(e) => {
-                                if (!reviewMode && (e.key === 'Enter' || e.key === ' ')) {
-                                  e.preventDefault()
+                              onClick={() => {
+                                if (!reviewMode && !hasActiveTextSelection()) {
                                   onAnswer(qNum, optKey)
                                 }
                               }}

@@ -18,8 +18,8 @@
 
 @layer base {
   *, *::before, *::after, button {
-    -webkit-user-select: text;
-    user-select: text;
+    -webkit-user-select: text !important;
+    user-select: text !important;
   }
 
   body {

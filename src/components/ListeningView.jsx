@@ -9,11 +9,10 @@ import {
   refreshScrollTriggers,
 } from '../utils/motion'
 
-const hasSelectionInside = (el) => {
+const hasActiveTextSelection = () => {
   if (typeof window === 'undefined' || !window.getSelection) return false
   const sel = window.getSelection()
-  if (!sel || sel.isCollapsed || !String(sel.toString()).trim()) return false
-  return Boolean(el && (el.contains(sel.anchorNode) || el.contains(sel.focusNode)))
+  return Boolean(sel && !sel.isCollapsed && String(sel.toString()).trim().length > 0)
 }
 
 function DebouncedInput({ value, onChange, placeholder, className, ariaLabel }) {
@@ -525,19 +524,8 @@ export default function ListeningView({
                               return (
                                 <div
                                   key={optKey}
-                                  role="radio"
-                                  tabIndex={reviewMode ? -1 : 0}
-                                  aria-checked={isSelected}
-                                  aria-disabled={reviewMode}
-                                  aria-label={`Lựa chọn ${optKey}${optDesc ? `: ${optDesc}` : ''}`}
-                                  onClick={(e) => {
-                                    if (!reviewMode && !hasSelectionInside(e.currentTarget)) {
-                                      onAnswer(qNum, optKey)
-                                    }
-                                  }}
-                                  onKeyDown={(e) => {
-                                    if (!reviewMode && (e.key === 'Enter' || e.key === ' ')) {
-                                      e.preventDefault()
+                                  onClick={() => {
+                                    if (!reviewMode && !hasActiveTextSelection()) {
                                       onAnswer(qNum, optKey)
                                     }
                                   }}
@@ -615,18 +603,8 @@ export default function ListeningView({
                                 return (
                                   <div
                                     key={optKey}
-                                    role="radio"
-                                    tabIndex={reviewMode ? -1 : 0}
-                                    aria-disabled={reviewMode}
-                                    aria-checked={userAns === optKey}
-                                    onClick={(e) => {
-                                      if (!reviewMode && !hasSelectionInside(e.currentTarget)) {
-                                        onAnswer(qNum, optKey)
-                                      }
-                                    }}
-                                    onKeyDown={(e) => {
-                                      if (!reviewMode && (e.key === 'Enter' || e.key === ' ')) {
-                                        e.preventDefault()
+                                    onClick={() => {
+                                      if (!reviewMode && !hasActiveTextSelection()) {
                                         onAnswer(qNum, optKey)
                                       }
                                     }}
@@ -656,18 +634,8 @@ export default function ListeningView({
                               return (
                                 <div
                                   key={optKey}
-                                  role="radio"
-                                  tabIndex={reviewMode ? -1 : 0}
-                                  aria-disabled={reviewMode}
-                                  aria-checked={userAns === optKey}
-                                  onClick={(e) => {
-                                    if (!reviewMode && !hasSelectionInside(e.currentTarget)) {
-                                      onAnswer(qNum, optKey)
-                                    }
-                                  }}
-                                  onKeyDown={(e) => {
-                                    if (!reviewMode && (e.key === 'Enter' || e.key === ' ')) {
-                                      e.preventDefault()
+                                  onClick={() => {
+                                    if (!reviewMode && !hasActiveTextSelection()) {
                                       onAnswer(qNum, optKey)
                                     }
                                   }}
@@ -708,19 +676,8 @@ export default function ListeningView({
                             return (
                               <div
                                 key={letter}
-                                role="radio"
-                                tabIndex={reviewMode ? -1 : 0}
-                                aria-disabled={reviewMode}
-                                aria-checked={isSelected}
-                                aria-label={`Ghép với ${letter}${labelText ? `: ${labelText}` : ''}`}
-                                onClick={(e) => {
-                                  if (!reviewMode && !hasSelectionInside(e.currentTarget)) {
-                                    onAnswer(qNum, letter)
-                                  }
-                                }}
-                                onKeyDown={(e) => {
-                                  if (!reviewMode && (e.key === 'Enter' || e.key === ' ')) {
-                                    e.preventDefault()
+                                onClick={() => {
+                                  if (!reviewMode && !hasActiveTextSelection()) {
                                     onAnswer(qNum, letter)
                                   }
                                 }}
@@ -767,18 +724,8 @@ export default function ListeningView({
                           return (
                             <div
                               key={optKey}
-                              role="radio"
-                              tabIndex={reviewMode ? -1 : 0}
-                              aria-disabled={reviewMode}
-                              aria-checked={isSelected}
-                              onClick={(e) => {
-                                if (!reviewMode && !hasSelectionInside(e.currentTarget)) {
-                                  onAnswer(qNum, optKey)
-                                }
-                              }}
-                              onKeyDown={(e) => {
-                                if (!reviewMode && (e.key === 'Enter' || e.key === ' ')) {
-                                  e.preventDefault()
+                              onClick={() => {
+                                if (!reviewMode && !hasActiveTextSelection()) {
                                   onAnswer(qNum, optKey)
                                 }
                               }}
