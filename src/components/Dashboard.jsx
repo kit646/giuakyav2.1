@@ -93,7 +93,7 @@ export default function Dashboard({
           </h1>
 
           <p className="text-slate-100 text-sm sm:text-base leading-relaxed">
-            Học tập nhẹ nhàng với <strong>8 đề thi thật</strong> từ <em>Ready for A2 Key for Schools</em> + <strong>Đề mẫu giữa kỳ</strong> + <strong>16 đề luyện thêm online</strong> (9 đề Listening & 7 đề Reading/Use of English). Tích hợp 100% audio MP3 bản xứ, hỗ trợ song ngữ Việt – Anh và tự động chấm điểm theo thang Cambridge 100–150.
+            Học tập nhẹ nhàng với <strong>8 đề thi thật</strong> từ <em>Ready for A2 Key for Schools</em> + <strong>Đề mẫu giữa kỳ</strong> + <strong>16 đề luyện thêm online</strong> (9 đề Listening & 7 đề Reading/Use of English). Tích hợp 100% audio MP3 bản xứ, hỗ trợ song ngữ Việt – Anh và tự động chấm điểm theo thang 100 (tối đa 100 điểm).
           </p>
 
           <div className="flex flex-wrap items-center gap-4 pt-2">
@@ -109,7 +109,7 @@ export default function Dashboard({
               <Award className="w-5 h-5 text-fresh-400" />
               <div className="text-left">
                 <div className="text-xs text-slate-200">Điểm trung bình</div>
-                <div className="text-sm font-bold">{stats?.averageScore ? `${stats.averageScore}/150` : 'Chưa có bài thi'}</div>
+                <div className="text-sm font-bold">{stats?.averageScore ? `${stats.averageScore}/100` : 'Chưa có bài thi'}</div>
               </div>
             </div>
 
@@ -302,7 +302,7 @@ export default function Dashboard({
                       {readingStats ? (
                         <span className="font-bold text-fresh-600 flex items-center gap-1">
                           <Check className="w-3.5 h-3.5" />
-                          {readingStats.cambridgeScore}/150
+                          {readingStats.cambridgeScore}/100
                         </span>
                       ) : readingSavedCount > 0 ? (
                         <span className="font-bold text-brand-600">
@@ -324,7 +324,7 @@ export default function Dashboard({
                       {listeningStats ? (
                         <span className="font-bold text-fresh-600 flex items-center gap-1">
                           <Check className="w-3.5 h-3.5" />
-                          {listeningStats.cambridgeScore}/150
+                          {listeningStats.cambridgeScore}/100
                         </span>
                       ) : listeningSavedCount > 0 ? (
                         <span className="font-bold text-audio-600">

@@ -211,7 +211,7 @@ export default function Navbar({
             {!isMobileMode && stats?.totalTestsCompleted > 0 && (
               <div className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 bg-brand-50 text-brand-800 border border-brand-200 rounded-xl text-xs font-medium">
                 <Award className="w-4 h-4 text-brand-600" />
-                <span>ĐTB: <strong className="font-bold">{stats.averageScore}/150</strong></span>
+                <span>ĐTB: <strong className="font-bold">{stats.averageScore}/100</strong></span>
               </div>
             )}
           </div>

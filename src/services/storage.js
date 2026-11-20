@@ -147,6 +147,31 @@ export const clearPaperResult = (testId, paperKey) => {
   }
 }
 
+const getResultScore100 = (item) => {
+  if (!item || typeof item !== 'object') return 0
+  if (item.totalQuestions > 0) {
+    return Math.round(((item.correctCount || 0) / item.totalQuestions) * 100)
+  }
+  if (typeof item.percentage === 'number') {
+    return Math.round(item.percentage)
+  }
+  return Math.min(100, Math.max(0, Math.round(item.cambridgeScore || 0)))
+}
+
+const normalizeResultItem100 = (item) => {
+  if (!item || typeof item !== 'object') return item
+  const score100 = getResultScore100(item)
+  if (item.cambridgeScore === score100 && item.pointsPerQuestion !== undefined) return item
+  const pointsPerQuestion =
+    item.totalQuestions > 0 ? Number((100 / item.totalQuestions).toFixed(2)) : 0
+  return {
+    ...item,
+    cambridgeScore: score100,
+    percentage: score100,
+    pointsPerQuestion,
+  }
+}
+
 const recalculateStatsFromResults = () => {
   try {
     const stats = getGlobalStats()
@@ -154,7 +179,7 @@ const recalculateStatsFromResults = () => {
     const entries = Object.values(progress)
     stats.totalTestsCompleted = entries.length
     if (entries.length > 0) {
-      const scoreSum = entries.reduce((sum, item) => sum + (item?.cambridgeScore || 120), 0)
+      const scoreSum = entries.reduce((sum, item) => sum + getResultScore100(item), 0)
       stats.averageScore = Math.round(scoreSum / entries.length)
       const qSum = entries.reduce((sum, item) => sum + (item?.totalQuestions || 0), 0)
       stats.totalQuestionsAnswered = Math.max(stats.totalQuestionsAnswered || 0, qSum)
@@ -265,7 +290,7 @@ export const getResult = (testId, paperKey) => {
   try {
     const key = `${KEYS.RESULTS_PREFIX}${testId}_${paperKey}`
     const raw = localStorage.getItem(key)
-    return raw ? JSON.parse(raw) : null
+    return raw ? normalizeResultItem100(JSON.parse(raw)) : null
   } catch (e) {
     return null
   }
@@ -279,7 +304,7 @@ export const getAllTestProgress = () => {
       if (k && k.startsWith(KEYS.RESULTS_PREFIX)) {
         const id = k.replace(KEYS.RESULTS_PREFIX, '')
         try {
-          progress[id] = JSON.parse(localStorage.getItem(k))
+          progress[id] = normalizeResultItem100(JSON.parse(localStorage.getItem(k)))
         } catch (_) {}
       }
     }
@@ -292,7 +317,19 @@ export const getAllTestProgress = () => {
 export const getGlobalStats = () => {
   try {
     const raw = localStorage.getItem(KEYS.STATS)
-    if (raw) return JSON.parse(raw)
+    if (raw) {
+      const parsed = JSON.parse(raw)
+      if (parsed && parsed.totalTestsCompleted > 0 && parsed.averageScore > 100) {
+        const entries = Object.values(getAllTestProgress())
+        if (entries.length > 0) {
+          const scoreSum = entries.reduce((sum, item) => sum + getResultScore100(item), 0)
+          parsed.averageScore = Math.round(scoreSum / entries.length)
+          parsed.totalTestsCompleted = entries.length
+          localStorage.setItem(KEYS.STATS, JSON.stringify(parsed))
+        }
+      }
+      return parsed
+    }
   } catch (e) {}
   return getDefaultStats()
 }
@@ -307,13 +344,21 @@ const updateGlobalStats = (resultData) => {
       stats.lastActiveDate = today
     }
 
-    stats.totalTestsCompleted += 1
-    stats.totalQuestionsAnswered += resultData.totalQuestions || 0
-
-    const prevScoreSum = (stats.averageScore || 0) * (stats.totalTestsCompleted - 1)
-    stats.averageScore = Math.round(
-      (prevScoreSum + (resultData.cambridgeScore || 120)) / stats.totalTestsCompleted
-    )
+    const entries = Object.values(getAllTestProgress())
+    if (entries.length > 0) {
+      stats.totalTestsCompleted = entries.length
+      stats.averageScore = Math.round(
+        entries.reduce((sum, item) => sum + getResultScore100(item), 0) / entries.length
+      )
+      stats.totalQuestionsAnswered += resultData.totalQuestions || 0
+    } else {
+      stats.totalTestsCompleted += 1
+      stats.totalQuestionsAnswered += resultData.totalQuestions || 0
+      const prevScoreSum = (stats.averageScore || 0) * (stats.totalTestsCompleted - 1)
+      stats.averageScore = Math.round(
+        (prevScoreSum + getResultScore100(resultData)) / stats.totalTestsCompleted
+      )
+    }
 
     localStorage.setItem(KEYS.STATS, JSON.stringify(stats))
     touchSyncKey(KEYS.STATS)
@@ -400,7 +445,7 @@ const normalizeStatsFromSnapshot = (rawStats, resultsMap) => {
   const base = { ...getDefaultStats(), ...(rawStats || {}) }
   const resultEntries = Object.values(resultsMap || {}).filter(Boolean)
   if (resultEntries.length > 0) {
-    const scoreSum = resultEntries.reduce((sum, item) => sum + (item?.cambridgeScore || 120), 0)
+    const scoreSum = resultEntries.reduce((sum, item) => sum + getResultScore100(item), 0)
     const qSum = resultEntries.reduce((sum, item) => sum + (item?.totalQuestions || 0), 0)
     base.totalTestsCompleted = Math.max(base.totalTestsCompleted || 0, resultEntries.length)
     base.averageScore = Math.round(scoreSum / resultEntries.length)

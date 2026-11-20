@@ -14,7 +14,7 @@ import {
   FileSearch,
   MapPin
 } from 'lucide-react'
-import { getImageUrl, handleImageErrorFallback } from '../services/dataService'
+import { getImageUrl, handleImageErrorFallback, getCambridgeGradeBadge } from '../services/dataService'
 import {
   useGSAP,
   animateEntrance,
@@ -49,7 +49,10 @@ export default function ResultView({
   useEffect(() => {
     let cancelled = false
     if (result) {
-      if (result.cambridgeScore >= 120) {
+      const score100Val = result.totalQuestions > 0
+        ? Math.round(((result.correctCount || 0) / result.totalQuestions) * 100)
+        : Math.min(100, result.cambridgeScore || 0)
+      if (score100Val >= 70) {
         import('canvas-confetti')
           .then(({ default: confetti }) => {
             if (!cancelled) {
@@ -82,10 +85,15 @@ export default function ResultView({
     correctCount,
     percentage,
     cambridgeScore,
-    badge,
     partBreakdown = [],
     questionDetails = []
   } = result
+
+  const score100 = totalQuestions > 0
+    ? Math.round((correctCount / totalQuestions) * 100)
+    : Math.min(100, Math.max(0, cambridgeScore || 0))
+  const pointsPerQuestion = result.pointsPerQuestion || (totalQuestions > 0 ? Number((100 / totalQuestions).toFixed(2)) : 0)
+  const badge = getCambridgeGradeBadge(score100)
 
   const wrongCount = totalQuestions - correctCount
   const unansweredCount = questionDetails.filter(q => q.isUnanswered).length
@@ -101,8 +109,8 @@ export default function ResultView({
   useGSAP(
     () => {
       animateEntrance(scopeRef.current, '.gsap-score-card', { y: 16, duration: 0.45 })
-      animateCounter(scoreNumRef.current, cambridgeScore, {
-        from: Math.max(0, cambridgeScore - 45),
+      animateCounter(scoreNumRef.current, score100, {
+        from: Math.max(0, score100 - 35),
         duration: 0.85,
         delay: 0.08,
       })
@@ -261,14 +269,17 @@ export default function ResultView({
           </h1>
         </div>
 
-        {/* Cambridge Score Display */}
+        {/* Score Display (Scale 100) */}
         <div className={`inline-block rounded-3xl bg-slate-50 border border-slate-200 shadow-inner ${isMobileMode ? 'px-6 py-4' : 'p-6 sm:p-8'}`}>
           <div className="text-[11px] uppercase font-bold tracking-widest text-slate-600 mb-1">
-            Điểm Quy Đổi Cambridge Scale
+            Điểm Số (Thang 100)
           </div>
           <div className={isMobileMode ? 'text-4xl font-extrabold font-lexend text-brand-600 tracking-tight' : 'text-5xl sm:text-6xl font-extrabold font-lexend text-brand-600 tracking-tight'}>
-            <span ref={scoreNumRef}>{cambridgeScore}</span>
-            <span className={isMobileMode ? 'text-xl font-semibold text-slate-500' : 'text-2xl sm:text-3xl font-semibold text-slate-500'}>/150</span>
+            <span ref={scoreNumRef}>{score100}</span>
+            <span className={isMobileMode ? 'text-xl font-semibold text-slate-500' : 'text-2xl sm:text-3xl font-semibold text-slate-500'}>/100</span>
+          </div>
+          <div className="text-xs text-slate-600 font-semibold mt-1.5">
+            Mỗi câu đúng: <strong className="text-slate-900">{pointsPerQuestion} điểm</strong> ({correctCount}/{totalQuestions} câu)
           </div>
           <div className="mt-3">
             <span className={`gsap-grade-badge inline-block px-3.5 py-1 rounded-full text-xs sm:text-sm font-extrabold shadow-sm ${badge.color}`}>
@@ -372,28 +383,38 @@ export default function ResultView({
         </h2>
 
         <div className={`grid gap-2.5 ${isMobileMode ? 'grid-cols-1' : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-5'}`}>
-          {partBreakdown.map((pb) => (
-            <div
-              key={pb.partNumber}
-              className="p-3.5 rounded-2xl border border-slate-200/80 bg-slate-50 space-y-2"
-            >
-              <div className="flex items-center justify-between text-xs font-bold text-slate-800">
-                <span>Part {pb.partNumber}</span>
-                <span className={pb.correct === pb.total ? 'text-fresh-700' : 'text-brand-700'}>
-                  {pb.correct}/{pb.total} đúng
-                </span>
+          {partBreakdown.map((pb) => {
+            const pScore = pb.partScore !== undefined
+              ? pb.partScore
+              : (totalQuestions > 0 ? Number(((pb.correct / totalQuestions) * 100).toFixed(1)) : 0)
+            const pMax = pb.partMaxScore !== undefined
+              ? pb.partMaxScore
+              : (totalQuestions > 0 ? Number(((pb.total / totalQuestions) * 100).toFixed(1)) : 0)
+
+            return (
+              <div
+                key={pb.partNumber}
+                className="p-3.5 rounded-2xl border border-slate-200/80 bg-slate-50 space-y-2"
+              >
+                <div className="flex items-center justify-between text-xs font-bold text-slate-800">
+                  <span>Part {pb.partNumber}</span>
+                  <span className={pb.correct === pb.total ? 'text-fresh-700' : 'text-brand-700'}>
+                    {pb.correct}/{pb.total} đúng
+                  </span>
+                </div>
+                <div className="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
+                  <div
+                    className={`gsap-part-bar ${pb.correct === pb.total ? 'bg-fresh-500' : 'bg-brand-600'} h-full rounded-full`}
+                    style={{ width: `${pb.percentage}%` }}
+                  />
+                </div>
+                <div className="flex items-center justify-between gap-2 text-[11px] font-medium">
+                  <span className="text-slate-600 truncate">{pb.partTitle}</span>
+                  <span className="font-bold text-slate-800 shrink-0">{pScore}/{pMax}đ</span>
+                </div>
               </div>
-              <div className="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
-                <div
-                  className={`gsap-part-bar ${pb.correct === pb.total ? 'bg-fresh-500' : 'bg-brand-600'} h-full rounded-full`}
-                  style={{ width: `${pb.percentage}%` }}
-                />
-              </div>
-              <div className="text-[11px] text-slate-600 font-medium truncate">
-                {pb.partTitle}
-              </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
       </div>
 

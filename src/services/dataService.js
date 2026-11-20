@@ -105,56 +105,41 @@ export const handleImageErrorFallback = (originalImagePath) => (event) => {
   img.src = getOriginalImageUrl(originalImagePath)
 }
 
-// Convert raw score to Cambridge Scale Score (100 - 150)
-export const calculateCambridgeScore = (correct, total) => {
-  if (!total || total === 0) return 100
-  const pct = correct / total
-
-  if (pct >= 0.90) {
-    // 90% - 100% -> 140 - 150
-    return Math.round(140 + ((pct - 0.90) / 0.10) * 10)
-  } else if (pct >= 0.80) {
-    // 80% - 89% -> 133 - 139
-    return Math.round(133 + ((pct - 0.80) / 0.10) * 6)
-  } else if (pct >= 0.70) {
-    // 70% - 79% -> 120 - 132
-    return Math.round(120 + ((pct - 0.70) / 0.10) * 12)
-  } else if (pct >= 0.50) {
-    // 50% - 69% -> 100 - 119
-    return Math.round(100 + ((pct - 0.50) / 0.20) * 19)
-  } else {
-    // < 50% -> 80 - 99
-    return Math.max(82, Math.round(82 + (pct / 0.50) * 17))
-  }
+// Convert raw score to 0 - 100 scale (equal weight per question across Reading & Listening)
+export const calculateScore100 = (correct, total) => {
+  if (!total || total === 0) return 0
+  return Math.round((correct / total) * 100)
 }
 
+export const calculateCambridgeScore = calculateScore100
+
 export const getCambridgeGradeBadge = (score) => {
-  if (score >= 140) {
+  if (score >= 90) {
     return {
       title: 'Pass with Distinction',
       cefr: 'CEFR Level B1',
       color: 'bg-fresh-500 text-white',
       border: 'border-fresh-400',
       bgLight: 'bg-fresh-50 text-fresh-700',
-      description: 'Xuất sắc! Trình độ của bạn đã vượt chuẩn A2 và chạm mức B1.'
+      description: 'Xuất sắc! Trình độ của bạn đã vượt chuẩn A2 và chạm mức B1 (≥ 90/100 điểm).'
     }
-  } else if (score >= 133) {
+  } else if (score >= 80) {
     return {
       title: 'Pass with Merit',
       cefr: 'CEFR Level A2',
       color: 'bg-brand-600 text-white',
       border: 'border-brand-400',
       bgLight: 'bg-brand-50 text-brand-700',
-      description: 'Rất tốt! Bạn đạt điểm Khá - Giỏi chuẩn Cambridge A2 Key.'
+      description: 'Rất tốt! Bạn đạt điểm Khá - Giỏi chuẩn Cambridge A2 Key (80–89/100 điểm).'
     }
-  } else if (score >= 120) {
+  } else if (score >= 70) {
     return {
       title: 'Pass',
       cefr: 'CEFR Level A2',
       color: 'bg-sunny-500 text-slate-900',
       border: 'border-sunny-400',
       bgLight: 'bg-sunny-50 text-sunny-800',
-      description: 'Chúc mừng! Bạn đã đạt chứng chỉ Cambridge A2 Key for Schools.'
+      description: 'Chúc mừng! Bạn đã đạt chuẩn Cambridge A2 Key for Schools (70–79/100 điểm).'
     }
   } else {
     return {
@@ -163,7 +148,7 @@ export const getCambridgeGradeBadge = (score) => {
       color: 'bg-slate-600 text-white',
       border: 'border-slate-400',
       bgLight: 'bg-slate-100 text-slate-700',
-      description: 'Cố lên nhé! Hãy xem lại các câu sai và transcript để bứt phá ở lần thi tới.'
+      description: 'Cố lên nhé! Hãy xem lại các câu sai và dẫn chứng để đạt trên 70/100 điểm ở lần thi tới.'
     }
   }
 }
@@ -679,8 +664,14 @@ export const gradePaper = (paperData, userAnswers = {}) => {
   })
 
   const percentage = totalQuestions > 0 ? Math.round((correctCount / totalQuestions) * 100) : 0
-  const cambridgeScore = calculateCambridgeScore(correctCount, totalQuestions)
+  const cambridgeScore = calculateScore100(correctCount, totalQuestions)
+  const pointsPerQuestion = totalQuestions > 0 ? Number((100 / totalQuestions).toFixed(2)) : 0
   const badge = getCambridgeGradeBadge(cambridgeScore)
+
+  partBreakdown.forEach((pb) => {
+    pb.partScore = totalQuestions > 0 ? Number(((pb.correct / totalQuestions) * 100).toFixed(1)) : 0
+    pb.partMaxScore = totalQuestions > 0 ? Number(((pb.total / totalQuestions) * 100).toFixed(1)) : 0
+  })
 
   return {
     totalQuestions,
@@ -688,6 +679,7 @@ export const gradePaper = (paperData, userAnswers = {}) => {
     correctCount,
     percentage,
     cambridgeScore,
+    pointsPerQuestion,
     badge,
     partBreakdown,
     questionDetails
