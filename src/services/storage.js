@@ -677,13 +677,26 @@ const buildGitHubHeaders = (token) => ({
   Accept: 'application/vnd.github+json',
 })
 
+const safeGitHubFetch = async (url, options = {}) => {
+  try {
+    return await fetch(url, options)
+  } catch (err) {
+    throw new Error(
+      'Không thể kết nối tới GitHub (mất mạng, bị VPN/tường lửa hoặc Brave Shields chặn). Vui lòng kiểm tra lại mạng và thử lại.'
+    )
+  }
+}
+
 export const verifyGitHubToken = async (token) => {
   const cleanToken = (token || '').trim()
   if (!cleanToken) {
     throw new Error('Vui lòng nhập GitHub Personal Access Token.')
   }
+  if (!/^[\x21-\x7E]+$/.test(cleanToken)) {
+    throw new Error('GitHub Token chứa ký tự không hợp lệ hoặc khoảng trắng thừa. Vui lòng sao chép lại đúng mã Token.')
+  }
 
-  const res = await fetch('https://api.github.com/user', {
+  const res = await safeGitHubFetch('https://api.github.com/user', {
     cache: 'no-store',
     headers: buildGitHubHeaders(cleanToken),
   })
@@ -720,7 +733,7 @@ export const verifyGitHubToken = async (token) => {
 }
 
 const fetchGistDetail = async (token, gistId) => {
-  const res = await fetch(`https://api.github.com/gists/${encodeURIComponent(gistId)}`, {
+  const res = await safeGitHubFetch(`https://api.github.com/gists/${encodeURIComponent(gistId)}`, {
     cache: 'no-store',
     headers: buildGitHubHeaders(token),
   })
@@ -736,7 +749,7 @@ const findExistingSyncGist = async (token, preferredGistId = '') => {
     }
   }
 
-  const listRes = await fetch('https://api.github.com/gists?per_page=100', {
+  const listRes = await safeGitHubFetch('https://api.github.com/gists?per_page=100', {
     cache: 'no-store',
     headers: buildGitHubHeaders(token),
   })
@@ -758,15 +771,16 @@ const findExistingSyncGist = async (token, preferredGistId = '') => {
   return fetchGistDetail(token, found.id)
 }
 
-const parseGistSnapshot = async (gist, token) => {
+const parseGistSnapshot = async (gist) => {
   const fileObj = gist?.files?.[GIST_FILENAME]
   if (!fileObj) return null
 
   let rawText = fileObj.content || ''
   if (fileObj.truncated && fileObj.raw_url) {
-    const rawRes = await fetch(fileObj.raw_url, {
+    // Do NOT send Authorization/Accept headers to gist.githubusercontent.com;
+    // it triggers a CORS preflight (OPTIONS) which GitHub's raw CDN rejects with 403.
+    const rawRes = await safeGitHubFetch(fileObj.raw_url, {
       cache: 'no-store',
-      headers: buildGitHubHeaders(token),
     })
     if (rawRes.ok) {
       rawText = await rawRes.text()
@@ -813,7 +827,7 @@ export const syncWithGitHubGist = async ({ mode = 'merge', tokenOverride, gistId
       )
     }
 
-    const createRes = await fetch('https://api.github.com/gists', {
+    const createRes = await safeGitHubFetch('https://api.github.com/gists', {
       method: 'POST',
       headers: {
         ...buildGitHubHeaders(cleanToken),
@@ -824,7 +838,7 @@ export const syncWithGitHubGist = async ({ mode = 'merge', tokenOverride, gistId
         public: false,
         files: {
           [GIST_FILENAME]: {
-            content: JSON.stringify(localSnapshot, null, 2),
+            content: JSON.stringify(localSnapshot),
           },
         },
       }),
@@ -851,7 +865,7 @@ export const syncWithGitHubGist = async ({ mode = 'merge', tokenOverride, gistId
     }
   }
 
-  const remoteSnapshot = await parseGistSnapshot(existingGist, cleanToken)
+  const remoteSnapshot = await parseGistSnapshot(existingGist)
   let finalSnapshot = localSnapshot
 
   if (mode === 'pull') {
@@ -864,21 +878,24 @@ export const syncWithGitHubGist = async ({ mode = 'merge', tokenOverride, gistId
       finalSnapshot = mergeStorageSnapshots(localSnapshot, remoteSnapshot)
     }
 
-    const patchRes = await fetch(`https://api.github.com/gists/${encodeURIComponent(existingGist.id)}`, {
-      method: 'PATCH',
-      headers: {
-        ...buildGitHubHeaders(cleanToken),
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        description: 'A2 Key Master - Cloud Sync Data (Laptop & Mobile)',
-        files: {
-          [GIST_FILENAME]: {
-            content: JSON.stringify(finalSnapshot, null, 2),
-          },
+    const patchRes = await safeGitHubFetch(
+      `https://api.github.com/gists/${encodeURIComponent(existingGist.id)}`,
+      {
+        method: 'PATCH',
+        headers: {
+          ...buildGitHubHeaders(cleanToken),
+          'Content-Type': 'application/json',
         },
-      }),
-    })
+        body: JSON.stringify({
+          description: 'A2 Key Master - Cloud Sync Data (Laptop & Mobile)',
+          files: {
+            [GIST_FILENAME]: {
+              content: JSON.stringify(finalSnapshot),
+            },
+          },
+        }),
+      }
+    )
 
     if (!patchRes.ok) {
       throw new Error(`Không thể cập nhật dữ liệu lên GitHub Gist (HTTP ${patchRes.status}).`)
