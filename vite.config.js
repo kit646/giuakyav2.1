@@ -5,6 +5,9 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   base: '/giuakyav2.1/',
   plugins: [react()],
+  define: {
+    __APP_DATA_VERSION__: JSON.stringify(Date.now().toString(36)),
+  },
   server: {
     port: 5173,
     host: true

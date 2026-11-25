@@ -3,6 +3,7 @@
 let cachedMasterData = null
 const testDetailCache = new Map()
 const pendingTestRequests = new Map()
+const DATA_VERSION = typeof __APP_DATA_VERSION__ !== 'undefined' ? __APP_DATA_VERSION__ : 'dev'
 
 const getBasePath = () =>
   import.meta.env.BASE_URL.endsWith('/')
@@ -13,14 +14,14 @@ export const loadMasterData = async () => {
   if (cachedMasterData) return cachedMasterData
   const base = getBasePath()
   try {
-    const res = await fetch(`${base}extracted_data/tests_index.json`)
+    const res = await fetch(`${base}extracted_data/tests_index.json?v=${DATA_VERSION}`)
     if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`)
     const data = await res.json()
     cachedMasterData = data
     return data
   } catch (err) {
     console.warn('Falling back to all_tests.json because tests_index.json failed:', err)
-    const res = await fetch(`${base}extracted_data/all_tests.json`)
+    const res = await fetch(`${base}extracted_data/all_tests.json?v=${DATA_VERSION}`)
     if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`)
     const data = await res.json()
     cachedMasterData = data
@@ -58,7 +59,7 @@ export const loadTestDetail = async (testOrId) => {
   }
 
   const base = getBasePath()
-  const promise = fetch(`${base}extracted_data/tests/${encodeURIComponent(testId)}.json`)
+  const promise = fetch(`${base}extracted_data/tests/${encodeURIComponent(testId)}.json?v=${DATA_VERSION}`)
     .then(async (res) => {
       if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`)
       const detail = await res.json()
