@@ -28,6 +28,10 @@ function toIndexItem(test) {
   if (test.test_number !== undefined) entry.test_number = test.test_number
   if (test.isOnline !== undefined) entry.isOnline = test.isOnline
   if (test.paper_type !== undefined) entry.paper_type = test.paper_type
+  if (test.docTab !== undefined) entry.docTab = test.docTab
+  if (test.highExamProb !== undefined) entry.highExamProb = test.highExamProb
+  if (test.highExamProbParts !== undefined) entry.highExamProbParts = test.highExamProbParts
+  if (test.highExamProbNote !== undefined) entry.highExamProbNote = test.highExamProbNote
   return entry
 }
 

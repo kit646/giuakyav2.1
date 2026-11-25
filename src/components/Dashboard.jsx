@@ -43,34 +43,35 @@ export default function Dashboard({
     { scope: scopeRef, dependencies: [filter, isMobileMode], revertOnUpdate: true }
   )
 
-  // Separate official tests and online practice tests
-  const officialTests = [
+  // Separate official tests, online practice tests, and Google Doc tests
+  const allCombinedTests = [
     ...(sampleTest ? [{ ...sampleTest, isSample: true }] : []),
-    ...tests.filter(t => !t.isOnline)
+    ...tests
   ]
+  const officialTests = allCombinedTests.filter(t => !t.isOnline)
   const onlineTests = tests.filter(t => t.isOnline)
+  const docTests = allCombinedTests
+    .filter(t => t.docTab || t.highExamProb)
+    .sort((a, b) => {
+      const aNum = parseInt(String(a.docTab || '').match(/\d+/)?.[0] || '99', 10)
+      const bNum = parseInt(String(b.docTab || '').match(/\d+/)?.[0] || '99', 10)
+      return aNum - bNum
+    })
 
   // Filtered list
   let displayItems = []
   if (filter === 'all') {
-    displayItems = [
-      ...(sampleTest ? [{ ...sampleTest, isSample: true }] : []),
-      ...tests
-    ]
+    displayItems = allCombinedTests
   } else if (filter === 'official') {
     displayItems = officialTests
   } else if (filter === 'online') {
     displayItems = onlineTests
+  } else if (filter === 'doc') {
+    displayItems = docTests
   } else if (filter === 'reading') {
-    displayItems = [
-      ...(sampleTest ? [{ ...sampleTest, isSample: true }] : []),
-      ...tests
-    ].filter(t => t.papers?.reading_and_writing || t.papers?.reading)
+    displayItems = allCombinedTests.filter(t => t.papers?.reading_and_writing || t.papers?.reading)
   } else if (filter === 'listening') {
-    displayItems = [
-      ...(sampleTest ? [{ ...sampleTest, isSample: true }] : []),
-      ...tests
-    ].filter(t => t.papers?.listening)
+    displayItems = allCombinedTests.filter(t => t.papers?.listening)
   }
 
   const getTestStats = (testId, paperKey) => {
@@ -85,7 +86,7 @@ export default function Dashboard({
         <div className="relative z-10 max-w-3xl space-y-4">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/15 backdrop-blur-md text-xs sm:text-sm font-semibold border border-white/20">
             <Sparkles className="w-4 h-4 text-sunny-400" />
-            <span>Cambridge A2 Key for Schools (KET) • 25 Bộ Đề Toàn Diện</span>
+            <span>Cambridge A2 Key for Schools (KET) • {tests.length + (sampleTest ? 1 : 0)} Bộ Đề Toàn Diện</span>
           </div>
 
           <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight">
@@ -93,7 +94,7 @@ export default function Dashboard({
           </h1>
 
           <p className="text-slate-100 text-sm sm:text-base leading-relaxed">
-            Học tập nhẹ nhàng với <strong>8 đề thi thật</strong> từ <em>Ready for A2 Key for Schools</em> + <strong>Đề mẫu giữa kỳ</strong> + <strong>16 đề luyện thêm online</strong> (9 đề Listening & 7 đề Reading/Use of English). Tích hợp 100% audio MP3 bản xứ, hỗ trợ song ngữ Việt – Anh và tự động chấm điểm theo thang 100 (tối đa 100 điểm).
+            Học tập nhẹ nhàng với <strong>8 đề thi thật</strong> từ <em>Ready for A2 Key for Schools</em> + <strong>Đề mẫu giữa kỳ</strong> + <strong>{onlineTests.length} đề luyện thêm online</strong> ({onlineTests.filter(t => t.paper_type === 'listening').length} đề Listening & {onlineTests.filter(t => t.paper_type !== 'listening').length} đề Reading/Use of English). Tích hợp 100% audio MP3 bản xứ, hỗ trợ song ngữ Việt – Anh và tự động chấm điểm theo thang 100 (tối đa 100 điểm).
           </p>
 
           <div className="flex flex-wrap items-center gap-4 pt-2">
@@ -152,8 +153,9 @@ export default function Dashboard({
       <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 border-b border-slate-200 pb-4">
         <div>
           <h2 className="text-xl sm:text-2xl font-bold text-slate-900">
-            {filter === 'online' ? 'Bộ Đề Luyện Thêm (Online Practice - 16 Đề)' : 
+            {filter === 'online' ? `Bộ Đề Luyện Thêm (Online Practice - ${onlineTests.length} Đề)` : 
              filter === 'official' ? 'Bộ Đề Chính Thức (Ready for A2 Key & Mẫu)' :
+             filter === 'doc' ? `Bộ Đề Từ Link Doc (${docTests.length} Đề • Đánh dấu tỷ lệ ra thi cao)` :
              'Danh Sách Đề Thi Cambridge A2 Key'}
           </h2>
           <p className="text-sm text-slate-600 mt-0.5 font-medium">
@@ -209,6 +211,21 @@ export default function Dashboard({
           <button
             type="button"
             role="tab"
+            aria-selected={filter === 'doc'}
+            onClick={() => setFilter('doc')}
+            className={`px-3.5 py-1.5 rounded-xl transition-all cursor-pointer flex items-center gap-1 focus:outline-none focus:ring-2 focus:ring-rose-500 ${
+              filter === 'doc'
+                ? 'bg-rose-600 text-white shadow-sm'
+                : 'text-rose-700 bg-rose-50 hover:bg-rose-100'
+            }`}
+          >
+            <Flame className="w-3.5 h-3.5" />
+            <span>Đề Doc ({docTests.length})</span>
+          </button>
+
+          <button
+            type="button"
+            role="tab"
             aria-selected={filter === 'listening'}
             onClick={() => setFilter('listening')}
             className={`px-3.5 py-1.5 rounded-xl transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-audio-500 ${
@@ -256,7 +273,9 @@ export default function Dashboard({
             <div
               key={testId}
               className={`gsap-test-card rounded-2xl border bg-white p-6 shadow-card hover:shadow-card-hover transition-[box-shadow,border-color] duration-200 flex flex-col justify-between ${
-                item.isSample 
+                item.highExamProb
+                  ? 'border-rose-300 ring-2 ring-rose-500/15 hover:border-rose-400'
+                  : item.isSample 
                   ? 'border-sunny-300 ring-2 ring-sunny-400/20' 
                   : item.isOnline
                   ? 'border-indigo-200/80 hover:border-indigo-400'
@@ -265,20 +284,28 @@ export default function Dashboard({
             >
               <div>
                 {/* Header Tag */}
-                <div className="flex items-center justify-between gap-2 mb-3">
-                  <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${
-                    item.isSample 
-                      ? 'bg-sunny-100 text-sunny-800' 
-                      : item.isOnline
-                      ? 'bg-indigo-50 text-indigo-700 border border-indigo-200/60'
-                      : 'bg-brand-50 text-brand-700'
-                  }`}>
-                    {item.isSample 
-                      ? 'Mid-Course Sample Test' 
-                      : item.isOnline
-                      ? `Online Practice • ${item.paper_type === 'listening' ? 'Listening' : 'Reading'}`
-                      : `Test ${item.test_number}`}
-                  </span>
+                <div className="flex items-center justify-between gap-2 mb-3 flex-wrap">
+                  <div className="flex items-center gap-1.5 flex-wrap">
+                    <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${
+                      item.isSample 
+                        ? 'bg-sunny-100 text-sunny-800' 
+                        : item.isOnline
+                        ? 'bg-indigo-50 text-indigo-700 border border-indigo-200/60'
+                        : 'bg-brand-50 text-brand-700'
+                    }`}>
+                      {item.isSample 
+                        ? 'Mid-Course Sample Test' 
+                        : item.isOnline
+                        ? `Online Practice • ${item.paper_type === 'listening' ? 'Listening' : 'Reading'}`
+                        : `Test ${item.test_number}`}
+                    </span>
+
+                    {item.docTab && (
+                      <span className="px-2.5 py-1 rounded-full text-[11px] font-bold bg-amber-50 text-amber-800 border border-amber-200/80">
+                        📄 {item.docTab}
+                      </span>
+                    )}
+                  </div>
 
                   <span className="text-xs text-slate-500 font-semibold">
                     {item.isSample ? 'Đề Mẫu Giữa Kỳ' : item.isOnline ? 'EnglishPracticeTest' : 'Ready for A2 Key'}
@@ -286,9 +313,21 @@ export default function Dashboard({
                 </div>
 
                 {/* Title */}
-                <h3 className="text-lg font-bold text-slate-900 mb-2 leading-snug">
+                <h3 className={`text-lg font-bold mb-2 leading-snug ${
+                  item.highExamProb ? 'text-rose-700' : 'text-slate-900'
+                }`}>
                   {item.title}
                 </h3>
+
+                {/* High Exam Probability Annotation (Red Title in Google Doc) */}
+                {item.highExamProb && (
+                  <div className="mb-3 flex items-start gap-2 px-3 py-2 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-bold leading-snug">
+                    <Flame className="w-4 h-4 text-rose-600 fill-rose-500 shrink-0 mt-0.5" />
+                    <span>
+                      {item.highExamProbNote || `Tỷ lệ ra thi cao: Listening Part ${(item.highExamProbParts || []).join(', ')}`}
+                    </span>
+                  </div>
+                )}
 
                 {/* Description / Parts Info */}
                 <div className="space-y-2 mb-6">

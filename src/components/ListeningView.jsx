@@ -205,6 +205,7 @@ export default function ListeningView({
                 const partQuestions = p.questions || []
                 const partAnswered = partQuestions.filter(q => answers[q.question_number || q.number] !== undefined).length
                 const isDone = partQuestions.length > 0 && partAnswered === partQuestions.length
+                const isHighProb = Boolean(p.highExamProb)
 
                 return (
                   <button
@@ -213,13 +214,20 @@ export default function ListeningView({
                     role="tab"
                     aria-selected={isSelected}
                     onClick={() => setActivePartIndex(idx)}
+                    title={isHighProb ? (p.examProbNote || 'Phần có tiêu đề màu đỏ trong Doc — Tỷ lệ ra thi cao') : `Chuyển tới Part ${p.part}`}
                     className={`px-3 py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer flex items-center gap-1.5 focus:outline-none focus:ring-2 focus:ring-audio-500 ${
                       isSelected
-                        ? 'bg-audio-600 text-white shadow-sm'
-                        : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                        ? isHighProb
+                          ? 'bg-rose-600 text-white shadow-sm ring-2 ring-rose-300'
+                          : 'bg-audio-600 text-white shadow-sm'
+                        : isHighProb
+                          ? 'bg-rose-50 text-rose-700 border border-rose-200 hover:bg-rose-100'
+                          : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                     }`}
                   >
+                    {isHighProb && <span aria-hidden="true">🔥</span>}
                     <span>Part {p.part}</span>
+                    {isHighProb && <span className="sr-only"> (Tỷ lệ ra thi cao)</span>}
                     {isDone && (
                       <span className={`w-1.5 h-1.5 rounded-full ${isSelected ? 'bg-white' : 'bg-fresh-500'}`} />
                     )}
@@ -321,6 +329,16 @@ export default function ListeningView({
         {/* Current Part Content */}
         {currentPart && (
           <div className="space-y-6">
+            {currentPart.highExamProb && (
+              <div className="bg-rose-50 border-2 border-rose-300 rounded-2xl px-4 py-3 flex flex-wrap items-center gap-2.5 text-rose-900 shadow-2xs">
+                <span className="px-2.5 py-0.5 rounded-lg bg-rose-600 text-white text-xs font-extrabold uppercase tracking-wider shrink-0">
+                  🔥 Tỷ lệ ra thi cao
+                </span>
+                <p className="text-xs sm:text-sm font-bold text-rose-800">
+                  {currentPart.examProbNote || 'Tiêu đề màu đỏ trong Link Doc — Phần này có tỷ lệ ra thi cao, hãy ôn tập thật kỹ!'}
+                </p>
+              </div>
+            )}
             
             {/* Part Instruction Box */}
             <div className="bg-audio-50/70 border border-audio-200/80 rounded-2xl p-4 sm:p-5">

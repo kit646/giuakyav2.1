@@ -123,6 +123,7 @@ export default function FloatingExamControls({
           return val !== undefined && String(val).trim() !== ''
         }).length
         const isDone = partQuestions.length > 0 && partAnswered === partQuestions.length
+        const isHighProb = Boolean(p.highExamProb)
 
         return (
           <button
@@ -132,13 +133,20 @@ export default function FloatingExamControls({
             tabIndex={visible ? 0 : -1}
             aria-selected={isSelected}
             onClick={() => handlePickPart(idx)}
+            title={isHighProb ? (p.examProbNote || 'Phần có tiêu đề màu đỏ trong Doc — Tỷ lệ ra thi cao') : `Part ${p.part}`}
             className={`px-2 sm:px-2.5 py-1 rounded-xl text-[11px] sm:text-xs font-bold shrink-0 transition-colors cursor-pointer flex items-center gap-1 ${
               isSelected
-                ? activePartStyle
-                : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                ? isHighProb
+                  ? 'bg-rose-600 text-white shadow-xs'
+                  : activePartStyle
+                : isHighProb
+                  ? 'bg-rose-50 text-rose-700 border border-rose-200 hover:bg-rose-100'
+                  : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
             }`}
           >
+            {isHighProb && <span aria-hidden="true">🔥</span>}
             <span>Part {p.part}</span>
+            {isHighProb && <span className="sr-only"> (Tỷ lệ ra thi cao)</span>}
             {isDone && (
               <span className={`w-1.5 h-1.5 rounded-full ${isSelected ? 'bg-white' : 'bg-fresh-500'}`} />
             )}
